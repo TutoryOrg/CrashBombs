@@ -1,7 +1,10 @@
 import { StatusBar } from "expo-status-bar";
+import { lightTheme } from "@src/themes";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
+	const theme = lightTheme;
+
 	return (
 		<View style={styles.container}>
 			<Text style={{ fontSize: 60 }}>Hello Reddit!</Text>
