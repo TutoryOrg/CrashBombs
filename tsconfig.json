@@ -6,7 +6,12 @@
 		"paths": {
 			"@src/*": ["./src/*"],
 			"@assets/*": ["./assets/*"],
-			"@themes/*": ["./src/themes/*"]
+			"@hooks/*": ["./src/hooks/*"],
+			"@store/*": ["./src/store/*"],
+			"@themes/*": ["./src/themes/*"],
+			"@screens/*": ["./src/screens/*"],
+			"@components/*": ["./src/components/*"],
+			"@translations/*": ["./src/translations/*"]
 		}
 	}
 }

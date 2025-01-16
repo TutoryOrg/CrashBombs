@@ -1,23 +1,19 @@
+import { Provider } from "react-redux";
 import { StatusBar } from "expo-status-bar";
-import { lightTheme } from "@src/themes";
-import { StyleSheet, Text, View } from "react-native";
+import { useAppState } from "@hooks/useAppState";
+import { ThemeProvider } from "styled-components/native";
+import { darkTheme, lightTheme } from "@src/themes";
+import { StyleSheet, Text, useColorScheme, View } from "react-native";
 
 export default function App() {
-	const theme = lightTheme;
+	const store = useAppState();
+	const isDarkMode = useColorScheme() === "dark";
 
 	return (
-		<View style={styles.container}>
-			<Text style={{ fontSize: 60 }}>Hello Reddit!</Text>
-			<StatusBar style="auto" />
-		</View>
+		<Provider store={store}>
+			<ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+				<StatusBar style={isDarkMode ? "light" : "dark"} />
+			</ThemeProvider>
+		</Provider>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-});
