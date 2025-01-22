@@ -3,7 +3,7 @@ import { SafeAreaStyled, TextStyled } from "./styled";
 export const Home = () => {
 	return (
 		<SafeAreaStyled>
-			<TextStyled>MRBombs</TextStyled>
+			<TextStyled>CRASH BOMBS</TextStyled>
 		</SafeAreaStyled>
 	);
 };
