@@ -1,14 +1,17 @@
 import { Menu } from "@src/navigation/Menu";
 import { Provider } from "react-redux";
+import { darkTheme } from "@src/themes";
 import { StatusBar } from "expo-status-bar";
 import { useAppState } from "@hooks/useAppState";
 import { ThemeProvider } from "styled-components/native";
 import { useColorScheme } from "react-native";
-import { darkTheme, lightTheme } from "@src/themes";
+import { useFontsAndLayout } from "@src/hooks/useFontAndLayout";
 
 export default function App() {
 	const store = useAppState();
-	const isDarkMode = useColorScheme() === "dark";
+	const { fontsLoaded } = useFontsAndLayout();
+
+	if (!fontsLoaded) return null;
 
 	return (
 		<Provider store={store}>
