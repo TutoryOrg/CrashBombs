@@ -4,6 +4,7 @@ export enum Screens {
 }
 
 export const fontSizes = {
+	xsmall: 12,
 	small: 14,
 	normal: 18,
 	large: 24,
