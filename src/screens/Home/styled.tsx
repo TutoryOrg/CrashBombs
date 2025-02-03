@@ -4,7 +4,7 @@ import { verticalScale } from "@src/utils/scaleFunctions";
 import { TextKomi, TextObelix } from "@components/Text";
 import type { DefaultTheme } from "styled-components";
 
-// :: Screen Hoome Container
+// :: SCREEN HOME CONTAINER
 export const ViewContainer = styled.SafeAreaView`
     width: 100%;
     height: 100%;
@@ -22,7 +22,7 @@ export const HomeTitle = styled(TextKomi)`
     padding-top: ${verticalScale(35)}px;
 `;
 
-// :: Header
+// :: HEADER
 export const HeaderContainer = styled.View<{ isLoggedIn: boolean }>`
     height: 5%;
     width: 100%;
@@ -48,8 +48,7 @@ export const Image = styled.Image<{ isLoggedIn: boolean }>`
     height: ${verticalScale(20)}px;
 `;
 
-// :: GlobalScore
-
+// :: GLOBAL SCORER
 export const ScoreContainer = styled.View`
 	width: 80%;
 	height: 20%;
@@ -76,4 +75,65 @@ export const TextTile = styled(TextObelix)`
 
 export const TextTopUser = styled(TextObelix)`
     font-size: ${fontSizes.xsmall}px;
+`;
+
+// :: COUNTER
+export const BlueText = styled(TextObelix)`
+    color: #00AFEF;
+`;
+
+export const RedText = styled(TextObelix)`
+    font-size: ${fontSizes.normal}px;
+    color: red;	
+`;
+
+export const LoginText = styled(TextObelix)``;
+
+export const TopFiveText = styled(TextObelix)`
+    font-size: ${fontSizes.xsmall}px;
+`;
+
+export const CounterNumber = styled(TextObelix)`
+    font-size: ${fontSizes.XXlarge}px;
+`;
+
+export const CounterContainer = styled.View`
+	width: 80%;
+	height: 10%;
+	margin-top: 14%;
+	align-items: center;
+	flex-direction: column;
+    justify-content: space-between;
+`;
+
+// :: BUTTONS
+export const ButtonsText = styled(TextObelix)`
+	color: black;
+	font-size: ${fontSizes.Xlarge}px;
+`;
+
+export const ButtonsContainer = styled.View`
+	width: 80%;
+	height: 30%;
+	flex-direction: column;
+	justify-content: space-around;
+	margin-top: 10%;
+`;
+
+export const ButtonSettings = styled.TouchableOpacity`
+	width: 100%;
+	height: 34%;
+	background-color: #00AFEF;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+`;
+
+export const ButtonPlay = styled.TouchableOpacity`
+	width: 100%;
+	height: 34%;
+	background-color: red;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
 `;
