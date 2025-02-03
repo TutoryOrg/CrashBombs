@@ -11,3 +11,8 @@ export const fontSizes = {
 	Xlarge: 35,
 	XXlarge: 50,
 };
+
+export interface IUser {
+	id: number;
+	name: string;
+}

@@ -1,5 +1,6 @@
 import { isDefined } from "@src/utils/utils";
 import { Fragment, useState } from "react";
+import type { IUser } from "@src/utils/constants";
 import {
 	Image,
 	RedText,
@@ -23,10 +24,6 @@ import {
 	TopUsersContainer,
 } from "./styled";
 import _ from "lodash";
-export interface IUser {
-	id: number;
-	name: string;
-}
 
 export const Buttons = () => {
 	return (
