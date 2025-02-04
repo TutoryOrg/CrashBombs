@@ -1,6 +1,7 @@
+import _ from "lodash";
 import { isDefined } from "@src/utils/utils";
-import { Fragment, useState } from "react";
-import type { IUser } from "@src/utils/constants";
+import { type Ref, Fragment, useCallback, useRef, useState } from "react";
+import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import {
 	Image,
 	RedText,
@@ -22,31 +23,67 @@ import {
 	CounterContainer,
 	ButtonsContainer,
 	TopUsersContainer,
+	InfoContainer,
+	InfoTitle,
+	UserInfoContainer,
+	UserInfoContent,
 } from "./styled";
-import _ from "lodash";
+import type { IUser } from "@src/utils/constants";
 
-export const Buttons = () => {
+export const BottomInfo = (props: { user: IUser | undefined }) => {
+	const { user } = props;
+	const isLoggedIn = isDefined(user);
+
+	return (
+		<InfoContainer>
+			<InfoTitle>Info</InfoTitle>
+			{isLoggedIn ? (
+				<UserInfoContainer>
+					<UserInfoContent>
+						<BlueText>name: </BlueText>
+						<BlueText>Nº ranking: </BlueText>
+						<BlueText>Best Score: </BlueText>
+						<BlueText>Last Score: </BlueText>
+					</UserInfoContent>
+					<Image source={require("assets/loguser.png")} style={{ height: 100, width: 100 }} />
+				</UserInfoContainer>
+			) : null}
+		</InfoContainer>
+	);
+};
+
+export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal> }) => {
+	const { bottomSheetModalRef } = props;
+
+	const handleOpenBottomSheet = () => bottomSheetModalRef?.current?.present();
+	const handleCloseBottomSheet = () => bottomSheetModalRef?.current?.dismiss();
+
 	return (
 		<ButtonsContainer>
-			<ButtonSettings>
+			<ButtonSettings onPress={handleOpenBottomSheet}>
 				<ButtonsText>Info</ButtonsText>
 			</ButtonSettings>
 
-			<ButtonPlay>
+			<ButtonPlay onPress={handleCloseBottomSheet}>
 				<ButtonsText>PLAY</ButtonsText>
 			</ButtonPlay>
 		</ButtonsContainer>
 	);
 };
 
-export const Counter = (props: { user: IUser | undefined }) => {
-	const { user } = props;
+export const Counter = (props: { user: IUser | undefined; count: string; bottomSheetModalRef: Ref<BottomSheetModal> }) => {
+	const { user, count, bottomSheetModalRef } = props;
 	const isLoggedIn = isDefined(user);
-	const [counter, setCounter] = useState("182:24:59");
+
+	const onHandleLogin = () => {
+		if (!isLoggedIn) {
+			bottomSheetModalRef?.current?.present();
+		}
+	};
 
 	return (
-		<CounterContainer>
-			<CounterNumber>{counter}</CounterNumber>
+		<CounterContainer disabled={isLoggedIn} onPress={onHandleLogin}>
+			<CounterNumber>{count}</CounterNumber>
 			{!isLoggedIn ? (
 				<Fragment>
 					<LoginText>
@@ -70,15 +107,8 @@ export const Counter = (props: { user: IUser | undefined }) => {
 	);
 };
 
-export const GlobalScore = () => {
-	const [topUsers, setTopUsers] = useState([
-		{ id: 1, name: "user_001", score: 100 },
-		{ id: 2, name: "user_002", score: 90 },
-		{ id: 3, name: "user_003", score: 80 },
-		{ id: 4, name: "user_004", score: 70 },
-		{ id: 5, name: "user_005", score: 60 },
-	]);
-
+export const GlobalScore = (props: { topUsers: IUser[] }) => {
+	const { topUsers } = props;
 	return (
 		<ScoreContainer>
 			<TextTile>Global Score</TextTile>
@@ -91,9 +121,9 @@ export const GlobalScore = () => {
 							) : (
 								`#${index + 1}`
 							)}
-							{`  ${user.name}`}
+							{`  ${user?.name}`}
 						</TextTopUser>
-						<TextTopUser>{user.score}</TextTopUser>
+						<TextTopUser>{user?.score}</TextTopUser>
 					</TopUsersContainer>
 				);
 			})}
@@ -117,15 +147,38 @@ export const Header = (props: { user: IUser | undefined }) => {
 };
 
 export const Home = () => {
-	const [user] = useState<IUser | undefined>({ id: 201, name: "user_001" });
+	const [count] = useState("182:24:59");
+	// const [user] = useState<IUser | undefined>({ id: 201, name: "user_001", score: 0 });
+	const user = undefined;
+	const [topUsers] = useState([
+		{ id: 1, name: "user_001", score: 100 },
+		{ id: 2, name: "user_002", score: 90 },
+		{ id: 3, name: "user_003", score: 80 },
+		{ id: 4, name: "user_004", score: 70 },
+		{ id: 5, name: "user_005", score: 60 },
+	]);
+
+	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+	const handleSheetChanges = useCallback((index: number) => {
+		console.log("handleSheetChanges", index);
+		console.log(bottomSheetModalRef?.current);
+	}, []);
 
 	return (
 		<ViewContainer>
 			<Header user={user} />
 			<HomeTitle>CRASH BOMBS</HomeTitle>
-			<GlobalScore />
-			<Counter user={user} />
-			<Buttons />
+			<GlobalScore topUsers={topUsers} />
+			<Counter user={user} count={count} bottomSheetModalRef={bottomSheetModalRef} />
+			<Buttons bottomSheetModalRef={bottomSheetModalRef} />
+
+			<BottomSheetModalProvider>
+				<BottomSheetModal ref={bottomSheetModalRef} onChange={handleSheetChanges}>
+					<BottomSheetView style={{ flex: 1 }}>
+						<BottomInfo user={user} />
+					</BottomSheetView>
+				</BottomSheetModal>
+			</BottomSheetModalProvider>
 		</ViewContainer>
 	);
 };

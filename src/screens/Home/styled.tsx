@@ -97,10 +97,10 @@ export const CounterNumber = styled(TextObelix)`
     font-size: ${fontSizes.XXlarge}px;
 `;
 
-export const CounterContainer = styled.View`
+export const CounterContainer = styled.TouchableOpacity`
 	width: 80%;
 	height: 10%;
-	margin-top: 14%;
+	margin-top: 10%;
 	align-items: center;
 	flex-direction: column;
     justify-content: space-between;
@@ -136,4 +136,32 @@ export const ButtonPlay = styled.TouchableOpacity`
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
+`;
+
+// :: BOTTOM SHEET INFO
+export const InfoContainer = styled.View`
+	flex: 1;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+    background-color: ${(props: DefaultTheme) => props.theme.bgColor};
+`;
+
+export const InfoTitle = styled(TextObelix)`
+	font-size: ${verticalScale(fontSizes.Xlarge)}px;
+`;
+
+export const UserInfoContainer = styled.View`
+	flex: 1;
+	width: 100%;
+	align-items: center;
+	flex-direction: row;
+	justify-content: space-around;
+	padding-left: 12%;
+	padding-right: 12%;
+`;
+
+export const UserInfoContent = styled.View`
+	flex: 1;
+	flex-direction: column;
 `;

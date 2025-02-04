@@ -15,4 +15,5 @@ export const fontSizes = {
 export interface IUser {
 	id: number;
 	name: string;
+	score: number;
 }
