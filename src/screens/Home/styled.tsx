@@ -145,9 +145,11 @@ export const InfoContainer = styled.View`
 	align-items: center;
 	justify-content: center;
     background-color: ${(props: DefaultTheme) => props.theme.bgColor};
+	height: ${verticalScale(220)}px;
 `;
 
 export const InfoTitle = styled(TextObelix)`
+	margin-top: 3%;
 	font-size: ${verticalScale(fontSizes.Xlarge)}px;
 `;
 

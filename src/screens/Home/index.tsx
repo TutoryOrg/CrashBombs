@@ -29,6 +29,7 @@ import {
 	UserInfoContent,
 } from "./styled";
 import type { IUser } from "@src/utils/constants";
+import { TextObelix } from "@src/components/Text";
 
 export const BottomInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
@@ -48,6 +49,9 @@ export const BottomInfo = (props: { user: IUser | undefined }) => {
 					<Image source={require("assets/loguser.png")} style={{ height: 100, width: 100 }} />
 				</UserInfoContainer>
 			) : null}
+			<TextObelix style={{ paddingTop: 20, paddingBottom: 20 }}>
+				Check <BlueText>www.website.com</BlueText> for more information!
+			</TextObelix>
 		</InfoContainer>
 	);
 };
