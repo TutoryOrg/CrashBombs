@@ -9,6 +9,7 @@ import {
 	TextUser,
 	TextTile,
 	LoginText,
+	InfoTitle,
 	HomeTitle,
 	UserStatus,
 	ButtonPlay,
@@ -16,41 +17,113 @@ import {
 	TopFiveText,
 	TextTopUser,
 	CounterNumber,
+	InfoContainer,
 	ViewContainer,
 	ButtonSettings,
 	ScoreContainer,
+	UserInfoContent,
 	HeaderContainer,
 	CounterContainer,
 	ButtonsContainer,
 	TopUsersContainer,
-	InfoContainer,
-	InfoTitle,
 	UserInfoContainer,
-	UserInfoContent,
 } from "./styled";
-import type { IUser } from "@src/utils/constants";
+import { fontSizes, type IUser } from "@src/utils/constants";
 import { TextObelix } from "@src/components/Text";
+import { View, Text, TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
+import { verticalScale } from "@src/utils/scaleFunctions";
+
+enum REGISTER {
+	LOG_IN = "LOG_IN",
+	SING_UP = "SING_UP",
+}
 
 export const BottomInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
 	const isLoggedIn = isDefined(user);
+	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
+
+	const onRegisterLogIn = () => setRegister(REGISTER.LOG_IN);
+	const onRegisterSingUp = () => setRegister(REGISTER.SING_UP);
+
+	const InfoButton = styled.TouchableOpacity`
+		width: 100%;
+		height: ${verticalScale(44)}px;
+		background-color: lightgray;
+		align-items: center;
+		justify-content: center;
+		border-radius: 24px;	
+	`;
+
+	const InfoButtonsContainer = styled.View`
+		width: 88%;
+		height: ${verticalScale(180)}px;
+		align-items: center;
+		justify-content: space-around;
+	`;
+
+	const InfoSubTitle = styled(TextObelix)`
+
+`;
 
 	return (
 		<InfoContainer>
 			<InfoTitle>Info</InfoTitle>
+			<InfoSubTitle>Log In or Sing up to win 100K!</InfoSubTitle>
 			{isLoggedIn ? (
-				<UserInfoContainer>
-					<UserInfoContent>
-						<BlueText>name: </BlueText>
-						<BlueText>Nº ranking: </BlueText>
-						<BlueText>Best Score: </BlueText>
-						<BlueText>Last Score: </BlueText>
-					</UserInfoContent>
-					<Image source={require("assets/loguser.png")} style={{ height: 100, width: 100 }} />
-				</UserInfoContainer>
-			) : null}
+				<Fragment>
+					<UserInfoContainer>
+						<UserInfoContent>
+							<BlueText>name: </BlueText>
+							<BlueText>Nº ranking: </BlueText>
+							<BlueText>Best Score: </BlueText>
+							<BlueText>Last Score: </BlueText>
+						</UserInfoContent>
+						<Image source={require("assets/loguser.png")} style={{ height: 100, width: 100 }} />
+					</UserInfoContainer>
+				</Fragment>
+			) : register === REGISTER.LOG_IN ? (
+				<InfoButtonsContainer>
+					<InfoButton>
+						<Text>Log In with Google</Text>
+					</InfoButton>
+					<InfoButton>
+						<Text>Log In with Facebook</Text>
+					</InfoButton>
+					<InfoButton>
+						<Text>Log In with Apple</Text>
+					</InfoButton>
+
+					<TouchableOpacity onPress={onRegisterSingUp}>
+						<TextObelix>
+							Don't have account?
+							<RedText> Sing up.</RedText>
+						</TextObelix>
+					</TouchableOpacity>
+				</InfoButtonsContainer>
+			) : (
+				<InfoButtonsContainer>
+					<InfoButton>
+						<Text>Sing Up with Google</Text>
+					</InfoButton>
+					<InfoButton>
+						<Text>Sing Up with Facebook</Text>
+					</InfoButton>
+					<InfoButton>
+						<Text>Sing Up with Apple</Text>
+					</InfoButton>
+					<TouchableOpacity onPress={onRegisterLogIn}>
+						<TextObelix>
+							Already have an account? <BlueText>Log in! </BlueText>
+						</TextObelix>
+					</TouchableOpacity>
+				</InfoButtonsContainer>
+			)}
 			<TextObelix style={{ paddingTop: 20, paddingBottom: 20 }}>
-				Check <BlueText>www.website.com</BlueText> for more information!
+				<TextObelix style={{ fontSize: `${fontSizes.xsmall - 2}` }}>
+					Check <BlueText style={{ fontSize: `${fontSizes.xsmall - 2}` }}>www.website.com</BlueText> for more information!
+				</TextObelix>
 			</TextObelix>
 		</InfoContainer>
 	);

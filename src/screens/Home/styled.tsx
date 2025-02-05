@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
-import { verticalScale } from "@src/utils/scaleFunctions";
+import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
 import { TextKomi, TextObelix } from "@components/Text";
 import type { DefaultTheme } from "styled-components";
 
@@ -17,7 +17,7 @@ export const HomeTitle = styled(TextKomi)`
     width: 80%;
     height: 20%;
     text-align: center;
-    font-size: ${fontSizes.XXlarge}px;
+    font-size: ${verticalScale(fontSizes.Xlarge + 6)}px;
     line-height: ${verticalScale(35)}px;
     padding-top: ${verticalScale(35)}px;
 `;
@@ -74,33 +74,35 @@ export const TextTile = styled(TextObelix)`
 `;
 
 export const TextTopUser = styled(TextObelix)`
-    font-size: ${fontSizes.xsmall}px;
+    font-size: ${scale(fontSizes.xsmall)}px;
 `;
 
 // :: COUNTER
 export const BlueText = styled(TextObelix)`
+    font-size: ${scale(fontSizes.normal)}px;
     color: #00AFEF;
 `;
 
 export const RedText = styled(TextObelix)`
-    font-size: ${fontSizes.normal}px;
+    font-size: ${scale(fontSizes.normal)}px;
     color: red;	
 `;
 
 export const LoginText = styled(TextObelix)``;
 
 export const TopFiveText = styled(TextObelix)`
-    font-size: ${fontSizes.xsmall}px;
+    font-size: ${scale(fontSizes.xsmall)}px;
 `;
 
 export const CounterNumber = styled(TextObelix)`
-    font-size: ${fontSizes.XXlarge}px;
+    font-size: ${scale(fontSizes.XXlarge)}px;
 `;
 
 export const CounterContainer = styled.TouchableOpacity`
-	width: 80%;
+	width: 86%;
 	height: 10%;
-	margin-top: 10%;
+	margin-top: 5%;
+	margin-bottom: 5%;
 	align-items: center;
 	flex-direction: column;
     justify-content: space-between;
@@ -109,20 +111,20 @@ export const CounterContainer = styled.TouchableOpacity`
 // :: BUTTONS
 export const ButtonsText = styled(TextObelix)`
 	color: black;
-	font-size: ${fontSizes.Xlarge}px;
+	font-size: ${scale(fontSizes.Xlarge)}px;
 `;
 
 export const ButtonsContainer = styled.View`
-	width: 80%;
-	height: 30%;
+	width: 86%;
+	height: 28%;
+	margin-top: 14%;
 	flex-direction: column;
 	justify-content: space-around;
-	margin-top: 10%;
 `;
 
 export const ButtonSettings = styled.TouchableOpacity`
 	width: 100%;
-	height: 34%;
+	height: 32%;
 	background-color: #00AFEF;
 	align-items: center;
 	justify-content: center;
@@ -145,7 +147,7 @@ export const InfoContainer = styled.View`
 	align-items: center;
 	justify-content: center;
     background-color: ${(props: DefaultTheme) => props.theme.bgColor};
-	height: ${verticalScale(220)}px;
+	height: ${verticalScale(280)}px;
 `;
 
 export const InfoTitle = styled(TextObelix)`
