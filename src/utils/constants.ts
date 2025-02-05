@@ -3,17 +3,25 @@ export enum Screens {
 	GAME = "Game",
 }
 
+export enum REGISTER {
+	LOG_IN = "LOG_IN",
+	SING_UP = "SING_UP",
+}
+
 export const fontSizes = {
 	xsmall: 12,
 	small: 14,
 	normal: 18,
 	large: 24,
 	Xlarge: 35,
-	XXlarge: 50,
+	XXlarge: 42,
+	XXXlarge: 50,
 };
 
 export interface IUser {
 	id: number;
+	ranking: number;
 	name: string;
-	score: number;
+	bestScore: number;
+	lastScore: number;
 }

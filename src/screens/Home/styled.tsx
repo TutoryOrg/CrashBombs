@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
-import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
+import { scale, verticalScale } from "@src/utils/scaleFunctions";
 import { TextKomi, TextObelix } from "@components/Text";
+
 import type { DefaultTheme } from "styled-components";
 
 // :: SCREEN HOME CONTAINER
@@ -17,9 +18,10 @@ export const HomeTitle = styled(TextKomi)`
     width: 80%;
     height: 20%;
     text-align: center;
-    font-size: ${verticalScale(fontSizes.Xlarge + 6)}px;
     line-height: ${verticalScale(35)}px;
     padding-top: ${verticalScale(35)}px;
+    font-size: ${verticalScale(fontSizes.XXlarge)}px;
+    color: ${(props: DefaultTheme) => props?.theme?.pinkColor};
 `;
 
 // :: HEADER
@@ -62,14 +64,17 @@ export const TopUsersContainer = styled.View<{ index: number }>`
     flex-direction: row;
     justify-content: space-between;
     padding: ${verticalScale(2)}px;
-    opacity: ${(props: DefaultTheme) => 1 / (props.index + 0.75)};
+    opacity: ${(props: DefaultTheme) => 1 / (props.index)};
 `;
 
 export const TextTile = styled(TextObelix)`
+	text-align:center;
 	border-top-width: 0px;
 	border-left-width: 0px;
 	border-right-width: 0px;
+    font-size: ${scale(fontSizes.small)}px;
 	border-bottom-width: ${verticalScale(2)}px;
+	color: ${(props: DefaultTheme) => props?.theme?.txtColor};
 	border: 1px solid ${(props: DefaultTheme) => props.theme.txtColor};
 `;
 
@@ -80,12 +85,12 @@ export const TextTopUser = styled(TextObelix)`
 // :: COUNTER
 export const BlueText = styled(TextObelix)`
     font-size: ${scale(fontSizes.normal)}px;
-    color: #00AFEF;
+    color: ${(props: DefaultTheme) => props?.theme?.blueColor};
 `;
 
 export const RedText = styled(TextObelix)`
     font-size: ${scale(fontSizes.normal)}px;
-    color: red;	
+    color: ${(props: DefaultTheme) => props?.theme?.redColor};
 `;
 
 export const LoginText = styled(TextObelix)``;
@@ -95,7 +100,7 @@ export const TopFiveText = styled(TextObelix)`
 `;
 
 export const CounterNumber = styled(TextObelix)`
-    font-size: ${scale(fontSizes.XXlarge)}px;
+    font-size: ${scale(fontSizes.XXXlarge)}px;
 `;
 
 export const CounterContainer = styled.TouchableOpacity`
@@ -110,8 +115,8 @@ export const CounterContainer = styled.TouchableOpacity`
 
 // :: BUTTONS
 export const ButtonsText = styled(TextObelix)`
-	color: black;
 	font-size: ${scale(fontSizes.Xlarge)}px;
+	color: ${(props: DefaultTheme) => props?.theme?.txtGrayColor};
 `;
 
 export const ButtonsContainer = styled.View`
@@ -125,34 +130,35 @@ export const ButtonsContainer = styled.View`
 export const ButtonSettings = styled.TouchableOpacity`
 	width: 100%;
 	height: 32%;
-	background-color: #00AFEF;
+	border-radius: 10px;
 	align-items: center;
 	justify-content: center;
-	border-radius: 10px;
+	background-color: ${(props: DefaultTheme) => props?.theme?.blueColor};
 `;
 
 export const ButtonPlay = styled.TouchableOpacity`
 	width: 100%;
 	height: 34%;
-	background-color: red;
+	border-radius: 10px;
 	align-items: center;
 	justify-content: center;
-	border-radius: 10px;
+	background-color: ${(props: DefaultTheme) => props?.theme?.pinkColor};
 `;
 
 // :: BOTTOM SHEET INFO
-export const InfoContainer = styled.View`
+export const InfoContainer = styled.View<{ isLoggedIn: boolean }>`
 	flex: 1;
 	width: 100%;
 	align-items: center;
 	justify-content: center;
     background-color: ${(props: DefaultTheme) => props.theme.bgColor};
-	height: ${verticalScale(280)}px;
+	height: ${(props: DefaultTheme) => (props?.isLoggedIn ? verticalScale(200) : verticalScale(325))}px;
 `;
 
 export const InfoTitle = styled(TextObelix)`
 	margin-top: 3%;
 	font-size: ${verticalScale(fontSizes.Xlarge)}px;
+    color: ${(props: DefaultTheme) => props.theme.blueColor};
 `;
 
 export const UserInfoContainer = styled.View`
@@ -168,4 +174,32 @@ export const UserInfoContainer = styled.View`
 export const UserInfoContent = styled.View`
 	flex: 1;
 	flex-direction: column;
+`;
+
+// :: BOTTOMINFO
+export const InfoButtonsContainer = styled.View`
+	width: 88%;
+	height: ${verticalScale(180)}px;
+	align-items: center;
+	justify-content: space-around;
+`;
+
+export const InfoSubTitle = styled(TextObelix)`
+	width: 60%;
+	padding: 3%;
+	text-align: center;
+`;
+
+export const InfoButton = styled.TouchableOpacity`
+	width: 100%;
+	height: ${verticalScale(40)}px;
+	border-radius: 24px;	
+	align-items: center;
+	justify-content: center;
+	background-color: lightgray;
+`;
+
+export const InfoButtonText = styled(TextObelix)`
+	font-size: ${verticalScale(fontSizes.small)}px;
+	color: ${(props: DefaultTheme) => props?.theme?.blackColor};
 `;

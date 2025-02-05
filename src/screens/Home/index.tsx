@@ -27,17 +27,15 @@ import {
 	ButtonsContainer,
 	TopUsersContainer,
 	UserInfoContainer,
+	InfoSubTitle,
+	InfoButton,
+	InfoButtonsContainer,
+	InfoButtonText,
 } from "./styled";
-import { fontSizes, type IUser } from "@src/utils/constants";
+import { fontSizes, REGISTER, type IUser } from "@src/utils/constants";
 import { TextObelix } from "@src/components/Text";
-import { View, Text, TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
+import { TouchableOpacity } from "react-native";
 import { verticalScale } from "@src/utils/scaleFunctions";
-
-enum REGISTER {
-	LOG_IN = "LOG_IN",
-	SING_UP = "SING_UP",
-}
 
 export const BottomInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
@@ -47,78 +45,79 @@ export const BottomInfo = (props: { user: IUser | undefined }) => {
 	const onRegisterLogIn = () => setRegister(REGISTER.LOG_IN);
 	const onRegisterSingUp = () => setRegister(REGISTER.SING_UP);
 
-	const InfoButton = styled.TouchableOpacity`
-		width: 100%;
-		height: ${verticalScale(44)}px;
-		background-color: lightgray;
-		align-items: center;
-		justify-content: center;
-		border-radius: 24px;	
-	`;
-
-	const InfoButtonsContainer = styled.View`
-		width: 88%;
-		height: ${verticalScale(180)}px;
-		align-items: center;
-		justify-content: space-around;
-	`;
-
-	const InfoSubTitle = styled(TextObelix)`
-
-`;
-
 	return (
-		<InfoContainer>
+		<InfoContainer isLoggedIn={isLoggedIn}>
 			<InfoTitle>Info</InfoTitle>
-			<InfoSubTitle>Log In or Sing up to win 100K!</InfoSubTitle>
 			{isLoggedIn ? (
 				<Fragment>
 					<UserInfoContainer>
 						<UserInfoContent>
-							<BlueText>name: </BlueText>
-							<BlueText>Nº ranking: </BlueText>
-							<BlueText>Best Score: </BlueText>
-							<BlueText>Last Score: </BlueText>
+							<BlueText>
+								name: <TextObelix>{user?.name}</TextObelix>
+							</BlueText>
+							<BlueText>
+								Nº ranking: <TextObelix>{user?.id}</TextObelix>
+							</BlueText>
+							<BlueText>
+								Best Score: <TextObelix>{user?.bestScore}</TextObelix>
+							</BlueText>
+							<BlueText>
+								Last Score: <TextObelix>{user?.lastScore}</TextObelix>
+							</BlueText>
 						</UserInfoContent>
 						<Image source={require("assets/loguser.png")} style={{ height: 100, width: 100 }} />
 					</UserInfoContainer>
 				</Fragment>
 			) : register === REGISTER.LOG_IN ? (
-				<InfoButtonsContainer>
-					<InfoButton>
-						<Text>Log In with Google</Text>
-					</InfoButton>
-					<InfoButton>
-						<Text>Log In with Facebook</Text>
-					</InfoButton>
-					<InfoButton>
-						<Text>Log In with Apple</Text>
-					</InfoButton>
-
-					<TouchableOpacity onPress={onRegisterSingUp}>
-						<TextObelix>
-							Don't have account?
-							<RedText> Sing up.</RedText>
-						</TextObelix>
-					</TouchableOpacity>
-				</InfoButtonsContainer>
+				<Fragment>
+					<InfoSubTitle>
+						<TextObelix>Create an account or log in and race to the top to win </TextObelix>
+						<RedText>100K!</RedText>
+					</InfoSubTitle>
+					<InfoButtonsContainer>
+						<InfoButton>
+							<InfoButtonText>LOG IN WITH GOOGLE</InfoButtonText>
+						</InfoButton>
+						<InfoButton>
+							<InfoButtonText>Log In with Facebook</InfoButtonText>
+						</InfoButton>
+						<InfoButton>
+							<InfoButtonText>Log In with Apple</InfoButtonText>
+						</InfoButton>
+						<TouchableOpacity
+							style={{ height: verticalScale(20), alignContent: "center", justifyContent: "center" }}
+							onPress={onRegisterSingUp}
+						>
+							<TextObelix>
+								Don't have account?
+								<RedText> Sing up.</RedText>
+							</TextObelix>
+						</TouchableOpacity>
+					</InfoButtonsContainer>
+				</Fragment>
 			) : (
-				<InfoButtonsContainer>
-					<InfoButton>
-						<Text>Sing Up with Google</Text>
-					</InfoButton>
-					<InfoButton>
-						<Text>Sing Up with Facebook</Text>
-					</InfoButton>
-					<InfoButton>
-						<Text>Sing Up with Apple</Text>
-					</InfoButton>
-					<TouchableOpacity onPress={onRegisterLogIn}>
-						<TextObelix>
-							Already have an account? <BlueText>Log in! </BlueText>
-						</TextObelix>
-					</TouchableOpacity>
-				</InfoButtonsContainer>
+				<Fragment>
+					<InfoSubTitle>
+						<TextObelix>Create an account or log in and race to the top to win </TextObelix>
+						<RedText>100K!</RedText>
+					</InfoSubTitle>
+					<InfoButtonsContainer>
+						<InfoButton>
+							<InfoButtonText>Sing Up with Google</InfoButtonText>
+						</InfoButton>
+						<InfoButton>
+							<InfoButtonText>Sing Up with Facebook</InfoButtonText>
+						</InfoButton>
+						<InfoButton>
+							<InfoButtonText>Sing Up with Apple</InfoButtonText>
+						</InfoButton>
+						<TouchableOpacity onPress={onRegisterLogIn}>
+							<TextObelix>
+								Already have an account? <BlueText>Log in! </BlueText>
+							</TextObelix>
+						</TouchableOpacity>
+					</InfoButtonsContainer>
+				</Fragment>
 			)}
 			<TextObelix style={{ paddingTop: 20, paddingBottom: 20 }}>
 				<TextObelix style={{ fontSize: `${fontSizes.xsmall - 2}` }}>
@@ -142,7 +141,7 @@ export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal> }) =
 			</ButtonSettings>
 
 			<ButtonPlay onPress={handleCloseBottomSheet}>
-				<ButtonsText>PLAY</ButtonsText>
+				<ButtonsText>Play</ButtonsText>
 			</ButtonPlay>
 		</ButtonsContainer>
 	);
@@ -167,16 +166,17 @@ export const Counter = (props: { user: IUser | undefined; count: string; bottomS
 						Log in for a chance to win <RedText>100K</RedText>
 					</LoginText>
 					<LoginText>
-						<BlueText>SING UP</BlueText> or <BlueText>LOG IN</BlueText>
+						<BlueText>sing up</BlueText> or <BlueText>log in</BlueText>
 					</LoginText>
 				</Fragment>
 			) : (
 				<Fragment>
 					<LoginText>
-						Reach the top and claim your <RedText>$100K!</RedText>
+						Be <Image source={require("assets/star.png")} style={{ height: 12, width: 12 }} />1 and claim your{" "}
+						<RedText>$100K!</RedText>
 					</LoginText>
 					<TopFiveText>
-						Join the top <RedText>5</RedText> users for a chance to win <BlueText>$1M!</BlueText>
+						Make it to the top <RedText>5</RedText> and you could win <BlueText>$1M!</BlueText>
 					</TopFiveText>
 				</Fragment>
 			)}
@@ -191,16 +191,19 @@ export const GlobalScore = (props: { topUsers: IUser[] }) => {
 			<TextTile>Global Score</TextTile>
 			{topUsers.map((user, index) => {
 				return (
-					<TopUsersContainer key={index} index={index}>
+					<TopUsersContainer key={index} index={user?.ranking}>
 						<TextTopUser>
-							{index === 0 ? (
-								<Image source={require("assets/star.png")} style={{ height: 12, width: 12 }} />
+							{user?.ranking === 1 ? (
+								<Fragment>
+									<Image source={require("assets/star.png")} style={{ height: 12, width: 12 }} />
+									{user?.ranking}
+								</Fragment>
 							) : (
-								`#${index + 1}`
+								`#${user?.ranking}`
 							)}
 							{`  ${user?.name}`}
 						</TextTopUser>
-						<TextTopUser>{user?.score}</TextTopUser>
+						<TextTopUser>{user?.bestScore}</TextTopUser>
 					</TopUsersContainer>
 				);
 			})}
@@ -225,20 +228,19 @@ export const Header = (props: { user: IUser | undefined }) => {
 
 export const Home = () => {
 	const [count] = useState("182:24:59");
-	// const [user] = useState<IUser | undefined>({ id: 201, name: "user_001", score: 0 });
+	// const [user] = useState<IUser | undefined>({ id: 201, name: "user_001", ranking: 291, bestScore: 180, lastScore: 99 });
 	const user = undefined;
 	const [topUsers] = useState([
-		{ id: 1, name: "user_001", score: 100 },
-		{ id: 2, name: "user_002", score: 90 },
-		{ id: 3, name: "user_003", score: 80 },
-		{ id: 4, name: "user_004", score: 70 },
-		{ id: 5, name: "user_005", score: 60 },
+		{ id: 1, name: "user_001", ranking: 1, bestScore: 100, lastScore: 0 },
+		{ id: 2, name: "user_002", ranking: 2, bestScore: 90, lastScore: 0 },
+		{ id: 3, name: "user_003", ranking: 3, bestScore: 80, lastScore: 0 },
+		{ id: 4, name: "user_004", ranking: 4, bestScore: 70, lastScore: 0 },
+		{ id: 5, name: "user_005", ranking: 5, bestScore: 60, lastScore: 0 },
 	]);
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const handleSheetChanges = useCallback((index: number) => {
-		console.log("handleSheetChanges", index);
-		console.log(bottomSheetModalRef?.current);
+		console.log("handleSheetChanges - ", index);
 	}, []);
 
 	return (
