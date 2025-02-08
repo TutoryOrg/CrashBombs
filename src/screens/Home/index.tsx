@@ -13,12 +13,15 @@ import {
 	HomeTitle,
 	UserStatus,
 	ButtonPlay,
+	InfoButton,
 	ButtonsText,
 	TopFiveText,
 	TextTopUser,
+	InfoSubTitle,
 	CounterNumber,
 	InfoContainer,
 	ViewContainer,
+	InfoButtonText,
 	ButtonSettings,
 	ScoreContainer,
 	UserInfoContent,
@@ -27,10 +30,7 @@ import {
 	ButtonsContainer,
 	TopUsersContainer,
 	UserInfoContainer,
-	InfoSubTitle,
-	InfoButton,
 	InfoButtonsContainer,
-	InfoButtonText,
 } from "./styled";
 import { fontSizes, REGISTER, type IUser } from "@src/utils/constants";
 import { TextObelix } from "@src/components/Text";
