@@ -131,8 +131,8 @@ export const BottomInfo = (props: { user: IUser | undefined }) => {
 	);
 };
 
-export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal> }) => {
-	const { bottomSheetModalRef } = props;
+export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
+	const { bottomSheetModalRef, onHandleClickPlay } = props;
 
 	const handleOpenBottomSheet = () => bottomSheetModalRef?.current?.present();
 	const handleCloseBottomSheet = () => bottomSheetModalRef?.current?.dismiss();
@@ -143,7 +143,7 @@ export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal> }) =
 				<ButtonsText>Info</ButtonsText>
 			</ButtonSettings>
 
-			<ButtonPlay onPress={handleCloseBottomSheet}>
+			<ButtonPlay onPress={onHandleClickPlay}>
 				<ButtonsText>Play</ButtonsText>
 			</ButtonPlay>
 		</ButtonsContainer>
@@ -229,7 +229,8 @@ export const Header = (props: { user: IUser | undefined }) => {
 	);
 };
 
-export const Home = () => {
+export const Home = (props: { onHandleClickPlay: () => void }) => {
+	const { onHandleClickPlay } = props;
 	const [count] = useState("182:24:59");
 	// const [user] = useState<IUser | undefined>({ id: 201, name: "user_001", ranking: 291, bestScore: 180, lastScore: 99 });
 	const user = undefined;
@@ -252,7 +253,7 @@ export const Home = () => {
 			<HomeTitle>CRASH BOMBS</HomeTitle>
 			<GlobalScore topUsers={topUsers} />
 			<Counter user={user} count={count} bottomSheetModalRef={bottomSheetModalRef} />
-			<Buttons bottomSheetModalRef={bottomSheetModalRef} />
+			<Buttons bottomSheetModalRef={bottomSheetModalRef} onHandleClickPlay={onHandleClickPlay} />
 
 			<BottomSheetModalProvider>
 				<BottomSheetModal ref={bottomSheetModalRef} onChange={handleSheetChanges}>
