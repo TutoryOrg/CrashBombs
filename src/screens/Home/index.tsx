@@ -35,6 +35,7 @@ import {
 import { fontSizes, REGISTER, type IUser } from "@src/utils/constants";
 import { TextObelix } from "@src/components/Text";
 import { TouchableOpacity } from "react-native";
+import { verticalScale } from "@src/utils/scaleFunctions";
 
 export const BottomInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
@@ -96,15 +97,18 @@ export const BottomInfo = (props: { user: IUser | undefined }) => {
 					</InfoSubTitle>
 					<InfoButtonsContainer>
 						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
-							<Image source={require("assets/google.png")} style={{ height: 20, width: 20 }} />
+							<Image source={require("assets/google.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
 							<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
 						</InfoButton>
 						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
-							<Image source={require("assets/facebook.png")} style={{ height: 20, width: 20 }} />
+							<Image
+								source={require("assets/facebook.png")}
+								style={{ height: verticalScale(20), width: verticalScale(20) }}
+							/>
 							<InfoButtonText children={isRegisterLogIn ? "Log in with Facebook" : "Sing up with Facebook"} />
 						</InfoButton>
 						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithApple : onHandleSingUpWithApple}>
-							<Image source={require("assets/apple.png")} style={{ height: 20, width: 20 }} />
+							<Image source={require("assets/apple.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
 							<InfoButtonText children={isRegisterLogIn ? "Log in with Apple" : "Sing up with Apple"} />
 						</InfoButton>
 						<TouchableOpacity onPress={isRegisterLogIn ? onRegisterSingUp : onRegisterLogIn}>
@@ -123,8 +127,9 @@ export const BottomInfo = (props: { user: IUser | undefined }) => {
 				</Fragment>
 			)}
 			<TextObelix style={{ paddingTop: 20, paddingBottom: 20 }}>
-				<TextObelix style={{ fontSize: `${fontSizes.xsmall - 2}` }}>
-					Check <BlueText style={{ fontSize: `${fontSizes.xsmall - 2}` }}>www.website.com</BlueText> for more information!
+				<TextObelix style={{ fontSize: `${verticalScale(fontSizes.xsmall)}` }}>
+					Check <BlueText style={{ fontSize: `${verticalScale(fontSizes.xsmall)}` }}>www.website.com</BlueText> for more
+					information!
 				</TextObelix>
 			</TextObelix>
 		</InfoContainer>

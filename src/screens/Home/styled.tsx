@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
-import { scale, verticalScale } from "@src/utils/scaleFunctions";
+import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
 import { TextKomi, TextLucky, TextObelix } from "@components/Text";
 
 import type { DefaultTheme } from "styled-components";
@@ -197,11 +197,12 @@ export const InfoButton = styled.TouchableOpacity`
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+	padding-left: 4%;
 	background-color: ${(props: DefaultTheme) => props?.theme?.lightGray};
 `;
 
 export const InfoButtonText = styled(TextLucky)`
-	width: 60%;
+	width: 56%;
 	text-align: left;
 	padding-left: ${verticalScale(10)}px;
 	font-size: ${verticalScale(fontSizes.small)}px;
