@@ -8,6 +8,7 @@ declare module "styled-components" {
 		blackColor: string;
 		redColor: string;
 		blueColor: string;
+		lightGray: string;
 		pinkColor: string;
 		txtColor: string;
 		txtGrayColor: string;
@@ -23,6 +24,7 @@ export const lightTheme: DefaultTheme = {
 	redColor: "red",
 	blueColor: "#00AFEF",
 	pinkColor: "#ed2a68",
+	lightGray: "#D9D9D9",
 };
 
 export const darkTheme: DefaultTheme = {
@@ -34,4 +36,5 @@ export const darkTheme: DefaultTheme = {
 	redColor: "red",
 	blueColor: "#00AFEF",
 	pinkColor: "#ed2a68",
+	lightGray: "#D9D9D9",
 };

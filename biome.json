@@ -21,10 +21,14 @@
 	},
 	"linter": {
 		"enabled": true,
+
 		"rules": {
 			"recommended": true,
 			"suspicious": {
 				"noArrayIndexKey": "off"
+			},
+			"correctness": {
+				"noChildrenProp": "off"
 			}
 		}
 	},

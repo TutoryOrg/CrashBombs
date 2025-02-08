@@ -35,15 +35,35 @@ import {
 import { fontSizes, REGISTER, type IUser } from "@src/utils/constants";
 import { TextObelix } from "@src/components/Text";
 import { TouchableOpacity } from "react-native";
-import { verticalScale } from "@src/utils/scaleFunctions";
 
 export const BottomInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
 	const isLoggedIn = isDefined(user);
 	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
+	const isRegisterLogIn = register === REGISTER.LOG_IN;
 
 	const onRegisterLogIn = () => setRegister(REGISTER.LOG_IN);
 	const onRegisterSingUp = () => setRegister(REGISTER.SING_UP);
+
+	const onHandleLoginWithGoogle = () => {
+		console.log("loginWithGoogle");
+	};
+	const onHandleLoginWithFacebook = () => {
+		console.log("loginWithFacebook");
+	};
+	const onHandleLoginWithApple = () => {
+		console.log("loginWithApple");
+	};
+
+	const onHandleSingUpWithGoogle = () => {
+		console.log("signupWithGoogle");
+	};
+	const onHandleSingUpWithFacebook = () => {
+		console.log("signupWithFacebook");
+	};
+	const onHandleSingUpWithApple = () => {
+		console.log("signupWithApple");
+	};
 
 	return (
 		<InfoContainer isLoggedIn={isLoggedIn}>
@@ -68,33 +88,6 @@ export const BottomInfo = (props: { user: IUser | undefined }) => {
 						<Image source={require("assets/loguser.png")} style={{ height: 100, width: 100 }} />
 					</UserInfoContainer>
 				</Fragment>
-			) : register === REGISTER.LOG_IN ? (
-				<Fragment>
-					<InfoSubTitle>
-						<TextObelix>Create an account or log in and race to the top to win </TextObelix>
-						<RedText>100K!</RedText>
-					</InfoSubTitle>
-					<InfoButtonsContainer>
-						<InfoButton>
-							<InfoButtonText>LOG IN WITH GOOGLE</InfoButtonText>
-						</InfoButton>
-						<InfoButton>
-							<InfoButtonText>Log In with Facebook</InfoButtonText>
-						</InfoButton>
-						<InfoButton>
-							<InfoButtonText>Log In with Apple</InfoButtonText>
-						</InfoButton>
-						<TouchableOpacity
-							style={{ height: verticalScale(20), alignContent: "center", justifyContent: "center" }}
-							onPress={onRegisterSingUp}
-						>
-							<TextObelix>
-								Don't have account?
-								<RedText> Sing up.</RedText>
-							</TextObelix>
-						</TouchableOpacity>
-					</InfoButtonsContainer>
-				</Fragment>
 			) : (
 				<Fragment>
 					<InfoSubTitle>
@@ -102,19 +95,29 @@ export const BottomInfo = (props: { user: IUser | undefined }) => {
 						<RedText>100K!</RedText>
 					</InfoSubTitle>
 					<InfoButtonsContainer>
-						<InfoButton>
-							<InfoButtonText>Sing Up with Google</InfoButtonText>
+						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
+							<Image source={require("assets/google.png")} style={{ height: 20, width: 20 }} />
+							<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
 						</InfoButton>
-						<InfoButton>
-							<InfoButtonText>Sing Up with Facebook</InfoButtonText>
+						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
+							<Image source={require("assets/facebook.png")} style={{ height: 20, width: 20 }} />
+							<InfoButtonText children={isRegisterLogIn ? "Log in with Facebook" : "Sing up with Facebook"} />
 						</InfoButton>
-						<InfoButton>
-							<InfoButtonText>Sing Up with Apple</InfoButtonText>
+						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithApple : onHandleSingUpWithApple}>
+							<Image source={require("assets/apple.png")} style={{ height: 20, width: 20 }} />
+							<InfoButtonText children={isRegisterLogIn ? "Log in with Apple" : "Sing up with Apple"} />
 						</InfoButton>
-						<TouchableOpacity onPress={onRegisterLogIn}>
-							<TextObelix>
-								Already have an account? <BlueText>Log in! </BlueText>
-							</TextObelix>
+						<TouchableOpacity onPress={isRegisterLogIn ? onRegisterSingUp : onRegisterLogIn}>
+							{isRegisterLogIn ? (
+								<TextObelix>
+									Don't have account?
+									<RedText> Sing up.</RedText>
+								</TextObelix>
+							) : (
+								<TextObelix>
+									Already have an account? <BlueText>Log in! </BlueText>
+								</TextObelix>
+							)}
 						</TouchableOpacity>
 					</InfoButtonsContainer>
 				</Fragment>

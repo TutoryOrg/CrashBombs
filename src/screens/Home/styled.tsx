@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
 import { scale, verticalScale } from "@src/utils/scaleFunctions";
-import { TextKomi, TextObelix } from "@components/Text";
+import { TextKomi, TextLucky, TextObelix } from "@components/Text";
 
 import type { DefaultTheme } from "styled-components";
 
@@ -177,6 +177,12 @@ export const UserInfoContent = styled.View`
 `;
 
 // :: BOTTOMINFO
+export const InfoSubTitle = styled(TextObelix)`
+	width: 60%;
+	padding: 3%;
+	text-align: center;
+`;
+
 export const InfoButtonsContainer = styled.View`
 	width: 88%;
 	height: ${verticalScale(180)}px;
@@ -184,22 +190,20 @@ export const InfoButtonsContainer = styled.View`
 	justify-content: space-around;
 `;
 
-export const InfoSubTitle = styled(TextObelix)`
-	width: 60%;
-	padding: 3%;
-	text-align: center;
-`;
-
 export const InfoButton = styled.TouchableOpacity`
 	width: 100%;
 	height: ${verticalScale(40)}px;
-	border-radius: 24px;	
+	border-radius: ${verticalScale(13)}px;	
+	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	background-color: lightgray;
+	background-color: ${(props: DefaultTheme) => props?.theme?.lightGray};
 `;
 
-export const InfoButtonText = styled(TextObelix)`
+export const InfoButtonText = styled(TextLucky)`
+	width: 60%;
+	text-align: left;
+	padding-left: ${verticalScale(10)}px;
 	font-size: ${verticalScale(fontSizes.small)}px;
-	color: ${(props: DefaultTheme) => props?.theme?.blackColor};
+	color: ${(props: DefaultTheme) => props?.theme?.txtGrayColor};
 `;

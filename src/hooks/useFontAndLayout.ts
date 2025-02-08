@@ -17,6 +17,7 @@ export function useFontsAndLayout() {
 				Font.loadAsync({
 					komi: require("../../assets/fonts/komi.ttf"),
 					obelix: require("../../assets/fonts/ObelixPro-cyr.ttf"),
+					lucky: require("../../assets/fonts/LuckiestGuy-Regular.ttf"),
 				}),
 			]);
 

@@ -13,3 +13,9 @@ export const TextKomi = styled.Text`
 	font-size: ${fontSizes.small}px;
 	color: ${(props: DefaultTheme) => props.theme.txtColor};
 `;
+
+export const TextLucky = styled.Text`
+	font-family: "lucky";
+	font-size: ${fontSizes.small}px;
+	color: ${(props: DefaultTheme) => props.theme.txtColor};
+`;
