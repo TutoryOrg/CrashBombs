@@ -16,8 +16,8 @@ export const ViewContainer = styled.SafeAreaView`
 
 export const HomeTitle = styled(TextKomi)`
     width: 80%;
-    height: 20%;
     text-align: center;
+    height: ${verticalScale(120)}px;
     line-height: ${verticalScale(35)}px;
     padding-top: ${verticalScale(35)}px;
     font-size: ${verticalScale(fontSizes.XXlarge)}px;

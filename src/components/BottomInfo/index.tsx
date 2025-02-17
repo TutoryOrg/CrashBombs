@@ -1,23 +1,23 @@
 import { type IUser, REGISTER } from "@src/utils/constants";
-import { verticalScale } from "@src/utils/scaleFunctions";
-import { isDefined } from "@src/utils/utils";
 import { useState } from "react";
+import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
-import { Image, TouchableOpacity, View } from "react-native";
+import { verticalScale } from "@src/utils/scaleFunctions";
 import { ContainerColumn } from "../Container";
+import { Image, TouchableOpacity, View } from "react-native";
 import {
-	UserInfoContainer,
-	TextInfoBlue,
 	TextInfo,
-	TextInfoRed,
-	UserNotContainer,
-	InfoSubTitle,
-	InfoButtonsContainer,
 	InfoButton,
-	InfoButtonText,
-	TextInfoPinkSmall,
-	InfoContainer,
 	InfoTitle,
+	TextInfoRed,
+	InfoSubTitle,
+	TextInfoBlue,
+	InfoContainer,
+	InfoButtonText,
+	UserNotContainer,
+	UserInfoContainer,
+	InfoButtonsContainer,
+	TextInfoPinkSmall,
 } from "./styled";
 
 const UserLoggedInfo = (props: { user: IUser | undefined }) => {
