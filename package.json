@@ -11,6 +11,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.0.6",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-google-signin/google-signin": "^13.1.0",
     "@redux-devtools/core": "~4.0.0",
     "@reduxjs/toolkit": "~2.5.0",
     "@rneui/themed": "^4.0.0-rc.8",

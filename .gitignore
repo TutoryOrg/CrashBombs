@@ -38,3 +38,7 @@ yarn-error.*
 #supbase
 ./src/utils/supabase.ts
 **/supabase.ts
+
+# android
+android/
+ios/

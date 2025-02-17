@@ -93,7 +93,9 @@ export const RedText = styled(TextObelix)`
     color: ${(props: DefaultTheme) => props?.theme?.redColor};
 `;
 
-export const LoginText = styled(TextObelix)``;
+export const LoginText = styled(TextObelix)`
+	font-size: ${moderateScale(fontSizes.normal)}px;
+`;
 
 export const TopFiveText = styled(TextObelix)`
     font-size: ${scale(fontSizes.xsmall)}px;
@@ -146,15 +148,6 @@ export const ButtonPlay = styled.TouchableOpacity`
 `;
 
 // :: BOTTOM SHEET INFO
-export const InfoContainer = styled.View<{ isLoggedIn: boolean }>`
-	flex: 1;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
-    background-color: ${(props: DefaultTheme) => props.theme.bgColor};
-	height: ${(props: DefaultTheme) => (props?.isLoggedIn ? verticalScale(200) : verticalScale(325))}px;
-`;
-
 export const InfoTitle = styled(TextObelix)`
 	margin-top: 3%;
 	font-size: ${verticalScale(fontSizes.Xlarge)}px;

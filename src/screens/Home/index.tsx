@@ -9,132 +9,24 @@ import {
 	TextUser,
 	TextTile,
 	LoginText,
-	InfoTitle,
 	HomeTitle,
 	UserStatus,
 	ButtonPlay,
-	InfoButton,
 	ButtonsText,
 	TopFiveText,
 	TextTopUser,
-	InfoSubTitle,
 	CounterNumber,
-	InfoContainer,
 	ViewContainer,
-	InfoButtonText,
 	ButtonSettings,
 	ScoreContainer,
-	UserInfoContent,
 	HeaderContainer,
 	CounterContainer,
 	ButtonsContainer,
 	TopUsersContainer,
-	UserInfoContainer,
-	InfoButtonsContainer,
 } from "./styled";
-import { fontSizes, REGISTER, type IUser } from "@src/utils/constants";
-import { TextObelix } from "@src/components/Text";
-import { TouchableOpacity } from "react-native";
+import type { IUser } from "@src/utils/constants";
 import { verticalScale } from "@src/utils/scaleFunctions";
-
-export const BottomInfo = (props: { user: IUser | undefined }) => {
-	const { user } = props;
-	const isLoggedIn = isDefined(user);
-	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
-	const isRegisterLogIn = register === REGISTER.LOG_IN;
-
-	const onRegisterLogIn = () => setRegister(REGISTER.LOG_IN);
-	const onRegisterSingUp = () => setRegister(REGISTER.SING_UP);
-
-	const onHandleLoginWithGoogle = () => {
-		console.log("loginWithGoogle");
-	};
-	const onHandleLoginWithFacebook = () => {
-		console.log("loginWithFacebook");
-	};
-	const onHandleLoginWithApple = () => {
-		console.log("loginWithApple");
-	};
-
-	const onHandleSingUpWithGoogle = () => {
-		console.log("signupWithGoogle");
-	};
-	const onHandleSingUpWithFacebook = () => {
-		console.log("signupWithFacebook");
-	};
-	const onHandleSingUpWithApple = () => {
-		console.log("signupWithApple");
-	};
-
-	return (
-		<InfoContainer isLoggedIn={isLoggedIn}>
-			<InfoTitle>Info</InfoTitle>
-			{isLoggedIn ? (
-				<Fragment>
-					<UserInfoContainer>
-						<UserInfoContent>
-							<BlueText>
-								name: <TextObelix>{user?.name}</TextObelix>
-							</BlueText>
-							<BlueText>
-								Nº ranking: <TextObelix>{user?.id}</TextObelix>
-							</BlueText>
-							<BlueText>
-								Best Score: <TextObelix>{user?.bestScore}</TextObelix>
-							</BlueText>
-							<BlueText>
-								Last Score: <TextObelix>{user?.lastScore}</TextObelix>
-							</BlueText>
-						</UserInfoContent>
-						<Image source={require("assets/loguser.png")} style={{ height: 100, width: 100 }} />
-					</UserInfoContainer>
-				</Fragment>
-			) : (
-				<Fragment>
-					<InfoSubTitle>
-						<TextObelix>Create an account or log in and race to the top to win </TextObelix>
-						<RedText>100K!</RedText>
-					</InfoSubTitle>
-					<InfoButtonsContainer>
-						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
-							<Image source={require("assets/google.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
-							<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
-						</InfoButton>
-						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
-							<Image
-								source={require("assets/facebook.png")}
-								style={{ height: verticalScale(20), width: verticalScale(20) }}
-							/>
-							<InfoButtonText children={isRegisterLogIn ? "Log in with Facebook" : "Sing up with Facebook"} />
-						</InfoButton>
-						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithApple : onHandleSingUpWithApple}>
-							<Image source={require("assets/apple.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
-							<InfoButtonText children={isRegisterLogIn ? "Log in with Apple" : "Sing up with Apple"} />
-						</InfoButton>
-						<TouchableOpacity onPress={isRegisterLogIn ? onRegisterSingUp : onRegisterLogIn}>
-							{isRegisterLogIn ? (
-								<TextObelix>
-									Don't have account?
-									<RedText> Sing up.</RedText>
-								</TextObelix>
-							) : (
-								<TextObelix>
-									Already have an account? <BlueText>Log in! </BlueText>
-								</TextObelix>
-							)}
-						</TouchableOpacity>
-					</InfoButtonsContainer>
-				</Fragment>
-			)}
-			<TextObelix style={{ paddingTop: 20, paddingBottom: 20 }}>
-				<TextObelix style={{ fontSize: `${verticalScale(fontSizes.xsmall)}` }}>
-					Check <BlueText style={{ fontSize: `${verticalScale(fontSizes.xsmall)}` }}>www.website.com</BlueText> for more
-					information!
-				</TextObelix>
-			</TextObelix>
-		</InfoContainer>
-	);
-};
+import { BottomInfo } from "@src/components/BottomInfo";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;
@@ -180,8 +72,8 @@ export const Counter = (props: { user: IUser | undefined; count: string; bottomS
 			) : (
 				<Fragment>
 					<LoginText>
-						Be <Image source={require("assets/star.png")} style={{ height: 12, width: 12 }} />1 and claim your{" "}
-						<RedText>$100K!</RedText>
+						Be <Image source={require("assets/star.png")} style={{ height: verticalScale(12), width: verticalScale(12) }} />1
+						and claim your <RedText>$100K!</RedText>
 					</LoginText>
 					<TopFiveText>
 						Make it to the top <RedText>5</RedText> and you could win <BlueText>$1M!</BlueText>

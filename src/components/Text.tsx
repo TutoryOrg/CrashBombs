@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
 import type { DefaultTheme } from "styled-components";
+import { verticalScale } from "@src/utils/scaleFunctions";
 
 export const TextObelix = styled.Text`
 	font-family: "obelix";
@@ -16,6 +17,6 @@ export const TextKomi = styled.Text`
 
 export const TextLucky = styled.Text`
 	font-family: "lucky";
-	font-size: ${fontSizes.small}px;
+	font-size: ${verticalScale(fontSizes.xsmall)}px;
 	color: ${(props: DefaultTheme) => props.theme.txtColor};
 `;
