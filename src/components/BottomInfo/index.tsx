@@ -1,5 +1,5 @@
-import { type IUser, REGISTER } from "@src/utils/constants";
-import { useState } from "react";
+import { type IUser, LOGIN, REG_METHOD, REGISTER } from "@src/utils/constants";
+import { Fragment, useState } from "react";
 import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
 import { verticalScale } from "@src/utils/scaleFunctions";
@@ -16,9 +16,10 @@ import {
 	InfoButtonText,
 	UserNotContainer,
 	UserInfoContainer,
-	InfoButtonsContainer,
 	TextInfoPinkSmall,
+	InfoButtonsContainer,
 } from "./styled";
+import { AuthEmail } from "../AuthEmail";
 
 const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
@@ -46,51 +47,75 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 
 const UserNotLoggedInfo = () => {
 	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
+	const [login, setLogin] = useState<REG_METHOD | undefined>();
+	const [singup, setSignUp] = useState<REG_METHOD | undefined>();
+
 	const isRegisterLogIn = register === REGISTER.LOG_IN;
 
-	const onRegisterLogIn = () => setRegister(REGISTER.LOG_IN);
-	const onRegisterSingUp = () => setRegister(REGISTER.SING_UP);
+	const onRegisterLogIn = () => {
+		setSignUp(undefined);
+		setRegister(REGISTER.LOG_IN);
+	};
+	const onRegisterSingUp = () => {
+		setLogin(undefined);
+		setRegister(REGISTER.SING_UP);
+	};
 
-	const onLoginEmail = () => console.log("onLoginEmail");
-	const onSignUpEmail = () => console.log("onSignUpEmail");
+	const onLoginEmail = () => setLogin(REG_METHOD.EMAIL);
+	const onSignUpEmail = () => setSignUp(REG_METHOD.EMAIL);
 
 	return (
 		<UserNotContainer>
-			<InfoSubTitle>
-				<TextInfo>
-					Create an <TextInfoBlue>account</TextInfoBlue> or log in and race to the top to win{" "}
-				</TextInfo>
-				<TextInfoRed>100K!</TextInfoRed>
-			</InfoSubTitle>
-			<InfoButtonsContainer>
-				<InfoButton onPress={isRegisterLogIn ? onLoginEmail : onSignUpEmail}>
-					<View style={{ width: "30%", alignItems: "flex-end" }}>
-						<Image source={require("assets/email.png")} style={{ height: verticalScale(26), width: verticalScale(26) }} />
-					</View>
-					<InfoButtonText children={isRegisterLogIn ? "Log in with email" : "Sing up with email"} />
-				</InfoButton>
-				{/* <InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
-					<View style={{ width: "25%", alignItems: "center" }}>
-						<Image source={require("assets/google.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
-					</View>
-					<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
-				</InfoButton>
+			{singup === REG_METHOD.EMAIL ? (
+				<Fragment>
+					<TextInfo>Sing Up with email</TextInfo>
+				</Fragment>
+			) : login === REG_METHOD.EMAIL ? (
+				<Fragment>
+					<TextInfo>log in with email</TextInfo>
+				</Fragment>
+			) : (
+				<Fragment>
+					<InfoSubTitle>
+						<TextInfo>
+							Create an <TextInfoBlue>account</TextInfoBlue> or log in and race to the top to win{" "}
+						</TextInfo>
+						<TextInfoRed>100K!</TextInfoRed>
+					</InfoSubTitle>
+					<InfoButtonsContainer>
+						<InfoButton onPress={isRegisterLogIn ? onLoginEmail : onSignUpEmail}>
+							<View style={{ width: "30%", alignItems: "flex-end" }}>
+								<Image
+									source={require("assets/email.png")}
+									style={{ height: verticalScale(26), width: verticalScale(26) }}
+								/>
+							</View>
+							<InfoButtonText children={isRegisterLogIn ? "Log in with email" : "Sing up with email"} />
+						</InfoButton>
 
-				<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
-					<View style={{ width: "25%", alignItems: "center" }}>
-						<Image source={require("assets/facebook.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
-					</View>
-					<InfoButtonText children={isRegisterLogIn ? "Log in with Facebook" : "Sing up with Facebook"} />
-				</InfoButton>
+						{/*<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
+							<View style={{ width: "25%", alignItems: "center" }}>
+								<Image source={require("assets/google.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
+							</View>
+							<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
+						</InfoButton>
 
-				<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithApple : onHandleSingUpWithApple}>
-					<View style={{ width: "25%", alignItems: "center" }}>
-						<Image source={require("assets/apple.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
-					</View>
-					<InfoButtonText children={isRegisterLogIn ? "Log in with Apple" : "Sing up with Apple"} />
-				</InfoButton> */}
-			</InfoButtonsContainer>
+						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
+							<View style={{ width: "25%", alignItems: "center" }}>
+								<Image source={require("assets/facebook.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
+							</View>
+							<InfoButtonText children={isRegisterLogIn ? "Log in with Facebook" : "Sing up with Facebook"} />
+						</InfoButton>
 
+						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithApple : onHandleSingUpWithApple}>
+							<View style={{ width: "25%", alignItems: "center" }}>
+								<Image source={require("assets/apple.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
+							</View>
+							<InfoButtonText children={isRegisterLogIn ? "Log in with Apple" : "Sing up with Apple"} />
+						</InfoButton> */}
+					</InfoButtonsContainer>
+				</Fragment>
+			)}
 			<TouchableOpacity onPress={isRegisterLogIn ? onRegisterSingUp : onRegisterLogIn}>
 				{isRegisterLogIn ? (
 					<TextInfoPinkSmall>

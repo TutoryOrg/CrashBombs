@@ -8,6 +8,11 @@ export enum REGISTER {
 	SING_UP = "SING_UP",
 }
 
+export enum REG_METHOD {
+	EMAIL = "EMAIL",
+	GMAIL = "GMAIL",
+}
+
 export const fontSizes = {
 	xsmall: 12,
 	small: 14,
