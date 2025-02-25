@@ -10,7 +10,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 export default function App() {
 	const store = useAppState();
 	const { fontsLoaded } = useFontsAndLayout();
-
 	if (!fontsLoaded) return null;
 
 	return (

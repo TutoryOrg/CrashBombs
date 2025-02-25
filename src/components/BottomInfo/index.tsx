@@ -18,6 +18,7 @@ import {
 	UserInfoContainer,
 	TextInfoPinkSmall,
 	InfoButtonsContainer,
+	NotHaveAccountOptions,
 } from "./styled";
 import { AuthEmail } from "../AuthEmail";
 
@@ -46,9 +47,9 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 };
 
 const UserNotLoggedInfo = () => {
-	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
 	const [login, setLogin] = useState<REG_METHOD | undefined>();
 	const [singup, setSignUp] = useState<REG_METHOD | undefined>();
+	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
 
 	const isRegisterLogIn = register === REGISTER.LOG_IN;
 
@@ -68,11 +69,11 @@ const UserNotLoggedInfo = () => {
 		<UserNotContainer>
 			{singup === REG_METHOD.EMAIL ? (
 				<Fragment>
-					<TextInfo>Sing Up with email</TextInfo>
+					<AuthEmail register={register} />
 				</Fragment>
 			) : login === REG_METHOD.EMAIL ? (
 				<Fragment>
-					<TextInfo>log in with email</TextInfo>
+					<AuthEmail register={register} />
 				</Fragment>
 			) : (
 				<Fragment>
@@ -116,7 +117,7 @@ const UserNotLoggedInfo = () => {
 					</InfoButtonsContainer>
 				</Fragment>
 			)}
-			<TouchableOpacity onPress={isRegisterLogIn ? onRegisterSingUp : onRegisterLogIn}>
+			<NotHaveAccountOptions onPress={isRegisterLogIn ? onRegisterSingUp : onRegisterLogIn}>
 				{isRegisterLogIn ? (
 					<TextInfoPinkSmall>
 						Don't have account?
@@ -127,7 +128,7 @@ const UserNotLoggedInfo = () => {
 						Already have an account? <TextInfoBlue>Log in! </TextInfoBlue>
 					</TextInfoPinkSmall>
 				)}
-			</TouchableOpacity>
+			</NotHaveAccountOptions>
 		</UserNotContainer>
 	);
 };

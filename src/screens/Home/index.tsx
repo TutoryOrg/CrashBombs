@@ -1,5 +1,7 @@
 import _ from "lodash";
 import { isDefined } from "@src/utils/utils";
+import { BottomInfo } from "@src/components/BottomInfo";
+import { verticalScale } from "@src/utils/scaleFunctions";
 import { type Ref, Fragment, useCallback, useRef, useState } from "react";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import {
@@ -25,8 +27,6 @@ import {
 	TopUsersContainer,
 } from "./styled";
 import type { IUser } from "@src/utils/constants";
-import { verticalScale } from "@src/utils/scaleFunctions";
-import { BottomInfo } from "@src/components/BottomInfo";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;

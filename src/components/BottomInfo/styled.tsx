@@ -87,3 +87,12 @@ export const InfoButtonText = styled(TextLucky)`
 	font-size: ${verticalScale(fontSizes.small)}px;
 	color: ${(props: DefaultTheme) => props?.theme?.txtGrayColor};
 `;
+
+export const NotHaveAccountOptions = styled.TouchableOpacity`
+	z-index: 9;
+	width: 100%;
+	height: ${verticalScale(20)}px;
+	align-items: center;
+	justify-content: center;
+	background-color: ${(props: DefaultTheme) => props?.theme?.bgColor};
+`;

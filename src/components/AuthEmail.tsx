@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button, Input } from "@rneui/themed";
 import { supabase } from "@src/utils/supabase";
+import { REGISTER } from "@src/utils/constants";
+import _ from "lodash";
 
-export const AuthEmail = () => {
+export const AuthEmail = (props: { register: REGISTER }) => {
+	const { register } = props;
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -36,7 +39,7 @@ export const AuthEmail = () => {
 
 	return (
 		<View style={styles.container}>
-			<View style={[styles.verticallySpaced, styles.mt20]}>
+			<View style={{}}>
 				<Input
 					label="Email"
 					leftIcon={{ type: "font-awesome", name: "envelope" }}
@@ -44,9 +47,10 @@ export const AuthEmail = () => {
 					value={email}
 					placeholder="email@address.com"
 					autoCapitalize={"none"}
+					inputStyle={{ color: "white" }}
 				/>
 			</View>
-			<View style={styles.verticallySpaced}>
+			<View style={{}}>
 				<Input
 					label="Password"
 					leftIcon={{ type: "font-awesome", name: "lock" }}
@@ -55,30 +59,25 @@ export const AuthEmail = () => {
 					secureTextEntry={true}
 					placeholder="Password"
 					autoCapitalize={"none"}
+					inputStyle={{ color: "white" }}
 				/>
 			</View>
-			<View style={[styles.verticallySpaced, styles.mt20]}>
-				<Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
-			</View>
-			<View style={styles.verticallySpaced}>
-				<Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
-			</View>
+			{_.isEqual(register, REGISTER.SING_UP) ? (
+				<View style={{}}>
+					<Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
+				</View>
+			) : (
+				<View style={{}}>
+					<Button title="Log in" disabled={loading} onPress={() => signInWithEmail()} />
+				</View>
+			)}
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 40,
 		padding: 12,
 		width: "100%",
-	},
-	verticallySpaced: {
-		paddingTop: 4,
-		paddingBottom: 4,
-		alignSelf: "stretch",
-	},
-	mt20: {
-		marginTop: 20,
 	},
 });

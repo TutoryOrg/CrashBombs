@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "bio.thor",
     "name": "crash-bombs",
     "slug": "crash-bombs",
     "version": "1.0.0",
