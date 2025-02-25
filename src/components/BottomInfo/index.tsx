@@ -1,10 +1,11 @@
-import { type IUser, LOGIN, REG_METHOD, REGISTER } from "@src/utils/constants";
-import { Fragment, useState } from "react";
+import { type IUser, REG_METHOD, REGISTER } from "@src/utils/constants";
+import { AuthEmail } from "../AuthEmail";
 import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
+import { Image, View } from "react-native";
 import { verticalScale } from "@src/utils/scaleFunctions";
 import { ContainerColumn } from "../Container";
-import { Image, TouchableOpacity, View } from "react-native";
+import { Fragment, useState } from "react";
 import {
 	TextInfo,
 	InfoButton,
@@ -20,7 +21,6 @@ import {
 	InfoButtonsContainer,
 	NotHaveAccountOptions,
 } from "./styled";
-import { AuthEmail } from "../AuthEmail";
 
 const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;

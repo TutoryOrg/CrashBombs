@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
-import { Button, Input } from "@rneui/themed";
 import { supabase } from "@src/utils/supabase";
 import { REGISTER } from "@src/utils/constants";
+import { Button, Input } from "@rneui/themed";
+import React, { useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 import _ from "lodash";
 
 export const AuthEmail = (props: { register: REGISTER }) => {
