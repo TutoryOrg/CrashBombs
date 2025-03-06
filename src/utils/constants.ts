@@ -24,9 +24,9 @@ export const fontSizes = {
 };
 
 export interface IUser {
-	id: number;
-	ranking: number;
-	name: string;
-	bestScore: number;
-	lastScore: number;
+	id: string;
+	ranking: string;
+	username: string;
+	bestScore: string;
+	lastScore: string;
 }

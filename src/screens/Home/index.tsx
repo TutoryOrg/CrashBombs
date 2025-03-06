@@ -93,7 +93,7 @@ export const GlobalScore = (props: { topUsers: IUser[] }) => {
 				return (
 					<TopUsersContainer key={index} index={user?.ranking}>
 						<TextTopUser>
-							{user?.ranking === 1 ? (
+							{Number(user?.ranking) === 1 ? (
 								<Fragment>
 									<Image source={require("assets/star.png")} style={{ height: 12, width: 12 }} />
 									{user?.ranking}
@@ -101,7 +101,7 @@ export const GlobalScore = (props: { topUsers: IUser[] }) => {
 							) : (
 								`#${user?.ranking}`
 							)}
-							{`  ${user?.name}`}
+							{`  ${user?.username}`}
 						</TextTopUser>
 						<TextTopUser>{user?.bestScore}</TextTopUser>
 					</TopUsersContainer>
@@ -118,25 +118,25 @@ export const Header = (props: { user: IUser | undefined }) => {
 	return (
 		<HeaderContainer isLoggedIn={isLoggedIn}>
 			<UserStatus isLoggedIn={isLoggedIn}>
-				<TextUser>#{user?.id}</TextUser>
-				<TextUser>{user?.name}</TextUser>
+				<TextUser>#{user?.ranking}</TextUser>
+				<TextUser>{user?.username}</TextUser>
 			</UserStatus>
 			<Image source={isLoggedIn ? require("assets/loguser.png") : require("assets/user.png")} />
 		</HeaderContainer>
 	);
 };
 
-export const Home = (props: { onHandleClickPlay: () => void }) => {
-	const { onHandleClickPlay } = props;
+export const Home = (props: { user: IUser | undefined; onHandleClickPlay: () => void }) => {
+	const { onHandleClickPlay, user } = props;
 	const [count] = useState("182:24:59");
 	// const [user] = useState<IUser | undefined>({ id: 201, name: "user_001", ranking: 291, bestScore: 180, lastScore: 99 });
-	const user = undefined;
+	// const user = undefined;
 	const [topUsers] = useState([
-		{ id: 1, name: "user_001", ranking: 1, bestScore: 100, lastScore: 0 },
-		{ id: 2, name: "user_002", ranking: 2, bestScore: 90, lastScore: 0 },
-		{ id: 3, name: "user_003", ranking: 3, bestScore: 80, lastScore: 0 },
-		{ id: 4, name: "user_004", ranking: 4, bestScore: 70, lastScore: 0 },
-		{ id: 5, name: "user_005", ranking: 5, bestScore: 60, lastScore: 0 },
+		{ id: 1, username: "user_001", ranking: 1, bestScore: 100, lastScore: 0 },
+		{ id: 2, username: "user_002", ranking: 2, bestScore: 90, lastScore: 0 },
+		{ id: 3, username: "user_003", ranking: 3, bestScore: 80, lastScore: 0 },
+		{ id: 4, username: "user_004", ranking: 4, bestScore: 70, lastScore: 0 },
+		{ id: 5, username: "user_005", ranking: 5, bestScore: 60, lastScore: 0 },
 	]);
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);

@@ -25,7 +25,7 @@ export const AuthEmail = (props: { register: REGISTER }) => {
 	async function signUpWithEmail() {
 		setLoading(true);
 		const {
-			data: { session },
+			data: { user, session },
 			error,
 		} = await supabase.auth.signUp({
 			email: email,
@@ -33,7 +33,7 @@ export const AuthEmail = (props: { register: REGISTER }) => {
 		});
 
 		if (error) Alert.alert(error.message);
-		if (!session) Alert.alert("Please check your inbox for email verification!");
+		else if (!session) Alert.alert("Please check your inbox for email verification!");
 		setLoading(false);
 	}
 

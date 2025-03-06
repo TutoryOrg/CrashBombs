@@ -29,7 +29,7 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 		<UserInfoContainer>
 			<ContainerColumn>
 				<TextInfoBlue>
-					Name: <TextInfo> {user?.name} </TextInfo>
+					Name: <TextInfo> {user?.username} </TextInfo>
 				</TextInfoBlue>
 				<TextInfoBlue>
 					nºRanking: <TextInfo> #{user?.ranking} </TextInfo>
@@ -49,7 +49,7 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 const UserNotLoggedInfo = () => {
 	const [login, setLogin] = useState<REG_METHOD | undefined>();
 	const [singup, setSignUp] = useState<REG_METHOD | undefined>();
-	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
+	const [register, setRegister] = useState<REGISTER>(REGISTER.SING_UP);
 
 	const isRegisterLogIn = register === REGISTER.LOG_IN;
 
