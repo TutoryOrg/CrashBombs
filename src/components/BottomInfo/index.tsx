@@ -21,9 +21,18 @@ import {
 	InfoButtonsContainer,
 	NotHaveAccountOptions,
 } from "./styled";
+import { createAvatar } from "@dicebear/core";
+import { avataaarsNeutral } from "@dicebear/collection";
+
+import { SvgXml } from "react-native-svg";
 
 const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
+
+	const avatar = createAvatar(avataaarsNeutral, {
+		seed: user?.username,
+		radius: 10,
+	}).toString();
 
 	return (
 		<UserInfoContainer>
@@ -41,7 +50,7 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 					Best Score: <TextInfoRed> {user?.bestScore} </TextInfoRed>
 				</TextInfoBlue>
 			</ContainerColumn>
-			<Image source={require("assets/loguser.png")} style={{ height: verticalScale(100), width: verticalScale(100) }} />
+			<SvgXml height={100} width={100} xml={avatar} />
 		</UserInfoContainer>
 	);
 };

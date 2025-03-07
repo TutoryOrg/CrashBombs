@@ -9,6 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@dicebear/collection": "^9.2.2",
+    "@dicebear/core": "^9.2.2",
     "@gorhom/bottom-sheet": "^5.0.6",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-google-signin/google-signin": "^13.1.0",
@@ -29,6 +31,7 @@
     "react-i18next": "~15.4.0",
     "react-native": "0.76.6",
     "react-native-gesture-handler": "^2.22.1",
+    "react-native-svg": "^15.11.2",
     "react-native-url-polyfill": "^2.0.0",
     "react-redux": "~9.2.0",
     "styled-components": "~6.1.14"
