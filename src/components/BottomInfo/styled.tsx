@@ -30,15 +30,14 @@ export const InfoTitle = styled(TextLucky)`
     color: ${(props: DefaultTheme) => props.theme.blueColor};
 `;
 
-export const InfoContainer = styled.View<{ isLoggedIn: boolean }>`
+export const InfoContainer = styled.View<{ isLoggedIn: boolean; windowHeight: number }>`	
 	flex: 1;
 	width: 100%;
 	align-items: center;
 	justify-content: center;
     background-color: ${(props: DefaultTheme) => props.theme.bgColor};
-    height: ${verticalScale(290)}px;
+    height: ${(props) => (props.windowHeight < 650 ? verticalScale(400) : verticalScale(300))}px;
 `;
-// height: ${(props: DefaultTheme) => (props?.isLoggedIn ? verticalScale(240) : verticalScale(350))}px;
 
 export const UserInfoContainer = styled.View`
 	flex: 1;

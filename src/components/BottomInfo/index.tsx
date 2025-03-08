@@ -5,7 +5,7 @@ import { TextLucky } from "../Text";
 import { Image, View } from "react-native";
 import { createAvatar } from "@dicebear/core";
 import type { Session } from "@supabase/supabase-js";
-import { verticalScale } from "@src/utils/scaleFunctions";
+import { verticalScale, windowHeight } from "@src/utils/scaleFunctions";
 import { ContainerColumn } from "../Container";
 import { avataaarsNeutral } from "@dicebear/collection";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -150,7 +150,7 @@ export const BottomInfo = (props: {
 	const isLoggedIn = isDefined(user);
 
 	return (
-		<InfoContainer isLoggedIn={isLoggedIn}>
+		<InfoContainer isLoggedIn={isLoggedIn} windowHeight={windowHeight}>
 			<InfoTitle>Player Info</InfoTitle>
 			{isLoggedIn ? (
 				<UserLoggedInfo user={user} />
