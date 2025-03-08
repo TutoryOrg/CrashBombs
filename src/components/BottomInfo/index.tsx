@@ -1,11 +1,16 @@
-import { type IUser, REG_METHOD, REGISTER } from "@src/utils/constants";
+import { SvgXml } from "react-native-svg";
 import { AuthEmail } from "../AuthEmail";
 import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
 import { Image, View } from "react-native";
+import { createAvatar } from "@dicebear/core";
+import type { Session } from "@supabase/supabase-js";
 import { verticalScale } from "@src/utils/scaleFunctions";
 import { ContainerColumn } from "../Container";
-import { Fragment, useState } from "react";
+import { avataaarsNeutral } from "@dicebear/collection";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Fragment, type Ref, useState } from "react";
+import { type IUser, REG_METHOD, REGISTER } from "@src/utils/constants";
 import {
 	TextInfo,
 	InfoButton,
@@ -21,17 +26,13 @@ import {
 	InfoButtonsContainer,
 	NotHaveAccountOptions,
 } from "./styled";
-import { createAvatar } from "@dicebear/core";
-import { avataaarsNeutral } from "@dicebear/collection";
-
-import { SvgXml } from "react-native-svg";
 
 const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
 
 	const avatar = createAvatar(avataaarsNeutral, {
-		seed: user?.id,
-		radius: 10,
+		seed: user?.avatar_url,
+		radius: verticalScale(10),
 	}).toString();
 
 	return (
@@ -50,12 +51,13 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 					Best Score: <TextInfoRed> {user?.bestScore} </TextInfoRed>
 				</TextInfoBlue>
 			</ContainerColumn>
-			<SvgXml height={100} width={100} xml={avatar} />
+			<SvgXml height={verticalScale(84)} width={verticalScale(84)} xml={avatar} />
 		</UserInfoContainer>
 	);
 };
 
-const UserNotLoggedInfo = () => {
+const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; setSession: (session: Session) => void }) => {
+	const { bottomSheetModalRef, setSession } = props;
 	const [login, setLogin] = useState<REG_METHOD | undefined>();
 	const [singup, setSignUp] = useState<REG_METHOD | undefined>();
 	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
@@ -77,13 +79,9 @@ const UserNotLoggedInfo = () => {
 	return (
 		<UserNotContainer>
 			{singup === REG_METHOD.EMAIL ? (
-				<Fragment>
-					<AuthEmail register={register} />
-				</Fragment>
+				<AuthEmail register={register} bottomSheetModalRef={bottomSheetModalRef} setSession={setSession} />
 			) : login === REG_METHOD.EMAIL ? (
-				<Fragment>
-					<AuthEmail register={register} />
-				</Fragment>
+				<AuthEmail register={register} bottomSheetModalRef={bottomSheetModalRef} setSession={setSession} />
 			) : (
 				<Fragment>
 					<InfoSubTitle>
@@ -142,14 +140,23 @@ const UserNotLoggedInfo = () => {
 	);
 };
 
-export const BottomInfo = (props: { user: IUser | undefined }) => {
+export const BottomInfo = (props: {
+	user: IUser | undefined;
+	setSession: (session: Session) => void;
+	bottomSheetModalRef: Ref<BottomSheetModal>;
+}) => {
+	const { bottomSheetModalRef, setSession } = props;
 	const { user } = props;
 	const isLoggedIn = isDefined(user);
 
 	return (
 		<InfoContainer isLoggedIn={isLoggedIn}>
 			<InfoTitle>Player Info</InfoTitle>
-			{isLoggedIn ? <UserLoggedInfo user={user} /> : <UserNotLoggedInfo />}
+			{isLoggedIn ? (
+				<UserLoggedInfo user={user} />
+			) : (
+				<UserNotLoggedInfo setSession={setSession} bottomSheetModalRef={bottomSheetModalRef} />
+			)}
 			<TextLucky>
 				Check <TextInfoBlue>www.website.com</TextInfoBlue> for more information!
 			</TextLucky>

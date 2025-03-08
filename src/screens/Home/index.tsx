@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { isDefined } from "@src/utils/utils";
 import { BottomInfo } from "@src/components/BottomInfo";
+import type { Session } from "@supabase/supabase-js";
 import { verticalScale } from "@src/utils/scaleFunctions";
 import { type Ref, Fragment, useCallback, useRef, useState } from "react";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
@@ -27,6 +28,9 @@ import {
 	TopUsersContainer,
 } from "./styled";
 import type { IUser } from "@src/utils/constants";
+import { createAvatar } from "@dicebear/core";
+import { avataaarsNeutral } from "@dicebear/collection";
+import { SvgXml } from "react-native-svg";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;
@@ -115,22 +119,29 @@ export const Header = (props: { user: IUser | undefined }) => {
 	const { user } = props;
 	const isLoggedIn = isDefined(user);
 
+	const avatar = createAvatar(avataaarsNeutral, {
+		seed: user?.avatar_url,
+		radius: verticalScale(45),
+	}).toString();
+
 	return (
 		<HeaderContainer isLoggedIn={isLoggedIn}>
 			<UserStatus isLoggedIn={isLoggedIn}>
-				<TextUser>#{user?.ranking}</TextUser>
+				<TextUser># {user?.ranking} </TextUser>
 				<TextUser>{user?.username}</TextUser>
 			</UserStatus>
-			<Image source={isLoggedIn ? require("assets/loguser.png") : require("assets/user.png")} />
+			{isLoggedIn ? (
+				<SvgXml height={verticalScale(40)} width={verticalScale(40)} xml={avatar} />
+			) : (
+				<Image height={verticalScale(40)} width={verticalScale(40)} source={require("assets/user.png")} />
+			)}
 		</HeaderContainer>
 	);
 };
 
-export const Home = (props: { user: IUser | undefined; onHandleClickPlay: () => void }) => {
-	const { onHandleClickPlay, user } = props;
+export const Home = (props: { user: IUser | undefined; setSession: (session: Session) => void; onHandleClickPlay: () => void }) => {
+	const { onHandleClickPlay, user, setSession } = props;
 	const [count] = useState("182:24:59");
-	// const [user] = useState<IUser | undefined>({ id: 201, name: "user_001", ranking: 291, bestScore: 180, lastScore: 99 });
-	// const user = undefined;
 	const [topUsers] = useState([
 		{ id: 1, username: "user_001", ranking: 1, bestScore: 100, lastScore: 0 },
 		{ id: 2, username: "user_002", ranking: 2, bestScore: 90, lastScore: 0 },
@@ -155,7 +166,7 @@ export const Home = (props: { user: IUser | undefined; onHandleClickPlay: () => 
 			<BottomSheetModalProvider>
 				<BottomSheetModal ref={bottomSheetModalRef} onChange={handleSheetChanges}>
 					<BottomSheetView style={{ flex: 1 }}>
-						<BottomInfo user={user} />
+						<BottomInfo user={user} setSession={setSession} bottomSheetModalRef={bottomSheetModalRef} />
 					</BottomSheetView>
 				</BottomSheetModal>
 			</BottomSheetModalProvider>

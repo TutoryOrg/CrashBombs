@@ -1,56 +1,16 @@
+import { Screens } from "@src/utils/constants";
 import { supabase } from "@src/utils/supabase";
 import { Game, Home } from "@src/screens";
+import { useProfile } from "@src/hooks/useProfile";
 import type { Session } from "@supabase/supabase-js";
-import { Alert, SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
-import { type IUser, Screens } from "@src/utils/constants";
 
 export const Menu = () => {
 	const [screen, setScreen] = useState<Screens>(Screens.HOME);
-
-	setTimeout(() => {
-		if (screen === Screens.GAME) {
-			setScreen(Screens.HOME);
-		}
-	}, 1000);
-
-	const [user, setUser] = useState<IUser | undefined>();
 	const [session, setSession] = useState<Session | null>(null);
-	const [loading, setLoading] = useState(true);
 
-	async function getProfile() {
-		try {
-			setLoading(true);
-			if (!session?.user) throw new Error("No user on the session!");
-
-			const { data, error, status } = await supabase
-				.from("profiles")
-				.select(`username, ranking, lastscore, bestscore, avatar_url`)
-				.eq("id", session?.user.id)
-				.single();
-			if (error && status !== 406) {
-				throw error;
-			}
-
-			if (data) {
-				const { username, ranking, lastscore, bestscore, avatar_url } = data;
-				setUser({
-					id: session?.user.id,
-					username,
-					ranking,
-					lastscore,
-					bestscore,
-					avatar_url,
-				});
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				Alert.alert(error.message);
-			}
-		} finally {
-			setLoading(false);
-		}
-	}
+	const { user, loading, fetchProfile } = useProfile();
 
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
@@ -62,12 +22,21 @@ export const Menu = () => {
 	}, []);
 
 	useEffect(() => {
-		if (session) getProfile();
+		if (session) {
+			console.log("session");
+			fetchProfile(session?.user.id);
+		}
 	}, [session]);
+
+	setTimeout(() => {
+		if (screen === Screens.GAME) {
+			setScreen(Screens.HOME);
+		}
+	}, 1000);
 
 	return (
 		<SafeAreaView>
-			{screen === Screens.HOME && <Home user={user} onHandleClickPlay={() => setScreen(Screens.GAME)} />}
+			{screen === Screens.HOME && <Home user={user} setSession={setSession} onHandleClickPlay={() => setScreen(Screens.GAME)} />}
 			{screen === Screens.GAME && <Game />}
 		</SafeAreaView>
 	);

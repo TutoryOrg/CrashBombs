@@ -1,24 +1,35 @@
 import { supabase } from "@src/utils/supabase";
 import { REGISTER } from "@src/utils/constants";
 import { Button, Input } from "@rneui/themed";
-import React, { useState } from "react";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Alert, StyleSheet, View } from "react-native";
+import React, { type Ref, useState } from "react";
 import _ from "lodash";
+import { Session } from "@supabase/supabase-js";
 
-export const AuthEmail = (props: { register: REGISTER }) => {
-	const { register } = props;
+export const AuthEmail = (props: {
+	register: REGISTER;
+	bottomSheetModalRef: Ref<BottomSheetModal>;
+	setSession: (session: Session) => void;
+}) => {
+	const { register, bottomSheetModalRef, setSession } = props;
 	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [password, setPassword] = useState("");
 
 	async function signInWithEmail() {
 		setLoading(true);
-		const { error } = await supabase.auth.signInWithPassword({
+		const { error, data } = await supabase.auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
 
 		if (error) Alert.alert(error.message);
+		else {
+			const { session } = data;
+			setSession(session);
+			bottomSheetModalRef?.current?.dismiss();
+		}
 		setLoading(false);
 	}
 
