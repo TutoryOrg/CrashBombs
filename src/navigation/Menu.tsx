@@ -1,8 +1,8 @@
 import { supabase } from "@src/utils/supabase";
 import { Game, Home } from "@src/screens";
+import type { Session } from "@supabase/supabase-js";
 import { Alert, SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
 import { type IUser, Screens } from "@src/utils/constants";
 
 export const Menu = () => {
@@ -25,7 +25,7 @@ export const Menu = () => {
 
 			const { data, error, status } = await supabase
 				.from("profiles")
-				.select(`username, ranking, lastscore, bestscore`)
+				.select(`username, ranking, lastscore, bestscore, avatar_url`)
 				.eq("id", session?.user.id)
 				.single();
 			if (error && status !== 406) {
@@ -33,9 +33,15 @@ export const Menu = () => {
 			}
 
 			if (data) {
-				console.log({ data });
-				const { username, ranking, lastscore, bestscore } = data;
-				setUser({ id: session?.user.id, username: username, ranking, lastScore: lastscore, bestScore: bestscore });
+				const { username, ranking, lastscore, bestscore, avatar_url } = data;
+				setUser({
+					id: session?.user.id,
+					username,
+					ranking,
+					lastscore,
+					bestscore,
+					avatar_url,
+				});
 			}
 		} catch (error) {
 			if (error instanceof Error) {

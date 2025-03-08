@@ -30,7 +30,7 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
 
 	const avatar = createAvatar(avataaarsNeutral, {
-		seed: user?.username,
+		seed: user?.id,
 		radius: 10,
 	}).toString();
 
@@ -58,7 +58,7 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 const UserNotLoggedInfo = () => {
 	const [login, setLogin] = useState<REG_METHOD | undefined>();
 	const [singup, setSignUp] = useState<REG_METHOD | undefined>();
-	const [register, setRegister] = useState<REGISTER>(REGISTER.SING_UP);
+	const [register, setRegister] = useState<REGISTER>(REGISTER.LOG_IN);
 
 	const isRegisterLogIn = register === REGISTER.LOG_IN;
 

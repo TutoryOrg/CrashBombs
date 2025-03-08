@@ -27,6 +27,7 @@ export interface IUser {
 	id: string;
 	ranking: string;
 	username: string;
-	bestScore: string;
-	lastScore: string;
+	bestscore: string;
+	lastscore: string;
+	avatar_url: string;
 }

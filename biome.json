@@ -21,14 +21,15 @@
 	},
 	"linter": {
 		"enabled": true,
-
 		"rules": {
 			"recommended": true,
 			"suspicious": {
-				"noArrayIndexKey": "off"
+				"noArrayIndexKey": "off",
+				"noExplicitAny": "off"
 			},
 			"correctness": {
-				"noChildrenProp": "off"
+				"noChildrenProp": "off",
+				"useExhaustiveDependencies": "off"
 			}
 		}
 	},
