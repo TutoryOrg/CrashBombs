@@ -5,10 +5,10 @@ import { TextLucky } from "../Text";
 import { Image, View } from "react-native";
 import { createAvatar } from "@dicebear/core";
 import type { Session } from "@supabase/supabase-js";
-import { verticalScale, windowHeight } from "@src/utils/scaleFunctions";
 import { ContainerColumn } from "../Container";
 import { avataaarsNeutral } from "@dicebear/collection";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { verticalScale, windowHeight } from "@src/utils/scaleFunctions";
 import { Fragment, type Ref, useState } from "react";
 import { type IUser, REG_METHOD, REGISTER } from "@src/utils/constants";
 import {

@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
-import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
 import { TextKomi, TextLucky, TextObelix } from "@components/Text";
+import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
 
 import type { DefaultTheme } from "styled-components";
 

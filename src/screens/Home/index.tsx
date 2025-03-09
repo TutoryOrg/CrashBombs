@@ -1,8 +1,12 @@
 import _ from "lodash";
+import { SvgXml } from "react-native-svg";
 import { isDefined } from "@src/utils/utils";
 import { BottomInfo } from "@src/components/BottomInfo";
+import type { IUser } from "@src/utils/constants";
 import type { Session } from "@supabase/supabase-js";
+import { createAvatar } from "@dicebear/core";
 import { verticalScale } from "@src/utils/scaleFunctions";
+import { avataaarsNeutral } from "@dicebear/collection";
 import { type Ref, Fragment, useCallback, useRef, useState } from "react";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import {
@@ -27,10 +31,6 @@ import {
 	ButtonsContainer,
 	TopUsersContainer,
 } from "./styled";
-import type { IUser } from "@src/utils/constants";
-import { createAvatar } from "@dicebear/core";
-import { avataaarsNeutral } from "@dicebear/collection";
-import { SvgXml } from "react-native-svg";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;
