@@ -127,8 +127,8 @@ export const Header = (props: { user: IUser | undefined }) => {
 	return (
 		<HeaderContainer isLoggedIn={isLoggedIn}>
 			<UserStatus isLoggedIn={isLoggedIn}>
-				<TextUser># {user?.ranking} </TextUser>
-				<TextUser>{user?.username}</TextUser>
+				<TextUser># {user?.ranking}</TextUser>
+				<TextUser>{`  ${user?.username}`}</TextUser>
 			</UserStatus>
 			{isLoggedIn ? (
 				<SvgXml height={verticalScale(40)} width={verticalScale(40)} xml={avatar} />

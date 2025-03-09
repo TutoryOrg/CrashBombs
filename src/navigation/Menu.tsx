@@ -22,16 +22,11 @@ export const Menu = () => {
 	}, []);
 
 	useEffect(() => {
-		if (session) {
-			console.log("session");
-			fetchProfile(session?.user.id);
-		}
+		if (session) fetchProfile(session?.user.id);
 	}, [session]);
 
 	setTimeout(() => {
-		if (screen === Screens.GAME) {
-			setScreen(Screens.HOME);
-		}
+		if (screen === Screens.GAME) setScreen(Screens.HOME);
 	}, 1000);
 
 	return (

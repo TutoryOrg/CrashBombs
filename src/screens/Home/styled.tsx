@@ -35,9 +35,8 @@ export const HeaderContainer = styled.View<{ isLoggedIn: boolean }>`
 `;
 
 export const UserStatus = styled.View<{ isLoggedIn: boolean }>`
-	width: ${verticalScale(150)}px;
+	width: 80%;
 	flex-direction: row;
-	justify-content: space-between;
 	display: ${(props: DefaultTheme) => (props.isLoggedIn ? "flex" : "none")};	
 `;
 

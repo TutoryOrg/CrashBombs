@@ -1,11 +1,11 @@
 import { supabase } from "@src/utils/supabase";
 import { REGISTER } from "@src/utils/constants";
+import type { Session } from "@supabase/supabase-js";
 import { Button, Input } from "@rneui/themed";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Alert, StyleSheet, View } from "react-native";
 import React, { type Ref, useState } from "react";
 import _ from "lodash";
-import { Session } from "@supabase/supabase-js";
 
 export const AuthEmail = (props: {
 	register: REGISTER;
@@ -52,38 +52,34 @@ export const AuthEmail = (props: {
 
 	return (
 		<View style={styles.container}>
-			<View style={{}}>
-				<Input
-					label="Email"
-					leftIcon={{ type: "font-awesome", name: "envelope" }}
-					onChangeText={(text) => setEmail(text)}
-					value={email}
-					placeholder="email@address.com"
-					autoCapitalize={"none"}
-					inputStyle={{ color: "white" }}
+			<Input
+				label="Email"
+				leftIcon={{ type: "font-awesome", name: "envelope" }}
+				onChangeText={(text) => setEmail(text)}
+				value={email}
+				placeholder="email@address.com"
+				autoCapitalize={"none"}
+				inputStyle={{ color: "white" }}
+			/>
+			<Input
+				label="Password"
+				leftIcon={{ type: "font-awesome", name: "lock" }}
+				onChangeText={(text) => setPassword(text)}
+				value={password}
+				secureTextEntry={true}
+				placeholder="Password"
+				autoCapitalize={"none"}
+				inputStyle={{ color: "white" }}
+			/>
+			<View>
+				<Button
+					title={_.isEqual(register, REGISTER.SING_UP) ? "Sign up" : "Log in"}
+					disabled={loading}
+					onPress={() => {
+						_.isEqual(register, REGISTER.SING_UP) ? signUpWithEmail() : signInWithEmail();
+					}}
 				/>
 			</View>
-			<View style={{}}>
-				<Input
-					label="Password"
-					leftIcon={{ type: "font-awesome", name: "lock" }}
-					onChangeText={(text) => setPassword(text)}
-					value={password}
-					secureTextEntry={true}
-					placeholder="Password"
-					autoCapitalize={"none"}
-					inputStyle={{ color: "white" }}
-				/>
-			</View>
-			{_.isEqual(register, REGISTER.SING_UP) ? (
-				<View style={{}}>
-					<Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
-				</View>
-			) : (
-				<View style={{}}>
-					<Button title="Log in" disabled={loading} onPress={() => signInWithEmail()} />
-				</View>
-			)}
 		</View>
 	);
 };
