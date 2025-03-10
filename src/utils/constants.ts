@@ -31,3 +31,9 @@ export interface IUser {
 	lastscore: string;
 	avatar_url: string;
 }
+
+export interface ITopUser {
+	username: string;
+	ranking: number;
+	bestscore: number;
+}

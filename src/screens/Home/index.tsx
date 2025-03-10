@@ -2,7 +2,7 @@ import _ from "lodash";
 import { SvgXml } from "react-native-svg";
 import { isDefined } from "@src/utils/utils";
 import { BottomInfo } from "@src/components/BottomInfo";
-import type { IUser } from "@src/utils/constants";
+import type { ITopUser, IUser } from "@src/utils/constants";
 import type { Session } from "@supabase/supabase-js";
 import { createAvatar } from "@dicebear/core";
 import { verticalScale } from "@src/utils/scaleFunctions";
@@ -31,6 +31,7 @@ import {
 	ButtonsContainer,
 	TopUsersContainer,
 } from "./styled";
+import { useTopUsers } from "@src/hooks/useTopUsers";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;
@@ -88,7 +89,7 @@ export const Counter = (props: { user: IUser | undefined; count: string; bottomS
 	);
 };
 
-export const GlobalScore = (props: { topUsers: IUser[] }) => {
+export const GlobalScore = (props: { topUsers: ITopUser[] }) => {
 	const { topUsers } = props;
 	return (
 		<ScoreContainer>
@@ -107,7 +108,7 @@ export const GlobalScore = (props: { topUsers: IUser[] }) => {
 							)}
 							{`  ${user?.username}`}
 						</TextTopUser>
-						<TextTopUser>{user?.bestScore}</TextTopUser>
+						<TextTopUser>{user?.bestscore}</TextTopUser>
 					</TopUsersContainer>
 				);
 			})}
@@ -142,18 +143,11 @@ export const Header = (props: { user: IUser | undefined }) => {
 export const Home = (props: { user: IUser | undefined; setSession: (session: Session) => void; onHandleClickPlay: () => void }) => {
 	const { onHandleClickPlay, user, setSession } = props;
 	const [count] = useState("182:24:59");
-	const [topUsers] = useState([
-		{ id: 1, username: "user_001", ranking: 1, bestScore: 100, lastScore: 0 },
-		{ id: 2, username: "user_002", ranking: 2, bestScore: 90, lastScore: 0 },
-		{ id: 3, username: "user_003", ranking: 3, bestScore: 80, lastScore: 0 },
-		{ id: 4, username: "user_004", ranking: 4, bestScore: 70, lastScore: 0 },
-		{ id: 5, username: "user_005", ranking: 5, bestScore: 60, lastScore: 0 },
-	]);
+
+	const { topUsers, loading } = useTopUsers();
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-	const handleSheetChanges = useCallback((index: number) => {
-		console.log("handleSheetChanges - ", index);
-	}, []);
+	const handleSheetChanges = useCallback((index: number) => {}, []);
 
 	return (
 		<ViewContainer>
