@@ -36,7 +36,7 @@ export const InfoContainer = styled.View<{ isLoggedIn: boolean; windowHeight: nu
 	align-items: center;
 	justify-content: center;
     background-color: ${(props: DefaultTheme) => props.theme.bgColor};
-    height: ${(props) => (props.windowHeight < 650 ? verticalScale(400) : verticalScale(300))}px;
+    height: ${(props) => (props.windowHeight < 650 && props.isLoggedIn === false ? verticalScale(400) : verticalScale(300))}px;
 `;
 
 export const UserInfoContainer = styled.View`
