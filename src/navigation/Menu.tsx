@@ -7,8 +7,10 @@ import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
+import { t } from "i18next";
 
 function startCountdown(targetDate: string, callback: { (countdown: any): void; (arg0: string): void }) {
+	if (targetDate === undefined) return;
 	const interval = setInterval(() => {
 		const target = new Date(targetDate);
 		const now = new Date();
@@ -54,8 +56,8 @@ export const Menu = () => {
 	}, 60000);
 
 	const [count, setCount] = useState<string>();
-	startCountdown("2025-08-28", (countdown) => {
-		setCount(countdown);
+	startCountdown(countDown, (cd) => {
+		setCount(cd);
 	});
 
 	return (
