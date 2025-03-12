@@ -63,7 +63,7 @@ export const TopUsersContainer = styled.View<{ index: number }>`
     flex-direction: row;
     justify-content: space-between;
     padding: ${verticalScale(2)}px;
-    opacity: ${(props: DefaultTheme) => 1 / (props.index + 1)};
+    opacity: ${(props: DefaultTheme) => 1 / (props.index)};
 `;
 
 export const TextTile = styled(TextObelix)`
