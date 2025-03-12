@@ -22,9 +22,6 @@ function getCountdown(targetDate: string) {
 	return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
-// Example usage:
-console.log(getCountdown("2025-08-28")); // Output: "128:90:59" (example)
-
 export function useEndDate() {
 	const [countDown, setCountDown] = useState<string>();
 	const [loading, setLoading] = useState(false);
@@ -32,10 +29,7 @@ export function useEndDate() {
 	const fetchEndDate = useCallback(async () => {
 		try {
 			setLoading(true);
-
 			const { data, error, status } = await supabase.from("endDate").select("*");
-
-			console.log(data);
 
 			if (error && status !== 406) {
 				throw error;

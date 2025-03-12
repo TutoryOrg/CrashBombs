@@ -28,7 +28,6 @@ export function useUpdateProfile() {
 				};
 
 				const { data, error } = await supabase.from("profiles").upsert(updates);
-				console.log({ data });
 
 				if (error) {
 					throw error;
