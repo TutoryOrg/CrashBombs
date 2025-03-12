@@ -101,7 +101,10 @@ export const TopFiveText = styled(TextObelix)`
 `;
 
 export const CounterNumber = styled(TextObelix)`
-    font-size: ${scale(fontSizes.XXXlarge)}px;
+	width: 110%;
+	height: 100%;
+	text-align: center;
+	font-size: ${verticalScale(fontSizes.XXXlarge)}px;
 `;
 
 export const CounterContainer = styled.TouchableOpacity`
