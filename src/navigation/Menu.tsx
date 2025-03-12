@@ -28,12 +28,19 @@ function startCountdown(targetDate: string, callback: { (countdown: any): void; 
 }
 
 export const Menu = () => {
+	const [count, setCount] = useState<string>();
 	const [screen, setScreen] = useState<Screens>(Screens.HOME);
 	const [session, setSession] = useState<Session | null>(null);
 
 	const { user, loading, fetchProfile } = useProfile();
 	const { countDown, loading: loadingEndDate } = useEndDate();
 	const { topUsers, loading: loadingTopUsers } = useTopUsers();
+
+	if (countDown) {
+		startCountdown(countDown, (cd) => {
+			setCount(cd);
+		});
+	}
 
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
@@ -48,29 +55,18 @@ export const Menu = () => {
 		if (session) fetchProfile(session?.user.id);
 	}, [session]);
 
-	setTimeout(() => {
-		if (screen === Screens.GAME) {
-			setScreen(Screens.HOME);
-		}
-	}, 1000);
-
-	const [count, setCount] = useState<string>();
-	startCountdown(countDown, (cd) => {
-		setCount(cd);
-	});
-
 	return (
 		<SafeAreaView>
 			{screen === Screens.HOME && (
 				<Home
 					user={user}
 					topUsers={topUsers}
-					countDown={count || "00:00:00"}
+					countDown={count || "..."}
 					setSession={setSession}
 					onHandleClickPlay={() => setScreen(Screens.GAME)}
 				/>
 			)}
-			{screen === Screens.GAME && <Game />}
+			{screen === Screens.GAME && <Game onClickMenu={() => setScreen(Screens.HOME)} />}
 		</SafeAreaView>
 	);
 };

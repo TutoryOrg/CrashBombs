@@ -1,9 +1,12 @@
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 
-export const Game = () => {
+export const Game = (props: { onClickMenu: () => void }) => {
+	const { onClickMenu } = props;
+
 	return (
-		<View>
+		<View style={{ margin: 80 }}>
 			<Text>Game</Text>
+			<Button title={"Go to Home"} onPress={() => onClickMenu()} />
 		</View>
 	);
 };
