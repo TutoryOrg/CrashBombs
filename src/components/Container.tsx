@@ -1,4 +1,4 @@
-import styled, { type DefaultTheme } from "styled-components/native";
+import styled from "styled-components/native";
 
 export const ContainerColumn = styled.View`
 	flex: 1;

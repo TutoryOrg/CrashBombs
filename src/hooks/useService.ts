@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 interface QueryOptions<Data> {
 	onSuccess?: (data: Data) => void;

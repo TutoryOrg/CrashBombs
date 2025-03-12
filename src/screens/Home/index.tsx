@@ -2,7 +2,6 @@ import _ from "lodash";
 import { SvgXml } from "react-native-svg";
 import { isDefined } from "@src/utils/utils";
 import { BottomInfo } from "@src/components/BottomInfo";
-import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { createAvatar } from "@dicebear/core";
 import { verticalScale } from "@src/utils/scaleFunctions";

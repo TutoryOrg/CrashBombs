@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
-import type { DefaultTheme } from "styled-components";
 import { verticalScale } from "@src/utils/scaleFunctions";
+import type { DefaultTheme } from "styled-components";
 
 export const TextObelix = styled.Text`
 	font-family: "obelix";
