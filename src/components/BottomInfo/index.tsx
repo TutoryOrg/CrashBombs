@@ -45,10 +45,10 @@ const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 					nºRanking: <TextInfo> #{user?.ranking} </TextInfo>
 				</TextInfoBlue>
 				<TextInfoBlue>
-					Last Score: <TextInfo> {user?.lastScore} </TextInfo>
+					Last Score: <TextInfo> {user?.lastscore} </TextInfo>
 				</TextInfoBlue>
 				<TextInfoBlue>
-					Best Score: <TextInfoRed> {user?.bestScore} </TextInfoRed>
+					Best Score: <TextInfoRed> {user?.bestscore} </TextInfoRed>
 				</TextInfoBlue>
 			</ContainerColumn>
 			<SvgXml height={verticalScale(84)} width={verticalScale(84)} xml={avatar} />
