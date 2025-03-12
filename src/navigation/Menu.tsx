@@ -2,12 +2,11 @@ import { Screens } from "@src/utils/constants";
 import { supabase } from "@src/utils/supabase";
 import { Game, Home } from "@src/screens";
 import { useProfile } from "@src/hooks/useProfile";
+import { useEndDate } from "@src/hooks/useEndDate";
+import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
-import { useEndDate } from "@src/hooks/useEndDate";
-import { set } from "lodash";
-import { useTopUsers } from "@src/hooks/useTopUsers";
 
 function startCountdown(targetDate: string, callback: { (countdown: any): void; (arg0: string): void }) {
 	const interval = setInterval(() => {
