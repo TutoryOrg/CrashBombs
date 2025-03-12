@@ -142,13 +142,12 @@ export const Header = (props: { user: IUser | undefined }) => {
 
 export const Home = (props: {
 	user: IUser | undefined;
+	topUsers: ITopUser[];
 	countDown: string;
 	setSession: (session: Session) => void;
 	onHandleClickPlay: () => void;
 }) => {
-	const { onHandleClickPlay, user, setSession, countDown } = props;
-
-	const { topUsers, loading } = useTopUsers();
+	const { onHandleClickPlay, user, topUsers, setSession, countDown } = props;
 
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const handleSheetChanges = useCallback((index: number) => {}, []);

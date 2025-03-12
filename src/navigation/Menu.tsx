@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
 import { useEndDate } from "@src/hooks/useEndDate";
 import { set } from "lodash";
+import { useTopUsers } from "@src/hooks/useTopUsers";
 
 function startCountdown(targetDate: string, callback: { (countdown: any): void; (arg0: string): void }) {
 	const interval = setInterval(() => {
@@ -32,6 +33,7 @@ export const Menu = () => {
 
 	const { user, loading, fetchProfile } = useProfile();
 	const { countDown, loading: loadingEndDate } = useEndDate();
+	const { topUsers, loading: loadingTopUsers } = useTopUsers();
 
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
@@ -62,6 +64,7 @@ export const Menu = () => {
 			{screen === Screens.HOME && (
 				<Home
 					user={user}
+					topUsers={topUsers}
 					countDown={count || "00:00:00"}
 					setSession={setSession}
 					onHandleClickPlay={() => setScreen(Screens.GAME)}
