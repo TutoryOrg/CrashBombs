@@ -2,11 +2,12 @@ import _ from "lodash";
 import { SvgXml } from "react-native-svg";
 import { isDefined } from "@src/utils/utils";
 import { BottomInfo } from "@src/components/BottomInfo";
-import type { ITopUser, IUser } from "@src/utils/constants";
+import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { createAvatar } from "@dicebear/core";
 import { verticalScale } from "@src/utils/scaleFunctions";
 import { avataaarsNeutral } from "@dicebear/collection";
+import type { ITopUser, IUser } from "@src/utils/constants";
 import { type Ref, Fragment, useCallback, useRef, useState } from "react";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import {
@@ -31,7 +32,6 @@ import {
 	ButtonsContainer,
 	TopUsersContainer,
 } from "./styled";
-import { useTopUsers } from "@src/hooks/useTopUsers";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;
@@ -94,7 +94,7 @@ export const GlobalScore = (props: { topUsers: ITopUser[] }) => {
 	return (
 		<ScoreContainer>
 			<TextTile>Global Score</TextTile>
-			{topUsers.map((user, index) => {
+			{topUsers?.map((user, index) => {
 				return (
 					<TopUsersContainer key={index} index={user?.ranking}>
 						<TextTopUser>
@@ -104,7 +104,7 @@ export const GlobalScore = (props: { topUsers: ITopUser[] }) => {
 									{user?.ranking}
 								</Fragment>
 							) : (
-								`#${user?.ranking}`
+								`#${user?.ranking || " - "}`
 							)}
 							{`  ${user?.username}`}
 						</TextTopUser>
@@ -140,9 +140,13 @@ export const Header = (props: { user: IUser | undefined }) => {
 	);
 };
 
-export const Home = (props: { user: IUser | undefined; setSession: (session: Session) => void; onHandleClickPlay: () => void }) => {
-	const { onHandleClickPlay, user, setSession } = props;
-	const [count] = useState("182:24:59");
+export const Home = (props: {
+	user: IUser | undefined;
+	countDown: string;
+	setSession: (session: Session) => void;
+	onHandleClickPlay: () => void;
+}) => {
+	const { onHandleClickPlay, user, setSession, countDown } = props;
 
 	const { topUsers, loading } = useTopUsers();
 
@@ -154,7 +158,7 @@ export const Home = (props: { user: IUser | undefined; setSession: (session: Ses
 			<Header user={user} />
 			<HomeTitle>CRASH BOMBS</HomeTitle>
 			<GlobalScore topUsers={topUsers} />
-			<Counter user={user} count={count} bottomSheetModalRef={bottomSheetModalRef} />
+			<Counter user={user} count={countDown} bottomSheetModalRef={bottomSheetModalRef} />
 			<Buttons bottomSheetModalRef={bottomSheetModalRef} onHandleClickPlay={onHandleClickPlay} />
 
 			<BottomSheetModalProvider>

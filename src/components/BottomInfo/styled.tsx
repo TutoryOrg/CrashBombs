@@ -32,6 +32,7 @@ export const InfoTitle = styled(TextLucky)`
 
 export const InfoContainer = styled.View<{ isLoggedIn: boolean; windowHeight: number }>`	
 	flex: 1;
+	height: 'fit-content';
 	width: 100%;
 	align-items: center;
 	justify-content: center;
