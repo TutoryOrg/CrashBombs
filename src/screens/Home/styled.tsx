@@ -105,6 +105,7 @@ export const CounterNumber = styled(TextObelix)`
 	height: 100%;
 	text-align: center;
 	font-size: ${verticalScale(fontSizes.XXXlarge)}px;
+	background-color: ${(props: DefaultTheme) => props?.theme?.bgColor};
 `;
 
 export const CounterContainer = styled.TouchableOpacity`

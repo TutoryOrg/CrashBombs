@@ -7,7 +7,6 @@ import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
-import { t } from "i18next";
 
 function startCountdown(targetDate: string, callback: { (countdown: any): void; (arg0: string): void }) {
 	if (targetDate === undefined) return;
@@ -53,7 +52,7 @@ export const Menu = () => {
 		if (screen === Screens.GAME) {
 			setScreen(Screens.HOME);
 		}
-	}, 60000);
+	}, 1000);
 
 	const [count, setCount] = useState<string>();
 	startCountdown(countDown, (cd) => {
