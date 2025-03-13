@@ -1,25 +1,26 @@
 {
-	"presets": ["babel-preset-expo"],
-	"env": {
-		"development": {
-			"plugins": []
-		}
-	},
-	"plugins": [
-		[
-			"module-resolver",
-			{
-				"alias": {
-					"@src": "./src",
-					"@assets": "./assets",
-					"@hooks": "./src/hooks",
-					"@store": "./src/store",
-					"@themes": "./src/themes",
-					"@screens": "./src/screens",
-					"@components": "./src/components",
-					"@translations": "./src/translations"
-				}
-			}
-		]
-	]
+  "presets": ["babel-preset-expo"],
+  "env": {
+    "development": {
+      "plugins": []
+    }
+  },
+  "plugins": [
+    "react-native-reanimated/plugin",
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@src": "./src",
+          "@assets": "./assets",
+          "@hooks": "./src/hooks",
+          "@store": "./src/store",
+          "@themes": "./src/themes",
+          "@screens": "./src/screens",
+          "@components": "./src/components",
+          "@translations": "./src/translations"
+        }
+      }
+    ]
+  ]
 }

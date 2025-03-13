@@ -5,8 +5,8 @@ import { useProfile } from "@src/hooks/useProfile";
 import { useEndDate } from "@src/hooks/useEndDate";
 import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
-import { SafeAreaView } from "react-native";
 import { useEffect, useState } from "react";
+import styled from 'styled-components/native';
 
 function startCountdown(targetDate: string, callback: { (countdown: any): void; (arg0: string): void }) {
 	if (targetDate === undefined) return;
@@ -26,6 +26,11 @@ function startCountdown(targetDate: string, callback: { (countdown: any): void; 
 		callback(countdown);
 	}, 1000);
 }
+
+const SafeContainer = styled.SafeAreaView`
+	flex: 1;
+	background-color: ${(props) => props.theme.bgColor};
+`
 
 export const Menu = () => {
 	const [count, setCount] = useState<string>();
@@ -56,7 +61,7 @@ export const Menu = () => {
 	}, [session]);
 
 	return (
-		<SafeAreaView>
+		<SafeContainer>
 			{screen === Screens.HOME && (
 				<Home
 					user={user}
@@ -67,6 +72,6 @@ export const Menu = () => {
 				/>
 			)}
 			{screen === Screens.GAME && <Game onClickMenu={() => setScreen(Screens.HOME)} />}
-		</SafeAreaView>
+		</SafeContainer>
 	);
 };
