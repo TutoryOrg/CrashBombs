@@ -2,7 +2,7 @@ import { SvgXml } from "react-native-svg";
 import { AuthEmail } from "../AuthEmail";
 import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
-import { Image, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import { createAvatar } from "@dicebear/core";
 import type { Session } from "@supabase/supabase-js";
 import { ContainerColumn } from "../Container";
@@ -146,8 +146,11 @@ export const BottomInfo = (props: {
 	bottomSheetModalRef: Ref<BottomSheetModal>;
 }) => {
 	const { bottomSheetModalRef, setSession } = props;
-	const { user } = props;
-	const isLoggedIn = isDefined(user);
+	// const { user } = props;
+	// const isLoggedIn = isDefined(user);
+
+	const user = undefined;
+	const isLoggedIn = false;
 
 	return (
 		<InfoContainer isLoggedIn={isLoggedIn} windowHeight={windowHeight}>

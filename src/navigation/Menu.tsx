@@ -6,7 +6,8 @@ import { useEndDate } from "@src/hooks/useEndDate";
 import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 function startCountdown(targetDate: string, callback: { (countdown: any): void; (arg0: string): void }) {
 	if (targetDate === undefined) return;
@@ -30,7 +31,7 @@ function startCountdown(targetDate: string, callback: { (countdown: any): void; 
 const SafeContainer = styled.SafeAreaView`
 	flex: 1;
 	background-color: ${(props) => props.theme.bgColor};
-`
+`;
 
 export const Menu = () => {
 	const [count, setCount] = useState<string>();
@@ -62,16 +63,18 @@ export const Menu = () => {
 
 	return (
 		<SafeContainer>
-			{screen === Screens.HOME && (
-				<Home
-					user={user}
-					topUsers={topUsers}
-					countDown={count || "..."}
-					setSession={setSession}
-					onHandleClickPlay={() => setScreen(Screens.GAME)}
-				/>
-			)}
-			{screen === Screens.GAME && <Game onClickMenu={() => setScreen(Screens.HOME)} />}
+			<KeyboardAvoidingView style={{ flex: 1 }} behavior={"height"}>
+				{screen === Screens.HOME && (
+					<Home
+						user={user}
+						topUsers={topUsers}
+						countDown={count || "..."}
+						setSession={setSession}
+						onHandleClickPlay={() => setScreen(Screens.GAME)}
+					/>
+				)}
+				{screen === Screens.GAME && <Game onClickMenu={() => setScreen(Screens.HOME)} />}
+			</KeyboardAvoidingView>
 		</SafeContainer>
 	);
 };

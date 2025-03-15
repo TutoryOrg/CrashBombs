@@ -32,12 +32,11 @@ export const InfoTitle = styled(TextLucky)`
 
 export const InfoContainer = styled.View<{ isLoggedIn: boolean; windowHeight: number }>`	
 	flex: 1;
-	height: 'fit-content';
 	width: 100%;
 	align-items: center;
 	justify-content: center;
-    background-color: ${(props: DefaultTheme) => props.theme.bgColor};
-    height: ${(props: { windowHeight: number; isLoggedIn: boolean }) => (props.isLoggedIn === true ? "fit-content" : props.windowHeight < 650 ? verticalScale(400) : verticalScale(300))}px;
+	background-color: ${(props: DefaultTheme) => props.theme.bgColor};
+	height: ${(props) => (props.isLoggedIn ? "fit-content" : `${props.windowHeight / 2}px`)};
 `;
 
 export const UserInfoContainer = styled.View`
@@ -66,8 +65,7 @@ export const InfoButtonsContainer = styled.View`
         height: ${verticalScale(70)}px;
 	    align-items: center;
 	    justify-content: space-around;
-    `;
-//height: ${verticalScale(180)}px;
+`;
 
 export const InfoButton = styled.TouchableOpacity`
 	width: 100%;
