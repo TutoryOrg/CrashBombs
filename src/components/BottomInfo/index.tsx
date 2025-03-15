@@ -146,11 +146,8 @@ export const BottomInfo = (props: {
 	bottomSheetModalRef: Ref<BottomSheetModal>;
 }) => {
 	const { bottomSheetModalRef, setSession } = props;
-	// const { user } = props;
-	// const isLoggedIn = isDefined(user);
-
-	const user = undefined;
-	const isLoggedIn = false;
+	const { user } = props;
+	const isLoggedIn = isDefined(user);
 
 	return (
 		<InfoContainer isLoggedIn={isLoggedIn} windowHeight={windowHeight}>
