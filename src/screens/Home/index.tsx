@@ -31,7 +31,6 @@ import {
 	ButtonsContainer,
 	TopUsersContainer,
 } from "./styled";
-import { KeyboardAvoidingView, Platform } from "react-native";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;
