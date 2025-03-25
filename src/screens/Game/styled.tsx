@@ -11,10 +11,11 @@ export const ButtonsContainer = styled.View`
     position: absolute;
     bottom: 10px;
     width: 100%;
-    height: 120px;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    height: 15%;
+    border: 1px solid red;
 `;
 
 export const ShapeContainer = styled.View`
@@ -28,11 +29,9 @@ export const ControlsContainer = styled.View`
 `;
 
 export const ShapeButton = styled.TouchableOpacity`
-    activeOpacity: 1;
     margin: 0 10px;
 `;
 
 export const ModeButton = styled.TouchableOpacity`
-    activeOpacity: 1;
     margin: 0 15px;
 `;
