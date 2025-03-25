@@ -1,8 +1,6 @@
-import { Button, View } from "react-native";
 import styled from "styled-components/native";
 import { GameEngine } from "react-native-game-engine";
-import Matter from "matter-js";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import entities from "./entities";
 import Physics from "./entities/physics";
 
@@ -14,12 +12,14 @@ const GameBackground = styled.View`
 export const Game = (props: { onClickMenu: () => void }) => {
 	const [running, setRunning] = useState(true);
 	const { onClickMenu } = props;
-	const ref = useRef<GameEngine | null>(null);
+
+	useEffect(() => {
+		setRunning(true);
+	}, []);
 
 	return (
 		<GameBackground>
 			<GameEngine
-				ref={ref}
 				systems={[Physics]}
 				running={running}
 				entities={entities()}
