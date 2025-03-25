@@ -8,6 +8,14 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "packagerOpts": {
+      "sourceExts": [
+        "js",
+        "jsx",
+        "svgx"
+      ],
+      "transformer": "node_modules/react-native-svg-transformer/index.js"
+    },
     "platforms": [
       "ios",
       "android"
