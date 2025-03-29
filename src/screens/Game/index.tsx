@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { Image, type ImageSourcePropType } from "react-native";
-import { ButtonsContainer, ControlsContainer, GameBackground, ModeButton, ShapeButton, ShapeContainer } from "./styled";
+import { ButtonsContainer, ControlsContainer, GameBackground, LifeContainer, ModeButton, ShapeButton, ShapeContainer } from "./styled";
 import { moderateScale, verticalScale } from "@src/utils/scaleFunctions";
 
 // Types
 type ShapeType = "triangle" | "square" | "circle";
 type ButtonMode = "red" | "blue";
-
 interface ShapeButtonProps {
 	mode: ButtonMode;
 	shape: ShapeType;
 	onPress: (shape: ShapeType) => void;
 }
-
 interface ModeButtonProps {
 	mode: ButtonMode;
 	selected: boolean;
@@ -68,7 +66,15 @@ interface GameProps {
 	onClickMenu: () => void;
 }
 
+const LIFE_IMAGES = [
+	require("assets/controls/life0.png"),
+	require("assets/controls/life1.png"),
+	require("assets/controls/life2.png"),
+	require("assets/controls/life3.png"),
+];
+
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
+	const [hits, setHits] = useState<number>(0); // State to track the number of hits
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
 
 	const handleShapePress = (shape: ShapeType) => {
@@ -81,6 +87,12 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 
 	return (
 		<GameBackground>
+			<LifeContainer>
+				{LIFE_IMAGES.slice(hits, 4).map((source, index) => (
+					<Image key={index} style={{ height: verticalScale(10), width: "100%" }} source={source} />
+				))}
+			</LifeContainer>
+
 			<ButtonsContainer>
 				{/* Shape Controls */}
 				<ShapeContainer>

@@ -4,18 +4,22 @@ export const GameBackground = styled.View`
     flex: 1;
     background-color: ${(props: DefaultTheme) => props.theme.bgColor};
     align-items: center;  
-    justify-content: center;
+    justify-content: flex-end;
+`;
+
+export const LifeContainer = styled.View`
+    width: 96%;
+    justify-content: flex-end;
+    margin-bottom: 10px;
 `;
 
 export const ButtonsContainer = styled.View`
-    position: absolute;
-    bottom: 10px;
     width: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     height: 15%;
-    border: 1px solid red;
+    margin-bottom: 10px;
 `;
 
 export const ShapeContainer = styled.View`
