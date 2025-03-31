@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Image, type ImageSourcePropType } from "react-native";
+import { useEffect, useState } from "react";
+import { Animated, Dimensions, Image, type ImageSourcePropType } from "react-native";
 import { ButtonsContainer, ControlsContainer, GameBackground, LifeContainer, ModeButton, ShapeButton, ShapeContainer } from "./styled";
 import { moderateScale, verticalScale } from "@src/utils/scaleFunctions";
 
@@ -73,17 +73,94 @@ const LIFE_IMAGES = [
 	require("assets/controls/life3.png"),
 ];
 
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
+// Constants
+const SYMBOL_IMAGES = [
+	{ blue_square: require("assets/controls/blue_square.png") },
+	{ blue_circle: require("assets/controls/blue_circle.png") },
+	{ blue_triangle: require("assets/controls/blue_triangle.png") },
+	{ red_triangle: require("assets/controls/red_triangle.png") },
+	{ red_square: require("assets/controls/red_square.png") },
+	{ red_circle: require("assets/controls/red_circle.png") },
+];
+
+interface DroppingSymbol {
+	id: number;
+	source: any;
+	xPosition: number;
+	translateY: Animated.Value;
+	removedByPress?: boolean;
+}
+
+const getRandomNumber = (min: number, max: number): number => {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	const [hits, setHits] = useState<number>(0); // State to track the number of hits
+	const [count, setCount] = useState<number>(0);
+	const [symbols, setSymbols] = useState<DroppingSymbol[]>([]);
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
 
 	const handleShapePress = (shape: ShapeType) => {
-		console.log(`click_${currentMode}_${shape}`);
+		const targetKey = `${currentMode}_${shape}`;
+		const updatedSymbols = [...symbols];
+		const indexToRemove = updatedSymbols.findIndex((symbol) => Object.keys(symbol.source)[0] === targetKey);
+
+		if (indexToRemove !== -1) {
+			updatedSymbols.splice(indexToRemove, 1);
+			setSymbols(updatedSymbols);
+			setCount((prev) => prev + 1);
+			console.log(`Removed symbol: ${targetKey}`);
+		} else {
+			console.log(`No matching symbol found for: ${targetKey}`);
+		}
 	};
 
 	const handleModeChange = (mode: ButtonMode) => {
 		setCurrentMode(mode);
 	};
+
+	// Add a new symbol every 5 seconds
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (hits < 4) {
+				addSymbol();
+			}
+		}, 2000);
+		return () => clearInterval(interval); // Clear interval on component unmount
+	}, [hits]);
+
+	const addSymbol = () => {
+		const randomNumber = getRandomNumber(0, SYMBOL_IMAGES.length - 1);
+		const randomSymbol = SYMBOL_IMAGES[randomNumber];
+		const randomX = Math.random() * (SCREEN_WIDTH - 50); // Random X position (50 is the symbol width)
+
+		const newSymbol: DroppingSymbol = {
+			id: Date.now(),
+			source: randomSymbol,
+			xPosition: randomX,
+			translateY: new Animated.Value(0), // Start at the top of the screen
+		};
+
+		setSymbols((prev) => [...prev, newSymbol]);
+
+		Animated.timing(newSymbol.translateY, {
+			toValue: verticalScale(500), // Adjust this value to match the position of the "life" images
+			duration: 9000,
+			useNativeDriver: false,
+			easing: (val) => val,
+		}).start((res) => {
+			// Remove the symbol when it reaches the bottom
+			if (res.finished === true) {
+				setHits((prev) => prev + 1);
+			}
+			setSymbols((prev) => prev.filter((symbol) => symbol.id !== newSymbol.id));
+		});
+	};
+
+	console.log({ hits });
 
 	return (
 		<GameBackground>
@@ -92,6 +169,27 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 					<Image key={index} style={{ height: verticalScale(10), width: "100%" }} source={source} />
 				))}
 			</LifeContainer>
+
+			{/* Dropping Symbols */}
+			{symbols?.map((symbol) => (
+				<Animated.Image
+					key={symbol.id}
+					source={Object.values(symbol.source)[0] as number}
+					style={[
+						{
+							position: "absolute",
+							width: 46, // Symbol width
+							height: 48, // Symbol height
+							top: 0, // Start at the top of the screen
+						},
+						{
+							left: symbol.xPosition, // Random X position
+							transform: [{ translateY: symbol.translateY }], // Falling animation
+						},
+					]}
+					resizeMode="contain"
+				/>
+			))}
 
 			<ButtonsContainer>
 				{/* Shape Controls */}
