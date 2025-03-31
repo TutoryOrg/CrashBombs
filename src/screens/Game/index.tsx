@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Animated, Dimensions, Image, type ImageSourcePropType } from "react-native";
 import { ButtonsContainer, ControlsContainer, GameBackground, LifeContainer, ModeButton, ShapeButton, ShapeContainer } from "./styled";
 import { moderateScale, verticalScale } from "@src/utils/scaleFunctions";
+import styled from "styled-components/native";
+import { fontSizes } from "@src/utils/constants";
+import { TextObelix } from "@src/components/Text";
 
 // Types
 type ShapeType = "triangle" | "square" | "circle";
@@ -73,7 +76,7 @@ const LIFE_IMAGES = [
 	require("assets/controls/life3.png"),
 ];
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 // Constants
 const SYMBOL_IMAGES = [
@@ -96,6 +99,14 @@ interface DroppingSymbol {
 const getRandomNumber = (min: number, max: number): number => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+const TextCounter = styled(TextObelix)`
+	margin-bottom: 85%;
+	font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
+	width: 100%;
+	text-align: center;
+	opacity: 0.8;
+`;
 
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	const [hits, setHits] = useState<number>(0); // State to track the number of hits
@@ -164,6 +175,8 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 
 	return (
 		<GameBackground>
+			<TextCounter>{count}</TextCounter>
+
 			<LifeContainer>
 				{LIFE_IMAGES.slice(hits, 4).map((source, index) => (
 					<Image key={index} style={{ height: verticalScale(10), width: "100%" }} source={source} />
