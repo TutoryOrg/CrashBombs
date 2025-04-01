@@ -9,20 +9,41 @@ import { TextObelix } from "@src/components/Text";
 // Types
 type ShapeType = "triangle" | "square" | "circle";
 type ButtonMode = "red" | "blue";
+
 interface ShapeButtonProps {
 	mode: ButtonMode;
 	shape: ShapeType;
 	onPress: (shape: ShapeType) => void;
 }
+
 interface ModeButtonProps {
 	mode: ButtonMode;
 	selected: boolean;
 	onPress: () => void;
 }
 
+interface DroppingSymbol {
+	id: number;
+	source: any;
+	xPosition: number;
+	translateY: Animated.Value;
+	removedByPress?: boolean;
+}
+
 // Constants
 const SHAPES: ShapeType[] = ["triangle", "square", "circle"];
 const MODES: ButtonMode[] = ["blue", "red"];
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+
+// Initial game settings
+const INITIAL_SETTINGS = {
+	FREQUENCY: 2000,
+	SPEED: 7000,
+	MIN_FREQUENCY: 500,
+	MIN_SPEED: 2000,
+	SPEED_REDUCTION: 350,
+	POINTS_PER_REDUCTION: 5,
+};
 
 const SHAPE_IMAGES: Record<ButtonMode, Record<ShapeType, ImageSourcePropType>> = {
 	blue: {
@@ -48,6 +69,46 @@ const MODE_BUTTON_IMAGES: Record<ButtonMode, { normal: ImageSourcePropType; sele
 	},
 };
 
+const SYMBOL_IMAGES = [
+	{ blue_square: require("assets/controls/blue_square.png") },
+	{ blue_circle: require("assets/controls/blue_circle.png") },
+	{ blue_triangle: require("assets/controls/blue_triangle.png") },
+	{ red_triangle: require("assets/controls/red_triangle.png") },
+	{ red_square: require("assets/controls/red_square.png") },
+	{ red_circle: require("assets/controls/red_circle.png") },
+];
+
+const LIFE_IMAGES = [
+	require("assets/controls/life_0.png"),
+	require("assets/controls/life_1.png"),
+	require("assets/controls/life_2.png"),
+	require("assets/controls/life_3.png"),
+];
+
+// Helper functions
+const getRandomNumber = (min: number, max: number): number => {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const calculateGameSetting = (count: number, initialValue: number, minValue: number) => {
+	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
+	if (count >= 40) return minValue;
+	if (count >= 50) return minValue + 200;
+	if (count >= 70) return minValue + 500;
+	if (count >= 90) return minValue + 300;
+	if (count >= 110) return minValue + 500;
+	return Math.max(initialValue - reduction, minValue);
+};
+
+const calculateGameSettingSpeed = (count: number, initialValue: number, minValue: number) => {
+	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
+	if (count >= 50) return minValue;
+	if (count >= 70) return minValue - 200;
+	if (count >= 90) return minValue - 500;
+	if (count >= 110) return minValue - 800;
+	return Math.max(initialValue - reduction, minValue);
+};
+
 // Reusable Components
 const ShapeButtonComponent: React.FC<ShapeButtonProps> = ({ mode, shape, onPress }) => (
 	<ShapeButton activeOpacity={1} onPress={() => onPress(shape)}>
@@ -59,73 +120,35 @@ const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPres
 	<ModeButton activeOpacity={1} onPress={onPress}>
 		<Image
 			resizeMode="stretch"
-			style={{ height: verticalScale(43), width: verticalScale(55) }}
+			style={{ height: verticalScale(46), width: verticalScale(70) }}
 			source={selected ? MODE_BUTTON_IMAGES[mode].selected : MODE_BUTTON_IMAGES[mode].normal}
 		/>
 	</ModeButton>
 );
 
-interface GameProps {
-	onClickMenu: () => void;
-}
-
-const LIFE_IMAGES = [
-	require("assets/controls/life0.png"),
-	require("assets/controls/life1.png"),
-	require("assets/controls/life2.png"),
-	require("assets/controls/life3.png"),
-];
-
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
-
-// Constants
-const SYMBOL_IMAGES = [
-	{ blue_square: require("assets/controls/blue_square.png") },
-	{ blue_circle: require("assets/controls/blue_circle.png") },
-	{ blue_triangle: require("assets/controls/blue_triangle.png") },
-	{ red_triangle: require("assets/controls/red_triangle.png") },
-	{ red_square: require("assets/controls/red_square.png") },
-	{ red_circle: require("assets/controls/red_circle.png") },
-];
-
-interface DroppingSymbol {
-	id: number;
-	source: any;
-	xPosition: number;
-	translateY: Animated.Value;
-	removedByPress?: boolean;
-}
-
-const getRandomNumber = (min: number, max: number): number => {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 const TextCounter = styled(TextObelix)`
-	margin-bottom: 85%;
-	font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
-	width: 100%;
-	text-align: center;
-	opacity: 0.8;
+  margin-bottom: 85%;
+  font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
+  width: 100%;
+  text-align: center;
+  opacity: 0.8;
 `;
 
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
-	const [hits, setHits] = useState<number>(0); // State to track the number of hits
+	const [hits, setHits] = useState<number>(0);
 	const [count, setCount] = useState<number>(0);
+	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
+	const [speed, setSpeed] = useState<number>(INITIAL_SETTINGS.SPEED);
 	const [symbols, setSymbols] = useState<DroppingSymbol[]>([]);
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
 
 	const handleShapePress = (shape: ShapeType) => {
 		const targetKey = `${currentMode}_${shape}`;
-		const updatedSymbols = [...symbols];
-		const indexToRemove = updatedSymbols.findIndex((symbol) => Object.keys(symbol.source)[0] === targetKey);
+		const symbolToRemove = symbols.find((symbol) => Object.keys(symbol.source)[0] === targetKey);
 
-		if (indexToRemove !== -1) {
-			updatedSymbols.splice(indexToRemove, 1);
-			setSymbols(updatedSymbols);
+		if (symbolToRemove) {
+			setSymbols((prev) => prev.filter((symbol) => symbol.id !== symbolToRemove.id));
 			setCount((prev) => prev + 1);
-			console.log(`Removed symbol: ${targetKey}`);
-		} else {
-			console.log(`No matching symbol found for: ${targetKey}`);
 		}
 	};
 
@@ -133,45 +156,49 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 		setCurrentMode(mode);
 	};
 
-	// Add a new symbol every 5 seconds
+	useEffect(() => {
+		setFrequency(calculateGameSetting(count, INITIAL_SETTINGS.FREQUENCY, INITIAL_SETTINGS.MIN_FREQUENCY));
+		setSpeed(calculateGameSettingSpeed(count, INITIAL_SETTINGS.SPEED, INITIAL_SETTINGS.MIN_SPEED));
+	}, [count]);
+
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (hits < 4) {
+			if (hits < 3) {
+				// 3 lives (0-3)
 				addSymbol();
 			}
-		}, 2000);
-		return () => clearInterval(interval); // Clear interval on component unmount
-	}, [hits]);
+		}, frequency);
+
+		return () => clearInterval(interval);
+	}, [hits, frequency]);
 
 	const addSymbol = () => {
-		const randomNumber = getRandomNumber(0, SYMBOL_IMAGES.length - 1);
-		const randomSymbol = SYMBOL_IMAGES[randomNumber];
-		const randomX = Math.random() * (SCREEN_WIDTH - 50); // Random X position (50 is the symbol width)
+		const randomSymbol = SYMBOL_IMAGES[getRandomNumber(0, SYMBOL_IMAGES.length - 1)];
+		const randomX = getRandomNumber(0, SCREEN_WIDTH - 50);
 
 		const newSymbol: DroppingSymbol = {
 			id: Date.now(),
 			source: randomSymbol,
 			xPosition: randomX,
-			translateY: new Animated.Value(0), // Start at the top of the screen
+			translateY: new Animated.Value(-250),
 		};
 
 		setSymbols((prev) => [...prev, newSymbol]);
 
 		Animated.timing(newSymbol.translateY, {
-			toValue: verticalScale(500), // Adjust this value to match the position of the "life" images
-			duration: 9000,
+			toValue: SCREEN_HEIGHT - SCREEN_HEIGHT * 0.2,
+			duration: speed,
 			useNativeDriver: false,
 			easing: (val) => val,
-		}).start((res) => {
-			// Remove the symbol when it reaches the bottom
-			if (res.finished === true) {
+		}).start(({ finished }) => {
+			if (finished) {
 				setHits((prev) => prev + 1);
 			}
 			setSymbols((prev) => prev.filter((symbol) => symbol.id !== newSymbol.id));
 		});
 	};
 
-	console.log({ hits });
+	console.log({ speed, frequency });
 
 	return (
 		<GameBackground>
@@ -183,36 +210,29 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 				))}
 			</LifeContainer>
 
-			{/* Dropping Symbols */}
-			{symbols?.map((symbol) => (
+			{symbols.map((symbol) => (
 				<Animated.Image
 					key={symbol.id}
 					source={Object.values(symbol.source)[0] as number}
-					style={[
-						{
-							position: "absolute",
-							width: 46, // Symbol width
-							height: 48, // Symbol height
-							top: 0, // Start at the top of the screen
-						},
-						{
-							left: symbol.xPosition, // Random X position
-							transform: [{ translateY: symbol.translateY }], // Falling animation
-						},
-					]}
+					style={{
+						position: "absolute",
+						width: 46,
+						height: 48,
+						top: 0,
+						left: symbol.xPosition,
+						transform: [{ translateY: symbol.translateY }],
+					}}
 					resizeMode="contain"
 				/>
 			))}
 
 			<ButtonsContainer>
-				{/* Shape Controls */}
 				<ShapeContainer>
 					{SHAPES.map((shape) => (
 						<ShapeButtonComponent key={shape} mode={currentMode} shape={shape} onPress={handleShapePress} />
 					))}
 				</ShapeContainer>
 
-				{/* Mode Selector */}
 				<ControlsContainer>
 					{MODES.map((mode) => (
 						<ModeButtonComponent

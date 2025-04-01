@@ -11,6 +11,7 @@ export const LifeContainer = styled.View`
     width: 96%;
     justify-content: flex-end;
     margin-bottom: 10px;
+    z-index: 1;
 `;
 
 export const ButtonsContainer = styled.View`
@@ -18,8 +19,10 @@ export const ButtonsContainer = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    height: 15%;
-    margin-bottom: 10px;
+    height: 18%;
+    padding-bottom: 5%;
+    z-index: 1;
+    background-color: ${(props: DefaultTheme) => props.theme.bgColor};
 `;
 
 export const ShapeContainer = styled.View`
@@ -27,8 +30,8 @@ export const ShapeContainer = styled.View`
 `;
 
 export const ControlsContainer = styled.View`
+    height: 110%;
     flex-direction: column;
-    height: 100%;
     justify-content: space-around;
 `;
 
@@ -37,5 +40,4 @@ export const ShapeButton = styled.TouchableOpacity`
 `;
 
 export const ModeButton = styled.TouchableOpacity`
-    margin: 0 15px;
 `;
