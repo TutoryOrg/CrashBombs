@@ -5,6 +5,7 @@ import { moderateScale, verticalScale } from "@src/utils/scaleFunctions";
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
 import { TextObelix } from "@src/components/Text";
+import { GameOverModal } from "@src/components/GameOverModal";
 
 // Types
 type ShapeType = "triangle" | "square" | "circle";
@@ -127,11 +128,11 @@ const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPres
 );
 
 const TextCounter = styled(TextObelix)`
-  margin-bottom: 85%;
-  font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
   width: 100%;
-  text-align: center;
   opacity: 0.8;
+  margin-bottom: 85%;
+  text-align: center;
+  font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
 `;
 
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
@@ -141,6 +142,7 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	const [speed, setSpeed] = useState<number>(INITIAL_SETTINGS.SPEED);
 	const [symbols, setSymbols] = useState<DroppingSymbol[]>([]);
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
+	const [gameOver, setGameOver] = useState(false);
 
 	const handleShapePress = (shape: ShapeType) => {
 		const targetKey = `${currentMode}_${shape}`;
@@ -163,10 +165,8 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (hits < 3) {
-				// 3 lives (0-3)
-				addSymbol();
-			}
+			if (hits < 4) addSymbol();
+			else setGameOver(true);
 		}, frequency);
 
 		return () => clearInterval(interval);
@@ -198,10 +198,19 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 		});
 	};
 
-	console.log({ speed, frequency });
+	const handleRestart = () => {
+		setHits(0);
+		setCount(0);
+		setFrequency(INITIAL_SETTINGS.FREQUENCY);
+		setSpeed(INITIAL_SETTINGS.SPEED);
+		setSymbols([]);
+		setGameOver(false);
+	};
 
 	return (
 		<GameBackground>
+			<GameOverModal gameOver={gameOver} onRestart={handleRestart} onMenu={onClickMenu} />
+
 			<TextCounter>{count}</TextCounter>
 
 			<LifeContainer>
@@ -215,10 +224,10 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 					key={symbol.id}
 					source={Object.values(symbol.source)[0] as number}
 					style={{
-						position: "absolute",
+						top: 0,
 						width: 46,
 						height: 48,
-						top: 0,
+						position: "absolute",
 						left: symbol.xPosition,
 						transform: [{ translateY: symbol.translateY }],
 					}}
