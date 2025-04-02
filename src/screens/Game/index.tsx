@@ -41,8 +41,8 @@ const INITIAL_SETTINGS = {
 	FREQUENCY: 2000,
 	SPEED: 7000,
 	MIN_FREQUENCY: 500,
-	MIN_SPEED: 2000,
-	SPEED_REDUCTION: 350,
+	MIN_SPEED: 2500,
+	SPEED_REDUCTION: 550,
 	POINTS_PER_REDUCTION: 5,
 };
 
@@ -91,22 +91,33 @@ const getRandomNumber = (min: number, max: number): number => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const calculateGameSetting = (count: number, initialValue: number, minValue: number) => {
+const calculateFrecuency = (count: number, initialValue: number, minValue: number) => {
 	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
-	if (count >= 40) return minValue;
-	if (count >= 50) return minValue + 200;
-	if (count >= 70) return minValue + 500;
-	if (count >= 90) return minValue + 300;
-	if (count >= 110) return minValue + 500;
+	// if (count >= 40 && count <= 50) return minValue;
+	// if (count >= 50 && count <= 70) return minValue + 200;
+	// if (count >= 70 && count <= 90) return minValue + 500;
+	// if (count >= 90 && count <= 110) return minValue + 300;
+	// if (count >= 110) return minValue + 500;
+	if (count >= 50 && count < 100) return minValue + 500;
+	if (count >= 100 && count < 150) return minValue + 300;
+	if (count >= 150 && count < 200) return minValue + 100;
+	if (count >= 200 && count < 300) return minValue;
+	if (count >= 300) return minValue + 100;
 	return Math.max(initialValue - reduction, minValue);
 };
 
 const calculateGameSettingSpeed = (count: number, initialValue: number, minValue: number) => {
 	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
-	if (count >= 50) return minValue;
-	if (count >= 70) return minValue - 200;
-	if (count >= 90) return minValue - 500;
-	if (count >= 110) return minValue - 800;
+	// if (count >= 50) return minValue;
+	// if (count >= 70) return minValue - 200;
+	// if (count >= 90) return minValue - 500;
+	// if (count >= 110) return minValue - 800;
+	if (count >= 50 && count < 70) return minValue;
+	if (count >= 70 && count < 90) return minValue - 200;
+	if (count >= 90 && count < 110) return minValue - 500;
+	if (count >= 110 && count < 150) return minValue - 800;
+	if (count >= 250 && count < 300) return minValue - 400;
+	if (count >= 300) return minValue - 600;
 	return Math.max(initialValue - reduction, minValue);
 };
 
@@ -117,15 +128,18 @@ const ShapeButtonComponent: React.FC<ShapeButtonProps> = ({ mode, shape, onPress
 	</ShapeButton>
 );
 
-const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPress }) => (
-	<ModeButton activeOpacity={1} onPress={onPress}>
-		<Image
-			resizeMode="stretch"
-			style={{ height: verticalScale(46), width: verticalScale(70) }}
-			source={selected ? MODE_BUTTON_IMAGES[mode].selected : MODE_BUTTON_IMAGES[mode].normal}
-		/>
-	</ModeButton>
-);
+const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPress }) => {
+	console.log({ mode, selected });
+	return (
+		<ModeButton mode={mode} selected={selected} onPress={onPress}>
+			<Image
+				resizeMode="stretch"
+				style={{ height: verticalScale(46), width: verticalScale(70) }}
+				// source={selected ? MODE_BUTTON_IMAGES[mode].selected : MODE_BUTTON_IMAGES[mode].normal}
+			/>
+		</ModeButton>
+	);
+};
 
 const TextCounter = styled(TextObelix)`
   width: 100%;
@@ -137,7 +151,7 @@ const TextCounter = styled(TextObelix)`
 
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	const [hits, setHits] = useState<number>(0);
-	const [count, setCount] = useState<number>(0);
+	const [count, setCount] = useState<number>(165);
 	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
 	const [speed, setSpeed] = useState<number>(INITIAL_SETTINGS.SPEED);
 	const [symbols, setSymbols] = useState<DroppingSymbol[]>([]);
@@ -159,7 +173,7 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	};
 
 	useEffect(() => {
-		setFrequency(calculateGameSetting(count, INITIAL_SETTINGS.FREQUENCY, INITIAL_SETTINGS.MIN_FREQUENCY));
+		setFrequency(calculateFrecuency(count, INITIAL_SETTINGS.FREQUENCY, INITIAL_SETTINGS.MIN_FREQUENCY));
 		setSpeed(calculateGameSettingSpeed(count, INITIAL_SETTINGS.SPEED, INITIAL_SETTINGS.MIN_SPEED));
 	}, [count]);
 

@@ -1,3 +1,4 @@
+import { verticalScale } from "@src/utils/scaleFunctions";
 import styled, { type DefaultTheme } from "styled-components/native";
 
 export const GameBackground = styled.View`
@@ -32,12 +33,17 @@ export const ShapeContainer = styled.View`
 export const ControlsContainer = styled.View`
     height: 110%;
     flex-direction: column;
-    justify-content: space-around;
 `;
 
 export const ShapeButton = styled.TouchableOpacity`
     margin: 0 10px;
 `;
 
-export const ModeButton = styled.TouchableOpacity`
+export const ModeButton = styled.TouchableOpacity<{ mode: string; selected: boolean }>`
+    background-color: ${(props: DefaultTheme) => (props?.mode === "red" ? props.theme.redColor : props.theme.blueColor)};
+    opacity: ${(props: DefaultTheme) => (props?.selected ? 1 : 0.2)};
+    padding-horizontal: ${verticalScale(8)}px;
+    padding-vertical: ${verticalScale(4)}px;
+    border-radius: ${verticalScale(15)}px;
+    margin:  ${verticalScale(2)}px;
 `;
