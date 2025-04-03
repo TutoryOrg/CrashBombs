@@ -129,7 +129,6 @@ const ShapeButtonComponent: React.FC<ShapeButtonProps> = ({ mode, shape, onPress
 );
 
 const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPress }) => {
-	console.log({ mode, selected });
 	return (
 		<ModeButton mode={mode} selected={selected} onPress={onPress}>
 			<Image
@@ -151,7 +150,7 @@ const TextCounter = styled(TextObelix)`
 
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	const [hits, setHits] = useState<number>(0);
-	const [count, setCount] = useState<number>(165);
+	const [count, setCount] = useState<number>(0);
 	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
 	const [speed, setSpeed] = useState<number>(INITIAL_SETTINGS.SPEED);
 	const [symbols, setSymbols] = useState<DroppingSymbol[]>([]);
