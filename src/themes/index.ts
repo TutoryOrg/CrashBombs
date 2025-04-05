@@ -5,6 +5,7 @@ declare module "styled-components" {
 	export interface DefaultTheme {
 		themeName: string;
 		bgColor: string;
+		bgColorDark: string;
 		blackColor: string;
 		redColor: string;
 		blueColor: string;
@@ -18,6 +19,7 @@ declare module "styled-components" {
 export const lightTheme: DefaultTheme = {
 	themeName: "lightTheme",
 	bgColor: "#282E3D",
+	bgColorDark: "#1f2430",
 	txtColor: "#FFFFFF",
 	txtGrayColor: "#01232F",
 	blackColor: "black",
@@ -30,6 +32,7 @@ export const lightTheme: DefaultTheme = {
 export const darkTheme: DefaultTheme = {
 	themeName: "darkTheme",
 	bgColor: "#282E3D",
+	bgColorDark: "#1f2430",
 	txtColor: "#FFFFFF",
 	txtGrayColor: "#01232F",
 	blackColor: "black",

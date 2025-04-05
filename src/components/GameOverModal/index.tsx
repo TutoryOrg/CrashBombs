@@ -1,16 +1,21 @@
-import { Modal } from "react-native";
-import { ModalContent, ModalTitle, ModalButton, ModalButtonText, GameOverModalContainer } from "./styled";
+import { Modal, View } from "react-native";
+import { ModalContent, ModalTitle, ModalButton, ModalButtonText, GameOverModalContainer, ModalButtonOp } from "./styled";
 
-export const GameOverModal: React.FC<GameOverModalProps> = ({ gameOver, onRestart, onMenu }) => {
+export const GameOverModal: React.FC<GameOverModalProps> = ({ gameOver, onRestart, onResume, onMenu }) => {
 	return (
 		<Modal visible={gameOver} transparent={true} animationType="fade">
 			<GameOverModalContainer>
 				<ModalContent>
 					<ModalTitle>Game Over</ModalTitle>
 
-					<ModalButton onPress={onRestart}>
-						<ModalButtonText>Restart</ModalButtonText>
-					</ModalButton>
+					<View style={{ flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+						<ModalButtonOp onPress={onRestart}>
+							<ModalButtonText>Restart</ModalButtonText>
+						</ModalButtonOp>
+						<ModalButtonOp onPress={onResume}>
+							<ModalButtonText>Resume</ModalButtonText>
+						</ModalButtonOp>
+					</View>
 
 					<ModalButton onPress={onMenu}>
 						<ModalButtonText>Menu</ModalButtonText>

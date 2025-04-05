@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Animated, Dimensions, Image, type ImageSourcePropType } from "react-native";
 import { ButtonsContainer, ControlsContainer, GameBackground, LifeContainer, ModeButton, ShapeButton, ShapeContainer } from "./styled";
-import { moderateScale, verticalScale } from "@src/utils/scaleFunctions";
+import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
-import { TextObelix } from "@src/components/Text";
+import { TextKomi, TextObelix } from "@src/components/Text";
 import { GameOverModal } from "@src/components/GameOverModal";
+import { StatusBar } from "expo-status-bar";
 
 // Types
 type ShapeType = "triangle" | "square" | "circle";
@@ -93,11 +94,6 @@ const getRandomNumber = (min: number, max: number): number => {
 
 const calculateFrecuency = (count: number, initialValue: number, minValue: number) => {
 	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
-	// if (count >= 40 && count <= 50) return minValue;
-	// if (count >= 50 && count <= 70) return minValue + 200;
-	// if (count >= 70 && count <= 90) return minValue + 500;
-	// if (count >= 90 && count <= 110) return minValue + 300;
-	// if (count >= 110) return minValue + 500;
 	if (count >= 50 && count < 100) return minValue + 500;
 	if (count >= 100 && count < 150) return minValue + 300;
 	if (count >= 150 && count < 200) return minValue + 100;
@@ -108,10 +104,6 @@ const calculateFrecuency = (count: number, initialValue: number, minValue: numbe
 
 const calculateGameSettingSpeed = (count: number, initialValue: number, minValue: number) => {
 	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
-	// if (count >= 50) return minValue;
-	// if (count >= 70) return minValue - 200;
-	// if (count >= 90) return minValue - 500;
-	// if (count >= 110) return minValue - 800;
 	if (count >= 50 && count < 70) return minValue;
 	if (count >= 70 && count < 90) return minValue - 200;
 	if (count >= 90 && count < 110) return minValue - 500;
@@ -124,7 +116,7 @@ const calculateGameSettingSpeed = (count: number, initialValue: number, minValue
 // Reusable Components
 const ShapeButtonComponent: React.FC<ShapeButtonProps> = ({ mode, shape, onPress }) => (
 	<ShapeButton activeOpacity={1} onPress={() => onPress(shape)}>
-		<Image resizeMode="stretch" style={{ height: verticalScale(60), width: verticalScale(60) }} source={SHAPE_IMAGES[mode][shape]} />
+		<Image resizeMode="stretch" style={{ height: scale(55), width: scale(55) }} source={SHAPE_IMAGES[mode][shape]} />
 	</ShapeButton>
 );
 
@@ -140,10 +132,10 @@ const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPres
 	);
 };
 
-const TextCounter = styled(TextObelix)`
+const TextCounter = styled(TextKomi)`
   width: 100%;
   opacity: 0.8;
-  margin-bottom: 85%;
+  margin-bottom: 70%;
   text-align: center;
   font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
 `;
@@ -220,9 +212,16 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 		setGameOver(false);
 	};
 
+	const handleResume = () => {
+		setHits(0);
+		setSymbols([]);
+		setGameOver(false);
+	};
+
 	return (
 		<GameBackground>
-			<GameOverModal gameOver={gameOver} onRestart={handleRestart} onMenu={onClickMenu} />
+			<StatusBar hidden={true} backgroundColor={"white"} translucent={false} />
+			<GameOverModal gameOver={gameOver} onRestart={handleRestart} onResume={handleResume} onMenu={onClickMenu} />
 
 			<TextCounter>{count}</TextCounter>
 
@@ -238,8 +237,8 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 					source={Object.values(symbol.source)[0] as number}
 					style={{
 						top: 0,
-						width: 46,
-						height: 48,
+						width: moderateScale(46),
+						height: moderateScale(48),
 						position: "absolute",
 						left: symbol.xPosition,
 						transform: [{ translateY: symbol.translateY }],
