@@ -1,6 +1,13 @@
 import { Modal, View } from "react-native";
 import { ModalContent, ModalTitle, ModalButton, ModalButtonText, GameOverModalContainer, ModalButtonOp } from "./styled";
 
+interface GameOverModalProps {
+	gameOver: boolean;
+	onRestart: () => void;
+	onResume: () => void;
+	onMenu: () => void;
+}
+
 export const GameOverModal: React.FC<GameOverModalProps> = ({ gameOver, onRestart, onResume, onMenu }) => {
 	return (
 		<Modal visible={gameOver} transparent={true} animationType="fade">

@@ -1,12 +1,20 @@
-import { useEffect, useState } from "react";
-import { Animated, Dimensions, Image, type ImageSourcePropType } from "react-native";
-import { ButtonsContainer, ControlsContainer, GameBackground, LifeContainer, ModeButton, ShapeButton, ShapeContainer } from "./styled";
-import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
-import styled from "styled-components/native";
-import { fontSizes } from "@src/utils/constants";
-import { TextKomi, TextObelix } from "@src/components/Text";
-import { GameOverModal } from "@src/components/GameOverModal";
 import { StatusBar } from "expo-status-bar";
+import { GameOverModal } from "@src/components/GameOverModal";
+import { useEffect, useState } from "react";
+import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
+import { Animated, Dimensions, Image, type ImageSourcePropType } from "react-native";
+import {
+	TextCounter,
+	ShapeButton,
+	ModeButton,
+	LifeContainer,
+	GameBackground,
+	ShapeContainer,
+	ButtonsContainer,
+	ControlsContainer,
+	XButton,
+	XButtonContainer,
+} from "./styled";
 
 // Types
 type ShapeType = "triangle" | "square" | "circle";
@@ -132,13 +140,9 @@ const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPres
 	);
 };
 
-const TextCounter = styled(TextKomi)`
-  width: 100%;
-  opacity: 0.8;
-  margin-bottom: 70%;
-  text-align: center;
-  font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
-`;
+interface GameProps {
+	onClickMenu: () => void;
+}
 
 export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	const [hits, setHits] = useState<number>(0);
@@ -148,6 +152,9 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	const [symbols, setSymbols] = useState<DroppingSymbol[]>([]);
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
 	const [gameOver, setGameOver] = useState(false);
+
+	const [paused, setPaused] = useState(false); // Add paused state
+	const [animationRefs, setAnimationRefs] = useState<Animated.CompositeAnimation[]>([]); // To track animations
 
 	const handleShapePress = (shape: ShapeType) => {
 		const targetKey = `${currentMode}_${shape}`;
@@ -169,15 +176,45 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	}, [count]);
 
 	useEffect(() => {
+		if (paused) return;
 		const interval = setInterval(() => {
 			if (hits < 4) addSymbol();
 			else setGameOver(true);
 		}, frequency);
 
 		return () => clearInterval(interval);
-	}, [hits, frequency]);
+	}, [hits, frequency, paused]);
+
+	// const addSymbol = () => {
+	// 	if (paused) return;
+	// 	const randomSymbol = SYMBOL_IMAGES[getRandomNumber(0, SYMBOL_IMAGES.length - 1)];
+	// 	const randomX = getRandomNumber(0, SCREEN_WIDTH - 50);
+
+	// 	const newSymbol: DroppingSymbol = {
+	// 		id: Date.now(),
+	// 		source: randomSymbol,
+	// 		xPosition: randomX,
+	// 		translateY: new Animated.Value(-250),
+	// 	};
+
+	// 	setSymbols((prev) => [...prev, newSymbol]);
+
+	// 	Animated.timing(newSymbol.translateY, {
+	// 		toValue: SCREEN_HEIGHT - SCREEN_HEIGHT * 0.2,
+	// 		duration: speed,
+	// 		useNativeDriver: false,
+	// 		easing: (val) => val,
+	// 	}).start(({ finished }) => {
+	// 		if (finished) {
+	// 			setHits((prev) => prev + 1);
+	// 		}
+	// 		setSymbols((prev) => prev.filter((symbol) => symbol.id !== newSymbol.id));
+	// 	});
+	// };
 
 	const addSymbol = () => {
+		if (paused) return;
+
 		const randomSymbol = SYMBOL_IMAGES[getRandomNumber(0, SYMBOL_IMAGES.length - 1)];
 		const randomX = getRandomNumber(0, SCREEN_WIDTH - 50);
 
@@ -190,26 +227,31 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 
 		setSymbols((prev) => [...prev, newSymbol]);
 
-		Animated.timing(newSymbol.translateY, {
+		const animation = Animated.timing(newSymbol.translateY, {
 			toValue: SCREEN_HEIGHT - SCREEN_HEIGHT * 0.2,
 			duration: speed,
 			useNativeDriver: false,
 			easing: (val) => val,
-		}).start(({ finished }) => {
-			if (finished) {
+		});
+
+		setAnimationRefs((prev) => [...prev, animation]);
+
+		animation.start(({ finished }) => {
+			if (finished && !paused) {
 				setHits((prev) => prev + 1);
 			}
 			setSymbols((prev) => prev.filter((symbol) => symbol.id !== newSymbol.id));
+			setAnimationRefs((prev) => prev.filter((anim) => anim !== animation));
 		});
 	};
 
 	const handleRestart = () => {
 		setHits(0);
 		setCount(0);
-		setFrequency(INITIAL_SETTINGS.FREQUENCY);
-		setSpeed(INITIAL_SETTINGS.SPEED);
 		setSymbols([]);
 		setGameOver(false);
+		setSpeed(INITIAL_SETTINGS.SPEED);
+		setFrequency(INITIAL_SETTINGS.FREQUENCY);
 	};
 
 	const handleResume = () => {
@@ -218,11 +260,21 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 		setGameOver(false);
 	};
 
+	const handlePause = () => {
+		setPaused(true);
+		setGameOver(true);
+		// biome-ignore lint/complexity/noForEach: <explanation>
+		animationRefs.forEach((anim) => anim.stop());
+	};
+
 	return (
 		<GameBackground>
 			<StatusBar hidden={true} backgroundColor={"white"} translucent={false} />
 			<GameOverModal gameOver={gameOver} onRestart={handleRestart} onResume={handleResume} onMenu={onClickMenu} />
 
+			<XButtonContainer onPress={() => handlePause()}>
+				<XButton>X</XButton>
+			</XButtonContainer>
 			<TextCounter>{count}</TextCounter>
 
 			<LifeContainer>

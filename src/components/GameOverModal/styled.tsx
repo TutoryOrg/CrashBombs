@@ -1,5 +1,5 @@
-import styled, { DefaultTheme } from "styled-components/native";
-import { verticalScale } from "@src/utils/scaleFunctions";
+import styled, { type DefaultTheme } from "styled-components/native";
+import { scale, verticalScale } from "@src/utils/scaleFunctions";
 import { TextObelix } from "../Text";
 import { fontSizes } from "@src/utils/constants";
 
@@ -8,7 +8,7 @@ export const GameOverModalContainer = styled.View`
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right:0;
   bottom: 0;
   justify-content: center;
   align-items: center;
@@ -53,6 +53,6 @@ export const ModalButton = styled.TouchableOpacity`
 `;
 
 export const ModalButtonText = styled(TextObelix)`
-  font-size: ${verticalScale(fontSizes.large)}px;
+  font-size: ${scale(fontSizes.large)}px;
   color: white;
 `;

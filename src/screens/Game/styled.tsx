@@ -1,3 +1,5 @@
+import { TextKomi } from "@src/components/Text";
+import { fontSizes } from "@src/utils/constants";
 import { verticalScale } from "@src/utils/scaleFunctions";
 import styled, { type DefaultTheme } from "styled-components/native";
 
@@ -15,15 +17,38 @@ export const LifeContainer = styled.View`
     z-index: 1;
 `;
 
+export const XButtonContainer = styled.TouchableOpacity`
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 10%;
+    margin: 10px;
+`;
+
+export const XButton = styled(TextKomi)`
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: ${verticalScale(fontSizes.Xlarge)}px;
+`;
+
+export const TextCounter = styled(TextKomi)`
+    width: 100%;
+    opacity: 0.8;
+    margin-bottom: 70%;
+    text-align: center;
+    font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
+`;
+
 export const ButtonsContainer = styled.View`
     width: 96%;
+    z-index: 1;
+    height: 18%;
+    bottom: 20px; 
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    z-index: 1;
-    height: 18%;
     background-color: ${(props: DefaultTheme) => props.theme.bgColorDark};
-    bottom: 10px;
 `;
 
 export const ShapeContainer = styled.View`
