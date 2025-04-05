@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import type { IUser } from "@src/utils/constants";
 import { GameOverModal } from "@src/components/GameOverModal";
 import { useEffect, useState } from "react";
 import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
@@ -16,11 +17,11 @@ import {
 	XButtonContainer,
 	TextTopScore,
 } from "./styled";
-import { IUser } from "@src/utils/constants";
+import { supabase } from "@src/utils/supabase";
 
 // Types
-type ShapeType = "triangle" | "square" | "circle";
 type ButtonMode = "red" | "blue";
+type ShapeType = "triangle" | "square" | "circle";
 
 interface ShapeButtonProps {
 	mode: ButtonMode;
@@ -34,21 +35,13 @@ interface ModeButtonProps {
 	onPress: () => void;
 }
 
-// interface DroppingSymbol {
-// 	id: number;
-// 	source: any;
-// 	xPosition: number;
-// 	translateY: Animated.Value;
-// 	removedByPress?: boolean;
-// }
-
 interface DroppingSymbol {
 	id: number;
 	source: any;
 	xPosition: number;
 	translateY: Animated.Value;
-	animation?: Animated.CompositeAnimation; // Track the animation instance
-	currentY?: number; // Track current position
+	animation?: Animated.CompositeAnimation;
+	currentY?: number;
 }
 
 // Constants
@@ -159,14 +152,15 @@ interface GameProps {
 export const Game: React.FC<GameProps> = ({ user, onClickMenu }) => {
 	const [hits, setHits] = useState<number>(0);
 	const [count, setCount] = useState<number>(0);
-	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
 	const [speed, setSpeed] = useState<number>(INITIAL_SETTINGS.SPEED);
+	const [paused, setPaused] = useState(false);
 	const [symbols, setSymbols] = useState<DroppingSymbol[]>([]);
-	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
 	const [gameOver, setGameOver] = useState(false);
+	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
+	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
+	const [animationRefs, setAnimationRefs] = useState<Animated.CompositeAnimation[]>([]);
 
-	const [paused, setPaused] = useState(false); // Add paused state
-	const [animationRefs, setAnimationRefs] = useState<Animated.CompositeAnimation[]>([]); // To track animations
+	const handleModeChange = (mode: ButtonMode) => setCurrentMode(mode);
 
 	const handleShapePress = (shape: ShapeType) => {
 		const targetKey = `${currentMode}_${shape}`;
@@ -176,10 +170,6 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu }) => {
 			setSymbols((prev) => prev.filter((symbol) => symbol.id !== symbolToRemove.id));
 			setCount((prev) => prev + 1);
 		}
-	};
-
-	const handleModeChange = (mode: ButtonMode) => {
-		setCurrentMode(mode);
 	};
 
 	useEffect(() => {
@@ -196,6 +186,30 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu }) => {
 
 		return () => clearInterval(interval);
 	}, [hits, frequency, paused]);
+
+	useEffect(() => {
+		if (gameOver === true && hits >= 3 && user?.bestscore !== undefined && Number(user.bestscore) < count) {
+			const updateBestScore = async () => {
+				try {
+					const { data, error, status } = await supabase
+						.from("profiles")
+						.update({ bestscore: count })
+						.eq("id", user?.id)
+						.select();
+
+					console.log({ data });
+
+					if (error && status !== 406) {
+						throw error;
+					}
+					console.log("Best score updated successfully");
+				} catch (error) {
+					console.error("Error updating best score:", error);
+				}
+			};
+			updateBestScore();
+		}
+	}, [gameOver]);
 
 	const addSymbol = () => {
 		if (paused) return;
