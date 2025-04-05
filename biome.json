@@ -30,6 +30,9 @@
 			"correctness": {
 				"noChildrenProp": "off",
 				"useExhaustiveDependencies": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
 			}
 		}
 	},

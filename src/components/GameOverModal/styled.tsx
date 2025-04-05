@@ -1,5 +1,5 @@
 import styled, { type DefaultTheme } from "styled-components/native";
-import { scale, verticalScale } from "@src/utils/scaleFunctions";
+import { verticalScale } from "@src/utils/scaleFunctions";
 import { TextObelix } from "../Text";
 import { fontSizes } from "@src/utils/constants";
 
@@ -53,6 +53,6 @@ export const ModalButton = styled.TouchableOpacity`
 `;
 
 export const ModalButtonText = styled(TextObelix)`
-  font-size: ${scale(fontSizes.large)}px;
+  font-size: ${verticalScale(fontSizes.large)}px;
   color: white;
 `;

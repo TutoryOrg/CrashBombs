@@ -1,6 +1,6 @@
 import { TextKomi } from "@src/components/Text";
 import { fontSizes } from "@src/utils/constants";
-import { verticalScale } from "@src/utils/scaleFunctions";
+import { verticalScale, windowHeight, windowWidth } from "@src/utils/scaleFunctions";
 import styled, { type DefaultTheme } from "styled-components/native";
 
 export const GameBackground = styled.View`
@@ -10,24 +10,31 @@ export const GameBackground = styled.View`
     background-color: ${(props: DefaultTheme) => props.theme.bgColorDark};
 `;
 
-export const LifeContainer = styled.View`
-    width: 96%;
-    justify-content: flex-end;
-    margin-bottom: 10px;
+export const TextTopScore = styled(TextKomi)`
+    width: 100%;
+    height: 6%;
+    text-align: right;
     z-index: 1;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 40%;
+    top: 10px;
+    margin-left: 10px;
+    font-size: ${verticalScale(fontSizes.small)}px;
 `;
 
 export const XButtonContainer = styled.TouchableOpacity`
+    z-index: 1;
     position: absolute;
     top: 0px;
     left: 0px;
     width: 10%;
-    margin: 10px;
+    margin-right: 10px;
 `;
 
 export const XButton = styled(TextKomi)`
-    width: 100%;
-    height: 100%;
+    bottom: 10px;
     text-align: center;
     font-size: ${verticalScale(fontSizes.Xlarge)}px;
 `;
@@ -35,16 +42,24 @@ export const XButton = styled(TextKomi)`
 export const TextCounter = styled(TextKomi)`
     width: 100%;
     opacity: 0.8;
-    margin-bottom: 70%;
+    position: absolute;
+    top: ${windowHeight / 8}px;
     text-align: center;
     font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
+`;
+
+export const LifeContainer = styled.View`
+    z-index: 1;
+    width: 96%;
+    justify-content: flex-end;
+    margin-bottom: 15px;
 `;
 
 export const ButtonsContainer = styled.View`
     width: 96%;
     z-index: 1;
     height: 18%;
-    bottom: 20px; 
+    bottom: 10px; 
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

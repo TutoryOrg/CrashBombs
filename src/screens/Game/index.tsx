@@ -14,7 +14,9 @@ import {
 	ControlsContainer,
 	XButton,
 	XButtonContainer,
+	TextTopScore,
 } from "./styled";
+import { IUser } from "@src/utils/constants";
 
 // Types
 type ShapeType = "triangle" | "square" | "circle";
@@ -32,12 +34,21 @@ interface ModeButtonProps {
 	onPress: () => void;
 }
 
+// interface DroppingSymbol {
+// 	id: number;
+// 	source: any;
+// 	xPosition: number;
+// 	translateY: Animated.Value;
+// 	removedByPress?: boolean;
+// }
+
 interface DroppingSymbol {
 	id: number;
 	source: any;
 	xPosition: number;
 	translateY: Animated.Value;
-	removedByPress?: boolean;
+	animation?: Animated.CompositeAnimation; // Track the animation instance
+	currentY?: number; // Track current position
 }
 
 // Constants
@@ -141,10 +152,11 @@ const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPres
 };
 
 interface GameProps {
+	user: IUser | undefined;
 	onClickMenu: () => void;
 }
 
-export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
+export const Game: React.FC<GameProps> = ({ user, onClickMenu }) => {
 	const [hits, setHits] = useState<number>(0);
 	const [count, setCount] = useState<number>(0);
 	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
@@ -178,39 +190,12 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 	useEffect(() => {
 		if (paused) return;
 		const interval = setInterval(() => {
-			if (hits < 4) addSymbol();
+			if (hits <= 3) addSymbol();
 			else setGameOver(true);
 		}, frequency);
 
 		return () => clearInterval(interval);
 	}, [hits, frequency, paused]);
-
-	// const addSymbol = () => {
-	// 	if (paused) return;
-	// 	const randomSymbol = SYMBOL_IMAGES[getRandomNumber(0, SYMBOL_IMAGES.length - 1)];
-	// 	const randomX = getRandomNumber(0, SCREEN_WIDTH - 50);
-
-	// 	const newSymbol: DroppingSymbol = {
-	// 		id: Date.now(),
-	// 		source: randomSymbol,
-	// 		xPosition: randomX,
-	// 		translateY: new Animated.Value(-250),
-	// 	};
-
-	// 	setSymbols((prev) => [...prev, newSymbol]);
-
-	// 	Animated.timing(newSymbol.translateY, {
-	// 		toValue: SCREEN_HEIGHT - SCREEN_HEIGHT * 0.2,
-	// 		duration: speed,
-	// 		useNativeDriver: false,
-	// 		easing: (val) => val,
-	// 	}).start(({ finished }) => {
-	// 		if (finished) {
-	// 			setHits((prev) => prev + 1);
-	// 		}
-	// 		setSymbols((prev) => prev.filter((symbol) => symbol.id !== newSymbol.id));
-	// 	});
-	// };
 
 	const addSymbol = () => {
 		if (paused) return;
@@ -256,15 +241,17 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 
 	const handleResume = () => {
 		setHits(0);
-		setSymbols([]);
+		// setSymbols([]);
+		setPaused(false);
 		setGameOver(false);
 	};
 
 	const handlePause = () => {
 		setPaused(true);
 		setGameOver(true);
-		// biome-ignore lint/complexity/noForEach: <explanation>
-		animationRefs.forEach((anim) => anim.stop());
+		animationRefs.forEach((anim) => {
+			anim.stop();
+		});
 	};
 
 	return (
@@ -275,6 +262,9 @@ export const Game: React.FC<GameProps> = ({ onClickMenu }) => {
 			<XButtonContainer onPress={() => handlePause()}>
 				<XButton>X</XButton>
 			</XButtonContainer>
+
+			<TextTopScore>Best Score: {user?.bestscore}</TextTopScore>
+
 			<TextCounter>{count}</TextCounter>
 
 			<LifeContainer>

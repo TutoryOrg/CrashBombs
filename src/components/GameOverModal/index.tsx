@@ -3,9 +3,9 @@ import { ModalContent, ModalTitle, ModalButton, ModalButtonText, GameOverModalCo
 
 interface GameOverModalProps {
 	gameOver: boolean;
-	onRestart: () => void;
-	onResume: () => void;
 	onMenu: () => void;
+	onResume: () => void;
+	onRestart: () => void;
 }
 
 export const GameOverModal: React.FC<GameOverModalProps> = ({ gameOver, onRestart, onResume, onMenu }) => {
