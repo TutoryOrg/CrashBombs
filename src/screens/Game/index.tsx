@@ -241,7 +241,6 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu }) => {
 
 	const handleResume = () => {
 		setHits(0);
-		// setSymbols([]);
 		setPaused(false);
 		setGameOver(false);
 	};

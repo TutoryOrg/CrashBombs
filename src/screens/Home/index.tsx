@@ -148,7 +148,6 @@ export const Home = (props: {
 	onHandleClickPlay: () => void;
 }) => {
 	const { onHandleClickPlay, user, topUsers, setSession, countDown } = props;
-
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const handleSheetChanges = useCallback((index: number) => {}, []);
 

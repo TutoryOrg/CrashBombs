@@ -17,10 +17,9 @@ export const TextTopScore = styled(TextKomi)`
     z-index: 1;
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: 10px;
     width: 40%;
     top: 10px;
-    margin-left: 10px;
     font-size: ${verticalScale(fontSizes.small)}px;
 `;
 
@@ -28,7 +27,7 @@ export const XButtonContainer = styled.TouchableOpacity`
     z-index: 1;
     position: absolute;
     top: 0px;
-    left: 0px;
+    left: 10px;
     width: 10%;
     margin-right: 10px;
 `;
