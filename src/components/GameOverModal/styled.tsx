@@ -44,7 +44,7 @@ export const ModalButtonOp = styled.TouchableOpacity`
 `;
 
 export const ModalButton = styled.TouchableOpacity`
-  background-color: ${(props: DefaultTheme) => props.theme.redColor};
+  background-color: ${(props: DefaultTheme) => props.theme.pinkColor};
   width: 100%;
   border-radius: 5px;
   align-items: center;
@@ -54,5 +54,5 @@ export const ModalButton = styled.TouchableOpacity`
 
 export const ModalButtonText = styled(TextObelix)`
   font-size: ${verticalScale(fontSizes.large)}px;
-  color: white;
+	color: ${(props: DefaultTheme) => props?.theme?.txtGrayColor};
 `;
