@@ -1,3 +1,4 @@
+import { supabase } from "@src/utils/supabase";
 import { StatusBar } from "expo-status-bar";
 import type { IUser } from "@src/utils/constants";
 import { GameOverModal } from "@src/components/GameOverModal";
@@ -5,19 +6,18 @@ import { useEffect, useState } from "react";
 import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
 import { Animated, Dimensions, Image, type ImageSourcePropType } from "react-native";
 import {
+	XButton,
+	ModeButton,
 	TextCounter,
 	ShapeButton,
-	ModeButton,
+	TextTopScore,
 	LifeContainer,
 	GameBackground,
 	ShapeContainer,
 	ButtonsContainer,
 	ControlsContainer,
-	XButton,
 	XButtonContainer,
-	TextTopScore,
 } from "./styled";
-import { supabase } from "@src/utils/supabase";
 
 // Types
 type ButtonMode = "red" | "blue";
@@ -147,9 +147,10 @@ const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPres
 interface GameProps {
 	user: IUser | undefined;
 	onClickMenu: () => void;
+	fetchProfile: (id: string) => void;
 }
 
-export const Game: React.FC<GameProps> = ({ user, onClickMenu }) => {
+export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) => {
 	const [hits, setHits] = useState<number>(0);
 	const [count, setCount] = useState<number>(0);
 	const [speed, setSpeed] = useState<number>(INITIAL_SETTINGS.SPEED);
@@ -198,6 +199,10 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu }) => {
 						.select();
 
 					console.log({ data });
+
+					if (data) {
+						fetchProfile(user?.id);
+					}
 
 					if (error && status !== 406) {
 						throw error;

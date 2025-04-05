@@ -22,6 +22,7 @@ export function useProfile() {
 			}
 
 			if (data) {
+				console.log({ data });
 				setUser({ id: user_id, ...data });
 			}
 		} catch (error) {

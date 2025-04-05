@@ -96,7 +96,7 @@ export const Menu = () => {
 						onHandleClickPlay={() => setScreen(Screens.GAME)}
 					/>
 				)}
-				{screen === Screens.GAME && <Game user={user} onClickMenu={() => setScreen(Screens.HOME)} />}
+				{screen === Screens.GAME && <Game user={user} onClickMenu={() => setScreen(Screens.HOME)} fetchProfile={fetchProfile} />}
 			</KeyboardAvoidingView>
 		</SafeContainer>
 	);
