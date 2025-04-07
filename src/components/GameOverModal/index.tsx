@@ -2,15 +2,16 @@ import { Modal, View } from "react-native";
 import { ModalContent, ModalTitle, ModalButton, ModalButtonText, GameOverModalContainer, ModalButtonOp } from "./styled";
 
 interface GameOverModalProps {
+	hits: number;
 	gameOver: boolean;
 	onMenu: () => void;
 	onResume: () => void;
 	onRestart: () => void;
 }
 
-export const GameOverModal: React.FC<GameOverModalProps> = ({ gameOver, onRestart, onResume, onMenu }) => {
+export const GameOverModal: React.FC<GameOverModalProps> = ({ hits, gameOver, onRestart, onResume, onMenu }) => {
 	return (
-		<Modal visible={gameOver} transparent={true} animationType="fade">
+		<Modal visible={gameOver} transparent={true} animationType={"slide"}>
 			<GameOverModalContainer>
 				<ModalContent>
 					<ModalTitle>Game Over</ModalTitle>
@@ -19,7 +20,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ gameOver, onRestar
 						<ModalButtonOp onPress={onRestart}>
 							<ModalButtonText>Restart</ModalButtonText>
 						</ModalButtonOp>
-						<ModalButtonOp onPress={onResume}>
+						<ModalButtonOp disabled={gameOver && hits >= 3} onPress={onResume}>
 							<ModalButtonText>Resume</ModalButtonText>
 						</ModalButtonOp>
 					</View>

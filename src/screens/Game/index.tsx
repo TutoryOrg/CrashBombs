@@ -12,11 +12,11 @@ import {
 	ShapeButton,
 	TextTopScore,
 	LifeContainer,
-	GameBackground,
 	ShapeContainer,
+	GameBackground,
 	ButtonsContainer,
-	ControlsContainer,
 	XButtonContainer,
+	ControlsContainer,
 } from "./styled";
 
 // Types
@@ -36,12 +36,11 @@ interface ModeButtonProps {
 }
 
 interface DroppingSymbol {
-	id: number;
+	id: string;
 	source: any;
 	xPosition: number;
 	translateY: Animated.Value;
 	animation?: Animated.CompositeAnimation;
-	currentY?: number;
 }
 
 // Constants
@@ -159,7 +158,6 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 	const [gameOver, setGameOver] = useState(false);
 	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
-	const [animationRefs, setAnimationRefs] = useState<Animated.CompositeAnimation[]>([]);
 
 	const handleModeChange = (mode: ButtonMode) => setCurrentMode(mode);
 
@@ -179,7 +177,7 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 	}, [count]);
 
 	useEffect(() => {
-		if (paused) return;
+		if (paused === true) return;
 		const interval = setInterval(() => {
 			if (hits <= 3) addSymbol();
 			else setGameOver(true);
@@ -217,16 +215,16 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 	}, [gameOver]);
 
 	const addSymbol = () => {
-		if (paused) return;
+		if (paused === true) return;
 
 		const randomSymbol = SYMBOL_IMAGES[getRandomNumber(0, SYMBOL_IMAGES.length - 1)];
 		const randomX = getRandomNumber(0, SCREEN_WIDTH - 50);
 
 		const newSymbol: DroppingSymbol = {
-			id: Date.now(),
+			id: new Date().getTime().toString(),
 			source: randomSymbol,
 			xPosition: randomX,
-			translateY: new Animated.Value(-250),
+			translateY: new Animated.Value(-100),
 		};
 
 		setSymbols((prev) => [...prev, newSymbol]);
@@ -234,18 +232,15 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 		const animation = Animated.timing(newSymbol.translateY, {
 			toValue: SCREEN_HEIGHT - SCREEN_HEIGHT * 0.2,
 			duration: speed,
-			useNativeDriver: false,
+			useNativeDriver: true,
 			easing: (val) => val,
 		});
 
-		setAnimationRefs((prev) => [...prev, animation]);
-
 		animation.start(({ finished }) => {
-			if (finished && !paused) {
+			if (finished === true) {
 				setHits((prev) => prev + 1);
 			}
 			setSymbols((prev) => prev.filter((symbol) => symbol.id !== newSymbol.id));
-			setAnimationRefs((prev) => prev.filter((anim) => anim !== animation));
 		});
 	};
 
@@ -253,13 +248,13 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 		setHits(0);
 		setCount(0);
 		setSymbols([]);
+		setPaused(false);
 		setGameOver(false);
 		setSpeed(INITIAL_SETTINGS.SPEED);
 		setFrequency(INITIAL_SETTINGS.FREQUENCY);
 	};
 
 	const handleResume = () => {
-		setHits(0);
 		setPaused(false);
 		setGameOver(false);
 	};
@@ -267,15 +262,12 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 	const handlePause = () => {
 		setPaused(true);
 		setGameOver(true);
-		animationRefs.forEach((anim) => {
-			anim.stop();
-		});
 	};
 
 	return (
 		<GameBackground>
 			<StatusBar hidden={true} backgroundColor={"white"} translucent={false} />
-			<GameOverModal gameOver={gameOver} onRestart={handleRestart} onResume={handleResume} onMenu={onClickMenu} />
+			<GameOverModal hits={hits} gameOver={gameOver} onRestart={handleRestart} onResume={handleResume} onMenu={onClickMenu} />
 
 			<XButtonContainer onPress={() => handlePause()}>
 				<XButton>X</XButton>
@@ -291,21 +283,24 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 				))}
 			</LifeContainer>
 
-			{symbols.map((symbol) => (
-				<Animated.Image
-					key={symbol.id}
-					source={Object.values(symbol.source)[0] as number}
-					style={{
-						top: 0,
-						width: moderateScale(46),
-						height: moderateScale(48),
-						position: "absolute",
-						left: symbol.xPosition,
-						transform: [{ translateY: symbol.translateY }],
-					}}
-					resizeMode="contain"
-				/>
-			))}
+			{paused === false &&
+				symbols.map((symbol) => {
+					return (
+						<Animated.Image
+							key={symbol.id}
+							source={Object.values(symbol.source)[0] as number}
+							style={{
+								top: 0,
+								width: moderateScale(46),
+								height: moderateScale(48),
+								position: "absolute",
+								left: symbol.xPosition,
+								transform: [{ translateY: symbol.translateY }],
+							}}
+							resizeMode="contain"
+						/>
+					);
+				})}
 
 			<ButtonsContainer>
 				<ShapeContainer>

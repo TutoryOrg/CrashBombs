@@ -1,5 +1,5 @@
 import styled, { type DefaultTheme } from "styled-components/native";
-import { verticalScale } from "@src/utils/scaleFunctions";
+import { scale, verticalScale } from "@src/utils/scaleFunctions";
 import { TextObelix } from "../Text";
 import { fontSizes } from "@src/utils/constants";
 
@@ -31,7 +31,7 @@ export const ModalTitle = styled(TextObelix)`
   text-align: center;
 `;
 
-export const ModalButtonOp = styled.TouchableOpacity`
+export const ModalButtonOp = styled.TouchableOpacity<{ disabled?: boolean }>`
   width: 48%;
   padding: ${verticalScale(10)}px;
   background-color: #555;
@@ -40,6 +40,7 @@ export const ModalButtonOp = styled.TouchableOpacity`
   align-items: center;
   text-align: center;
   justify-content: center;
+  opacity: ${(props: { disabled: boolean }) => (props.disabled ? 0.6 : 1)};
   background-color: ${(props: DefaultTheme) => props.theme.blueColor};
 `;
 
@@ -53,6 +54,6 @@ export const ModalButton = styled.TouchableOpacity`
 `;
 
 export const ModalButtonText = styled(TextObelix)`
-  font-size: ${verticalScale(fontSizes.large)}px;
+  font-size: ${scale(fontSizes.large)}px;
 	color: ${(props: DefaultTheme) => props?.theme?.txtGrayColor};
 `;
