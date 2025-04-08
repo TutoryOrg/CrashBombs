@@ -20,5 +20,7 @@ React Native Game
 
 :grey_question: Levels for the game. How difcult should the game be? Frecuency and Speed.  
 
-:pencil:
+:pencil: Do the website :fire:
+
+
 

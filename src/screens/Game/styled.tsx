@@ -40,10 +40,9 @@ export const XButton = styled(TextKomi)`
 
 export const TextCounter = styled(TextKomi)`
     width: 100%;
-    opacity: 0.8;
     position: absolute;
-    top: ${windowHeight / 8}px;
     text-align: center;
+    top: ${windowHeight / 8}px;
     font-size: ${verticalScale(fontSizes.XXXlarge) + 24}px;
 `;
 
