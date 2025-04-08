@@ -1,6 +1,6 @@
 import { TextKomi } from "@src/components/Text";
 import { fontSizes } from "@src/utils/constants";
-import { verticalScale, windowHeight, windowWidth } from "@src/utils/scaleFunctions";
+import { scale, verticalScale, windowHeight, windowWidth } from "@src/utils/scaleFunctions";
 import styled, { type DefaultTheme } from "styled-components/native";
 
 export const GameBackground = styled.View`
@@ -13,14 +13,14 @@ export const GameBackground = styled.View`
 export const TextTopScore = styled(TextKomi)`
     width: 100%;
     height: 6%;
-    text-align: right;
+    text-align: left;
     z-index: 1;
     position: absolute;
     top: 0px;
-    right: 10px;
+    left: 10px;
     width: 40%;
     top: 10px;
-    font-size: ${verticalScale(fontSizes.small)}px;
+    font-size: ${fontSizes.small}px;
 `;
 
 export const XButtonContainer = styled.TouchableOpacity`

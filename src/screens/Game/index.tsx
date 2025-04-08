@@ -269,11 +269,11 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 			<StatusBar hidden={true} backgroundColor={"white"} translucent={false} />
 			<GameOverModal hits={hits} gameOver={gameOver} onRestart={handleRestart} onResume={handleResume} onMenu={onClickMenu} />
 
-			<XButtonContainer onPress={() => handlePause()}>
+			{/* <XButtonContainer onPress={() => handlePause()}>
 				<XButton>X</XButton>
-			</XButtonContainer>
+			</XButtonContainer> */}
 
-			<TextTopScore>Best Score: {user?.bestscore}</TextTopScore>
+			<TextTopScore>Best Score: {user?.bestscore || "_"}</TextTopScore>
 
 			<TextCounter>{count}</TextCounter>
 

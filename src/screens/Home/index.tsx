@@ -31,6 +31,7 @@ import {
 	ButtonsContainer,
 	TopUsersContainer,
 } from "./styled";
+import { TouchableOpacity } from "react-native";
 
 export const Buttons = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; onHandleClickPlay: () => void }) => {
 	const { bottomSheetModalRef, onHandleClickPlay } = props;
@@ -116,8 +117,8 @@ export const GlobalScore = (props: { topUsers: ITopUser[] }) => {
 	);
 };
 
-export const Header = (props: { user: IUser | undefined }) => {
-	const { user } = props;
+export const Header = (props: { user: IUser | undefined; bottomSheetModalRef: Ref<BottomSheetModal> }) => {
+	const { user, bottomSheetModalRef } = props;
 	const isLoggedIn = isDefined(user);
 
 	const avatar = createAvatar(avataaarsNeutral, {
@@ -131,11 +132,13 @@ export const Header = (props: { user: IUser | undefined }) => {
 				<TextUser># {user?.ranking}</TextUser>
 				<TextUser>{`  ${user?.username}`}</TextUser>
 			</UserStatus>
-			{isLoggedIn ? (
-				<SvgXml height={verticalScale(40)} width={verticalScale(40)} xml={avatar} />
-			) : (
-				<Image height={verticalScale(40)} width={verticalScale(40)} source={require("assets/user.png")} />
-			)}
+			<TouchableOpacity onPress={() => bottomSheetModalRef?.current?.present()}>
+				{isLoggedIn ? (
+					<SvgXml height={verticalScale(40)} width={verticalScale(40)} xml={avatar} />
+				) : (
+					<Image height={verticalScale(40)} width={verticalScale(40)} source={require("assets/user.png")} />
+				)}
+			</TouchableOpacity>
 		</HeaderContainer>
 	);
 };
@@ -153,7 +156,7 @@ export const Home = (props: {
 
 	return (
 		<ViewContainer>
-			<Header user={user} />
+			<Header user={user} bottomSheetModalRef={bottomSheetModalRef} />
 			<HomeTitle>CRASH BOMBS</HomeTitle>
 			<GlobalScore topUsers={topUsers} />
 			<Counter user={user} count={countDown} bottomSheetModalRef={bottomSheetModalRef} />
