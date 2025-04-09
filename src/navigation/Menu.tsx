@@ -7,7 +7,7 @@ import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { KeyboardAvoidingView } from "react-native";
 import { type SetStateAction, useEffect, useState } from "react";
-import styled from "styled-components/native";
+import styled, { type DefaultTheme } from "styled-components/native";
 
 function startCountdown_2(targetDate: string, callback: (countdown: string) => void) {
 	if (targetDate === undefined) return;
@@ -32,28 +32,9 @@ function startCountdown_2(targetDate: string, callback: (countdown: string) => v
 	}, 500); // Update every 10 milliseconds for better precision
 }
 
-function startCountdown(targetDate: string, callback: { (countdown: any): void; (arg0: string): void }) {
-	if (targetDate === undefined) return;
-	const interval = setInterval(() => {
-		const target = new Date(targetDate);
-		const now = new Date();
-		const diff = target.getTime() - now.getTime();
-		if (diff <= 0) {
-			clearInterval(interval);
-			callback("00:00:00");
-			return;
-		}
-		const hours = Math.floor(diff / (1000 * 60 * 60));
-		const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-		const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-		const countdown = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-		callback(countdown);
-	}, 1000);
-}
-
 const SafeContainer = styled.SafeAreaView`
 	flex: 1;
-	background-color: ${(props) => props.theme.bgColor};
+	background-color: ${(props: DefaultTheme) => props.theme.bgColor};
 `;
 
 export const Menu = () => {

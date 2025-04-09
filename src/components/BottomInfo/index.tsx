@@ -26,6 +26,7 @@ import {
 	InfoButtonsContainer,
 	NotHaveAccountOptions,
 } from "./styled";
+import { supabase } from "@src/utils/supabase";
 
 const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
@@ -76,6 +77,10 @@ const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; 
 	const onLoginEmail = () => setLogin(REG_METHOD.EMAIL);
 	const onSignUpEmail = () => setSignUp(REG_METHOD.EMAIL);
 
+	const onHandleLoginWithGoogle = async () => { };
+
+	const onHandleSingUpWithGoogle = () => { };
+
 	return (
 		<UserNotContainer>
 			{singup === REG_METHOD.EMAIL ? (
@@ -91,6 +96,14 @@ const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; 
 						<TextInfoRed>100K!</TextInfoRed>
 					</InfoSubTitle>
 					<InfoButtonsContainer>
+
+						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
+							<View style={{ width: "25%", alignItems: "flex-end" }}>
+								<Image source={require("assets/google.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
+							</View>
+							<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
+						</InfoButton>
+
 						<InfoButton onPress={isRegisterLogIn ? onLoginEmail : onSignUpEmail}>
 							<View style={{ width: "30%", alignItems: "flex-end" }}>
 								<Image
@@ -101,14 +114,9 @@ const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; 
 							<InfoButtonText children={isRegisterLogIn ? "Log in with email" : "Sing up with email"} />
 						</InfoButton>
 
-						{/*<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
-							<View style={{ width: "25%", alignItems: "center" }}>
-								<Image source={require("assets/google.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
-							</View>
-							<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
-						</InfoButton>
 
-						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
+
+						{/*<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
 							<View style={{ width: "25%", alignItems: "center" }}>
 								<Image source={require("assets/facebook.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
 							</View>

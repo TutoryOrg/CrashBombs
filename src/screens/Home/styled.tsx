@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { fontSizes } from "@src/utils/constants";
+import { scale, verticalScale } from "@src/utils/scaleFunctions";
 import { TextKomi, TextLucky, TextObelix } from "@components/Text";
-import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
 
 import type { DefaultTheme } from "styled-components";
 
@@ -22,132 +22,6 @@ export const HomeTitle = styled(TextKomi)`
     padding-top: ${verticalScale(35)}px;
     font-size: ${verticalScale(fontSizes.XXlarge)}px;
     color: ${(props: DefaultTheme) => props?.theme?.pinkColor};
-`;
-
-// :: HEADER
-export const HeaderContainer = styled.View<{ isLoggedIn: boolean }>`
-    height: 5%;
-    width: 100%;
-    align-items: center;
-	flex-direction: row;
-	padding-horizontal: 20px;
-    justify-content: ${(props: DefaultTheme) => (props.isLoggedIn ? "space-between" : "flex-end")};
-`;
-
-export const UserStatus = styled.View<{ isLoggedIn: boolean }>`
-	width: 80%;
-	flex-direction: row;
-	display: ${(props: DefaultTheme) => (props.isLoggedIn ? "flex" : "none")};	
-`;
-
-export const TextUser = styled(TextObelix)`
-	font-size: ${verticalScale(fontSizes.xsmall)}px;
-`;
-
-export const Image = styled.Image<{ isLoggedIn: boolean }>`
-    width: ${verticalScale(20)}px; 
-    height: ${verticalScale(20)}px;
-`;
-
-// :: GLOBAL SCORER
-export const ScoreContainer = styled.View`
-	width: 80%;
-	height: 20%;
-	flex-direction: column;
-	justify-content: space-between;
-`;
-
-export const TopUsersContainer = styled.View<{ index: number }>`
-    width: 100%;
-    align-self: center;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: ${verticalScale(2)}px;
-    opacity: ${(props: DefaultTheme) => 1 / (props.index)};
-`;
-
-export const TextTile = styled(TextObelix)`
-	text-align:center;
-	border-top-width: 0px;
-	border-left-width: 0px;
-	border-right-width: 0px;
-    font-size: ${scale(fontSizes.small)}px;
-	border-bottom-width: ${verticalScale(2)}px;
-	color: ${(props: DefaultTheme) => props?.theme?.txtColor};
-	border: 1px solid ${(props: DefaultTheme) => props.theme.txtColor};
-`;
-
-export const TextTopUser = styled(TextObelix)`
-    font-size: ${scale(fontSizes.xsmall)}px;
-`;
-
-// :: COUNTER
-export const BlueText = styled(TextObelix)`
-    font-size: ${scale(fontSizes.normal)}px;
-    color: ${(props: DefaultTheme) => props?.theme?.blueColor};
-`;
-
-export const RedText = styled(TextObelix)`
-    font-size: ${scale(fontSizes.normal)}px;
-    color: ${(props: DefaultTheme) => props?.theme?.redColor};
-`;
-
-export const LoginText = styled(TextObelix)`
-	font-size: ${moderateScale(fontSizes.normal)}px;
-`;
-
-export const TopFiveText = styled(TextObelix)`
-    font-size: ${scale(fontSizes.xsmall)}px;
-`;
-
-export const CounterNumber = styled(TextObelix)`
-	width: 110%;
-	height: 100%;
-	text-align: center;
-	font-size: ${verticalScale(fontSizes.XXXlarge)}px;
-	background-color: ${(props: DefaultTheme) => props?.theme?.bgColor};
-`;
-
-export const CounterContainer = styled.TouchableOpacity`
-	width: 86%;
-	height: 10%;
-	margin-top: 5%;
-	margin-bottom: 5%;
-	align-items: center;
-	flex-direction: column;
-    justify-content: space-between;
-`;
-
-// :: BUTTONS
-export const ButtonsText = styled(TextObelix)`
-	font-size: ${scale(fontSizes.Xlarge)}px;
-	color: ${(props: DefaultTheme) => props?.theme?.txtGrayColor};
-`;
-
-export const ButtonsContainer = styled.View`
-	width: 86%;
-	height: 28%;
-	margin-top: 14%;
-	flex-direction: column;
-	justify-content: space-around;
-`;
-
-export const ButtonSettings = styled.TouchableOpacity`
-	width: 100%;
-	height: 32%;
-	border-radius: 10px;
-	align-items: center;
-	justify-content: center;
-	background-color: ${(props: DefaultTheme) => props?.theme?.blueColor};
-`;
-
-export const ButtonPlay = styled.TouchableOpacity`
-	width: 100%;
-	height: 34%;
-	border-radius: 10px;
-	align-items: center;
-	justify-content: center;
-	background-color: ${(props: DefaultTheme) => props?.theme?.pinkColor};
 `;
 
 // :: BOTTOM SHEET INFO

@@ -55,16 +55,16 @@ export const UserNotContainer = styled(ContainerColumn)`
 `;
 
 export const InfoSubTitle = styled(TextObelix)`
-	    width: 80%;
-	    padding: 3%;
-	    text-align: center;
-    `;
+	width: 80%;
+	padding: 3%;
+	text-align: center;
+`;
 
 export const InfoButtonsContainer = styled.View`
-	    width: 80%;
-        height: ${verticalScale(70)}px;
-	    align-items: center;
-	    justify-content: space-around;
+	width: 80%;
+    height: ${verticalScale(100)}px;
+	align-items: center;
+	justify-content: space-around;
 `;
 
 export const InfoButton = styled.TouchableOpacity`
