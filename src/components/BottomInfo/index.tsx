@@ -78,7 +78,6 @@ const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; 
 	const onSignUpEmail = () => setSignUp(REG_METHOD.EMAIL);
 
 	const onHandleLoginWithGoogle = () => { };
-
 	const onHandleSingUpWithGoogle = () => { };
 
 	return (
