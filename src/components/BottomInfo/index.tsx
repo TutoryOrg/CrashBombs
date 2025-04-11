@@ -1,4 +1,5 @@
 import { SvgXml } from "react-native-svg";
+import { supabase } from "@src/utils/supabase";
 import { AuthEmail } from "../AuthEmail";
 import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
@@ -26,7 +27,6 @@ import {
 	InfoButtonsContainer,
 	NotHaveAccountOptions,
 } from "./styled";
-import { supabase } from "@src/utils/supabase";
 
 const UserLoggedInfo = (props: { user: IUser | undefined }) => {
 	const { user } = props;
