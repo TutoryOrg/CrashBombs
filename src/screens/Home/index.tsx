@@ -6,11 +6,9 @@ import { BottomInfo } from "@src/components/BottomInfo";
 import { GlobalScore } from "@src/components/GlobalScore";
 import type { Session } from "@supabase/supabase-js";
 import type { ITopUser, IUser } from "@src/utils/constants";
+import { useCallback, useRef } from "react";
 import { HomeTitle, ViewContainer } from "./styled";
-import { useCallback, useEffect, useRef } from "react";
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
-
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export const Home = (props: {
 	user: IUser | undefined;
@@ -22,14 +20,6 @@ export const Home = (props: {
 	const { onHandleClickPlay, user, topUsers, setSession, countDown } = props;
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const handleSheetChanges = useCallback((index: number) => { }, []);
-
-	useEffect(() => {
-		GoogleSignin.configure({
-			iosClientId: "866307489082-r0r0ksb4a9fs1tp6ta3c3htosmk9nln4.apps.googleusercontent.com",
-			webClientId: "866307489082-rm2855kl2bnqpvfbie5gf2bjckccrumi.apps.googleusercontent.com",
-			profileImageSize: 150,
-		});
-	});
 
 	return (
 		<ViewContainer>
