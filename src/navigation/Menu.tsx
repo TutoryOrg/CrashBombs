@@ -6,8 +6,8 @@ import { useEndDate } from "@src/hooks/useEndDate";
 import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
 import { KeyboardAvoidingView } from "react-native";
-import { type SetStateAction, useEffect, useState } from "react";
 import styled, { type DefaultTheme } from "styled-components/native";
+import { type SetStateAction, useEffect, useState } from "react";
 
 function startCountdown_2(targetDate: string, callback: (countdown: string) => void) {
 	if (targetDate === undefined) return;

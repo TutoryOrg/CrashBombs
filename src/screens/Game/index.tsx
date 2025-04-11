@@ -137,7 +137,7 @@ const ModeButtonComponent: React.FC<ModeButtonProps> = ({ mode, selected, onPres
 			<Image
 				resizeMode="stretch"
 				style={{ height: verticalScale(46), width: verticalScale(70) }}
-				// source={selected ? MODE_BUTTON_IMAGES[mode].selected : MODE_BUTTON_IMAGES[mode].normal}
+			// source={selected ? MODE_BUTTON_IMAGES[mode].selected : MODE_BUTTON_IMAGES[mode].normal}
 			/>
 		</ModeButton>
 	);

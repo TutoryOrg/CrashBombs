@@ -2,7 +2,6 @@ import { SvgXml } from "react-native-svg";
 import { AuthEmail } from "../AuthEmail";
 import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
-import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import { createAvatar } from "@dicebear/core";
 import type { Session } from "@supabase/supabase-js";
 import { ContainerColumn } from "../Container";
@@ -11,6 +10,7 @@ import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { verticalScale, windowHeight } from "@src/utils/scaleFunctions";
 import { Fragment, type Ref, useState } from "react";
 import { type IUser, REG_METHOD, REGISTER } from "@src/utils/constants";
+import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import {
 	TextInfo,
 	InfoButton,
@@ -97,12 +97,12 @@ const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; 
 					</InfoSubTitle>
 					<InfoButtonsContainer>
 
-						<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
+						{/* <InfoButton onPress={isRegisterLogIn ? onHandleLoginWithGoogle : onHandleSingUpWithGoogle}>
 							<View style={{ width: "25%", alignItems: "flex-end" }}>
 								<Image source={require("assets/google.png")} style={{ height: verticalScale(20), width: verticalScale(20) }} />
 							</View>
 							<InfoButtonText children={isRegisterLogIn ? "Log in with google" : "Sing up with google"} />
-						</InfoButton>
+						</InfoButton> */}
 
 						<InfoButton onPress={isRegisterLogIn ? onLoginEmail : onSignUpEmail}>
 							<View style={{ width: "30%", alignItems: "flex-end" }}>
@@ -113,8 +113,6 @@ const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; 
 							</View>
 							<InfoButtonText children={isRegisterLogIn ? "Log in with email" : "Sing up with email"} />
 						</InfoButton>
-
-
 
 						{/*<InfoButton onPress={isRegisterLogIn ? onHandleLoginWithFacebook : onHandleSingUpWithFacebook}>
 							<View style={{ width: "25%", alignItems: "center" }}>
