@@ -10,6 +10,8 @@ React Native Game
 
 :white_check_mark: Basic Game Engine. 
 
+:pencil: Do the website :fire:
+
 :exclamation: Sing in and Sing up with Google.  
 
 :exclamation: Sing in and Sing up with Apple ID.  
@@ -20,7 +22,7 @@ React Native Game
 
 :grey_question: Levels for the game. How difcult should the game be? Frecuency and Speed.  
 
-:pencil: Do the website :fire:
+
 
 
 
