@@ -3,15 +3,16 @@ import { Fragment } from "react";
 import type { ITopUser } from "@src/utils/constants";
 import { ScoreContainer, TextTile, TopUsersContainer, TextTopUser } from "./styled";
 
-
-export const GlobalScore = (props: { topUsers: ITopUser[] }) => {
-    const { topUsers } = props;
+interface GlobalScoreProps {
+    topUsers: ITopUser[]
+}
+export const GlobalScore: React.FC<GlobalScoreProps> = ({ topUsers }) => {
     return (
         <ScoreContainer>
             <TextTile>Global Score</TextTile>
-            {topUsers?.map((user, index) => {
+            {topUsers?.map((user, i) => {
                 return (
-                    <TopUsersContainer key={index} index={user?.ranking}>
+                    <TopUsersContainer key={i} index={user?.ranking}>
                         <TextTopUser>
                             {Number(user?.ranking) === 1 ? (
                                 <Fragment>
