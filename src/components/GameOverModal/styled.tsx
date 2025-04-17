@@ -54,6 +54,6 @@ export const ModalButton = styled.TouchableOpacity`
 `;
 
 export const ModalButtonText = styled(TextObelix)`
-  font-size: ${scale(fontSizes.large)}px;
+  font-size: ${scale(fontSizes.normal)}px;
 	color: ${(props: DefaultTheme) => props?.theme?.txtGrayColor};
 `;
