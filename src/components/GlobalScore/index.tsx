@@ -1,5 +1,3 @@
-import { Image } from "react-native";
-import { Fragment } from "react";
 import type { ITopUser } from "@src/utils/constants";
 import { ScoreContainer, TextTile, TopUsersContainer, TextTopUser } from "./styled";
 

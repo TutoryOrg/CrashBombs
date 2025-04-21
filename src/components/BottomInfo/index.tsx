@@ -1,8 +1,8 @@
 import { SvgXml } from "react-native-svg";
-import { supabase } from "@src/utils/supabase";
 import { AuthEmail } from "../AuthEmail";
 import { isDefined } from "@src/utils/utils";
 import { TextLucky } from "../Text";
+import { Image, View } from "react-native";
 import { createAvatar } from "@dicebear/core";
 import type { Session } from "@supabase/supabase-js";
 import { ContainerColumn } from "../Container";
@@ -11,7 +11,6 @@ import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { verticalScale, windowHeight } from "@src/utils/scaleFunctions";
 import { Fragment, type Ref, useState } from "react";
 import { type IUser, REG_METHOD, REGISTER } from "@src/utils/constants";
-import { Image, KeyboardAvoidingView, Platform, View } from "react-native";
 import {
 	TextInfo,
 	InfoButton,
