@@ -9,13 +9,35 @@ import { KeyboardAvoidingView } from "react-native";
 import styled, { type DefaultTheme } from "styled-components/native";
 import { type SetStateAction, useEffect, useState } from "react";
 
+// function startCountdown_2(targetDate: string, callback: (countdown: string) => void) {
+// 	if (targetDate === undefined) return;
+
+// 	const target = new Date(targetDate).getTime(); // Convert targetDate to UTC timestamp
+
+// 	const interval = setInterval(() => {
+// 		const now = new Date().getTime(); // Current time in UTC
+// 		const diff = target - now;
+
+// 		if (diff <= 0) {
+// 			clearInterval(interval);
+// 			callback("00:00:00");
+// 			return;
+// 		}
+
+// 		const hours = Math.floor(diff / (1000 * 60 * 60));
+// 		const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+// 		const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+// 		const countdown = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+// 		callback(countdown);
+// 	}, 1000); // Update every 10 milliseconds for better precision
+// }
+
 function startCountdown_2(targetDate: string, callback: (countdown: string) => void) {
 	if (targetDate === undefined) return;
 
-	const target = new Date(targetDate).getTime(); // Convert targetDate to UTC timestamp
-
+	const target = new Date(targetDate).getTime();
 	const interval = setInterval(() => {
-		const now = new Date().getTime(); // Current time in UTC
+		const now = new Date().getTime();
 		const diff = target - now;
 
 		if (diff <= 0) {
@@ -29,7 +51,9 @@ function startCountdown_2(targetDate: string, callback: (countdown: string) => v
 		const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 		const countdown = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 		callback(countdown);
-	}, 500); // Update every 10 milliseconds for better precision
+	}, 1000);
+
+	return () => clearInterval(interval); // Return cleanup function
 }
 
 const SafeContainer = styled.SafeAreaView`

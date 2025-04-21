@@ -15,6 +15,8 @@ export const RedText = styled(TextObelix)`
 `;
 
 export const LoginText = styled(TextObelix)`
+	width: 120%;
+	text-align: center;
 	font-size: ${moderateScale(fontSizes.normal)}px;
 `;
 

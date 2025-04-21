@@ -90,9 +90,8 @@ const UserNotLoggedInfo = (props: { bottomSheetModalRef: Ref<BottomSheetModal>; 
 				<Fragment>
 					<InfoSubTitle>
 						<TextInfo>
-							Create an <TextInfoBlue>account</TextInfoBlue> or log in and race to the top to win{" "}
+							<TextInfoBlue>🚀  Log in</TextInfoBlue> or create an account to save your <TextInfoRed>best score</TextInfoRed> and join the race to the <TextInfoRed>top!  🔝</TextInfoRed>
 						</TextInfo>
-						<TextInfoRed>100K!</TextInfoRed>
 					</InfoSubTitle>
 					<InfoButtonsContainer>
 

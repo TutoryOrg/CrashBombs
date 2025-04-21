@@ -25,7 +25,7 @@ export const lightTheme: DefaultTheme = {
 	blackColor: "black",
 	redColor: "red",
 	blueColor: "#00AFEF",
-	pinkColor: "#ed2a68",
+	pinkColor:  "#F6339A",
 	lightGray: "#D9D9D9",
 };
 
@@ -38,6 +38,6 @@ export const darkTheme: DefaultTheme = {
 	blackColor: "black",
 	redColor: "red",
 	blueColor: "#00AFEF",
-	pinkColor: "#ed2a68",
+	pinkColor:  "#F6339A",
 	lightGray: "#D9D9D9",
 };

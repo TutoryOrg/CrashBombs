@@ -23,7 +23,7 @@ export const Counter = (props: { user: IUser | undefined; count: string; bottomS
             {!isLoggedIn ? (
                 <Fragment>
                     <LoginText>
-                        Log in for a chance to win <RedText>100K</RedText>
+                        🚀Log in for a chance to win <RedText>100K💸</RedText>
                     </LoginText>
                     <LoginText>
                         <BlueText>sing up</BlueText> or <BlueText>log in</BlueText>
@@ -33,7 +33,7 @@ export const Counter = (props: { user: IUser | undefined; count: string; bottomS
                 <Fragment>
                     <LoginText>
                         Be <Image source={require("assets/star.png")} style={{ height: verticalScale(12), width: verticalScale(12) }} />1
-                        and claim your <RedText>$100K!</RedText>
+                        and claim your <RedText>$100K!💸</RedText>
                     </LoginText>
                     <TopFiveText>
                         Make it to the top <RedText>5</RedText> and you could win <BlueText>$1M!</BlueText>

@@ -19,7 +19,7 @@ export const TextInfoPinkSmall = styled(TextLucky)`
     font-size: ${verticalScale(fontSizes.small)}px;
 `;
 
-export const TextInfo = styled(TextObelix)`
+export const TextInfo = styled(TextLucky)`
     color: ${(props: DefaultTheme) => props?.theme?.txtColor};
     font-size: ${verticalScale(fontSizes.small)}px;
 `;
