@@ -169,8 +169,10 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
 
+	const [soundHit, setSoundHit] = useState<Audio.Sound>();
 	const [soundSucces, setSoundSucces] = useState<Audio.Sound>();
 	const [soundMissed, setSoundMissed] = useState<Audio.Sound>();
+	const [soundGameOver, setSoundGameOver] = useState<Audio.Sound>();
 
 	const handleModeChange = (mode: ButtonMode) => setCurrentMode(mode);
 
@@ -197,8 +199,6 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 				console.error('Error playing sound:', error);
 			}
 		}
-
-
 	};
 
 	useEffect(() => {
@@ -218,6 +218,16 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 			);
 			setSoundMissed(soundMissed);
 
+			const { sound: soundGameOver } = await Audio.Sound.createAsync(
+				require('assets/sounds/sound_3.mp3')
+			);
+			setSoundGameOver(soundGameOver);
+
+			const { sound: soundHit } = await Audio.Sound.createAsync(
+				require('assets/sounds/sound_4.mp3')
+			);
+			setSoundHit(soundHit);
+
 		};
 
 		loadSound();
@@ -229,44 +239,59 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 			if (soundMissed) {
 				soundMissed.unloadAsync();
 			}
+			if (soundGameOver) {
+				soundGameOver.unloadAsync();
+			}
 		};
 	}, []);
 
 	useEffect(() => {
 		if (paused === true) return;
-		const interval = setInterval(() => {
+		const interval = setInterval(async () => {
 			if (hits <= 3) addSymbol();
-			else setGameOver(true);
+			else {
+				setGameOver(true)
+
+			};
 		}, frequency);
 
 		return () => clearInterval(interval);
 	}, [hits, frequency, paused]);
 
 	useEffect(() => {
-		if (gameOver === true && hits >= 3 && user?.bestscore !== undefined && Number(user.bestscore) < count) {
-			const updateBestScore = async () => {
-				try {
-					const { data, error, status } = await supabase
-						.from("profiles")
-						.update({ bestscore: count })
-						.eq("id", user?.id)
-						.select();
-
-					console.log({ data });
-
-					if (data) {
-						fetchProfile(user?.id);
-					}
-
-					if (error && status !== 406) {
-						throw error;
-					}
-					console.log("Best score updated successfully");
-				} catch (error) {
-					console.error("Error updating best score:", error);
+		if (gameOver === true) {
+			try {
+				if (soundGameOver) {
+					soundGameOver.replayAsync();
 				}
-			};
-			updateBestScore();
+			} catch (error) {
+				console.error('Error playing sound:', error);
+			}
+			if (hits >= 3 && user?.bestscore !== undefined && Number(user.bestscore) < count) {
+				const updateBestScore = async () => {
+					try {
+						const { data, error, status } = await supabase
+							.from("profiles")
+							.update({ bestscore: count })
+							.eq("id", user?.id)
+							.select();
+
+						console.log({ data });
+
+						if (data) {
+							fetchProfile(user?.id);
+						}
+
+						if (error && status !== 406) {
+							throw error;
+						}
+						console.log("Best score updated successfully");
+					} catch (error) {
+						console.error("Error updating best score:", error);
+					}
+				};
+				updateBestScore();
+			}
 		}
 	}, [gameOver]);
 
@@ -292,9 +317,16 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 			easing: (val) => val,
 		});
 
-		animation.start(({ finished }) => {
+		animation.start(async ({ finished }) => {
 			if (finished === true) {
 				setHits((prev) => prev + 1);
+				try {
+					if (soundHit) {
+						await soundHit.replayAsync();
+					}
+				} catch (error) {
+					console.error('Error playing sound:', error);
+				}
 			}
 			setSymbols((prev) => prev.filter((symbol) => symbol.id !== newSymbol.id));
 		});
