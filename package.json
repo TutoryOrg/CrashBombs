@@ -39,7 +39,8 @@
     "react-native-svg": "^15.11.2",
     "react-native-url-polyfill": "^2.0.0",
     "react-redux": "~9.2.0",
-    "styled-components": "6.1.15"
+    "styled-components": "6.1.15",
+    "expo-av": "~15.0.2"
   },
   "devDependencies": {
     "@babel/core": "~7.25.2",

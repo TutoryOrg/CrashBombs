@@ -31,7 +31,7 @@ export const ModalTitle = styled(TextObelix)`
   text-align: center;
 `;
 
-export const ModalButtonOp = styled.TouchableOpacity<{ disabled?: boolean }>`
+export const ModalButtonOp = styled.TouchableOpacity<{ disabled?: boolean, pink?: boolean }>` 
   width: 48%;
   padding: ${verticalScale(10)}px;
   background-color: #555;
@@ -41,7 +41,7 @@ export const ModalButtonOp = styled.TouchableOpacity<{ disabled?: boolean }>`
   text-align: center;
   justify-content: center;
   opacity: ${(props: { disabled: boolean }) => (props.disabled ? 0.6 : 1)};
-  background-color: ${(props: DefaultTheme) => props.theme.blueColor};
+  background-color: ${(props: DefaultTheme) => props.pink ? props.theme.pinkColor : props.theme.blueColor};
 `;
 
 export const ModalButton = styled.TouchableOpacity`

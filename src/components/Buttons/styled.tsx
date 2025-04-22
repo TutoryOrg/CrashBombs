@@ -12,8 +12,8 @@ export const ButtonsText = styled(TextObelix)`
 
 export const ButtonsContainer = styled.View`
 	width: 86%;
-	height: 28%;
-	margin-top: 14%;
+	height: 25%;
+	top: 10%;
 	flex-direction: column;
 	justify-content: space-around;
 `;

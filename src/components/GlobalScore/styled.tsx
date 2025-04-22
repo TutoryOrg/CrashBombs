@@ -14,6 +14,7 @@ export const ScoreContainer = styled.View`
 export const TopUsersContainer = styled.View<{ index: number }>`
     width: 100%;
     align-self: center;
+	align-items: center;
     flex-direction: row;
     justify-content: space-between;
     padding: ${verticalScale(2)}px;

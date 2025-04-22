@@ -35,7 +35,7 @@ export const CounterNumber = styled(TextObelix)`
 export const CounterContainer = styled.TouchableOpacity`
 	width: 86%;
 	height: 10%;
-	margin-top: 5%;
+	margin-top: 12%;
 	margin-bottom: 5%;
 	align-items: center;
 	flex-direction: column;

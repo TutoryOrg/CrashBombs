@@ -1,4 +1,5 @@
 import { supabase } from "@src/utils/supabase";
+import { Audio } from 'expo-av';
 import { StatusBar } from "expo-status-bar";
 import type { IUser } from "@src/utils/constants";
 import { GameOverModal } from "@src/components/GameOverModal";
@@ -48,15 +49,7 @@ const SHAPES: ShapeType[] = ["triangle", "square", "circle"];
 const MODES: ButtonMode[] = ["blue", "red"];
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-// Initial game settings
-const INITIAL_SETTINGS = {
-	FREQUENCY: 2000,
-	SPEED: 7000,
-	MIN_FREQUENCY: 500,
-	MIN_SPEED: 2500,
-	SPEED_REDUCTION: 550,
-	POINTS_PER_REDUCTION: 5,
-};
+
 
 const SHAPE_IMAGES: Record<ButtonMode, Record<ShapeType, ImageSourcePropType>> = {
 	blue: {
@@ -103,24 +96,41 @@ const getRandomNumber = (min: number, max: number): number => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+// Initial game settings
+const INITIAL_SETTINGS = {
+	FREQUENCY: 2000,       // Initial time between obstacles (ms)
+	SPEED: 5000,          // Initial obstacle movement speed
+	MIN_FREQUENCY: 400,   // Minimum time between obstacles
+	MIN_SPEED: 2000,      // Minimum obstacle speed
+	SPEED_REDUCTION: 100, // Speed reduction per step
+	POINTS_PER_REDUCTION: 3, // Points needed for each difficulty increase
+};
+
 const calculateFrecuency = (count: number, initialValue: number, minValue: number) => {
-	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
-	if (count >= 50 && count < 100) return minValue + 500;
-	if (count >= 100 && count < 150) return minValue + 300;
-	if (count >= 150 && count < 200) return minValue + 100;
-	if (count >= 200 && count < 300) return minValue;
-	if (count >= 300) return minValue + 100;
+	const reduction = (count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * 40;
+
+	// Progressive difficulty stages
+	// if (count >= 30 && count < 60) return minValue + 300;
+	// if (count >= 60 && count < 90) return minValue + 200;
+	// if (count >= 90 && count < 120) return minValue + 100;
+	// if (count >= 120 && count < 180) return minValue;
+	// if (count >= 180 && count < 240) return minValue - 100;
+	// if (count >= 240) return minValue - 150;
+
 	return Math.max(initialValue - reduction, minValue);
 };
 
 const calculateGameSettingSpeed = (count: number, initialValue: number, minValue: number) => {
-	const reduction = Math.floor(count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * INITIAL_SETTINGS.SPEED_REDUCTION;
-	if (count >= 50 && count < 70) return minValue;
-	if (count >= 70 && count < 90) return minValue - 200;
-	if (count >= 90 && count < 110) return minValue - 500;
-	if (count >= 110 && count < 150) return minValue - 800;
-	if (count >= 250 && count < 300) return minValue - 400;
-	if (count >= 300) return minValue - 600;
+	const reduction = (count / INITIAL_SETTINGS.POINTS_PER_REDUCTION) * 120;
+
+	// Progressive difficulty stages
+	// if (count >= 30 && count < 60) return minValue + 500;
+	// if (count >= 60 && count < 90) return minValue + 300;
+	// if (count >= 90 && count < 120) return minValue;
+	// if (count >= 120 && count < 180) return minValue - 300;
+	// if (count >= 180 && count < 240) return minValue - 600;
+	// if (count >= 240) return minValue - 800;
+
 	return Math.max(initialValue - reduction, minValue);
 };
 
@@ -159,22 +169,68 @@ export const Game: React.FC<GameProps> = ({ user, onClickMenu, fetchProfile }) =
 	const [frequency, setFrequency] = useState<number>(INITIAL_SETTINGS.FREQUENCY);
 	const [currentMode, setCurrentMode] = useState<ButtonMode>("blue");
 
+	const [soundSucces, setSoundSucces] = useState<Audio.Sound>();
+	const [soundMissed, setSoundMissed] = useState<Audio.Sound>();
+
 	const handleModeChange = (mode: ButtonMode) => setCurrentMode(mode);
 
-	const handleShapePress = (shape: ShapeType) => {
+	const handleShapePress = async (shape: ShapeType) => {
 		const targetKey = `${currentMode}_${shape}`;
 		const symbolToRemove = symbols.find((symbol) => Object.keys(symbol.source)[0] === targetKey);
 
 		if (symbolToRemove) {
 			setSymbols((prev) => prev.filter((symbol) => symbol.id !== symbolToRemove.id));
 			setCount((prev) => prev + 1);
+			try {
+				if (soundSucces) {
+					await soundSucces.replayAsync();
+				}
+			} catch (error) {
+				console.error('Error playing sound:', error);
+			}
+		} else {
+			try {
+				if (soundMissed) {
+					await soundMissed.replayAsync();
+				}
+			} catch (error) {
+				console.error('Error playing sound:', error);
+			}
 		}
+
+
 	};
 
 	useEffect(() => {
 		setFrequency(calculateFrecuency(count, INITIAL_SETTINGS.FREQUENCY, INITIAL_SETTINGS.MIN_FREQUENCY));
 		setSpeed(calculateGameSettingSpeed(count, INITIAL_SETTINGS.SPEED, INITIAL_SETTINGS.MIN_SPEED));
 	}, [count]);
+
+	useEffect(() => {
+		const loadSound = async () => {
+			const { sound } = await Audio.Sound.createAsync(
+				require('assets/sounds/sound_1.mp3')
+			);
+			setSoundSucces(sound);
+
+			const { sound: soundMissed } = await Audio.Sound.createAsync(
+				require('assets/sounds/sound_2.mp3')
+			);
+			setSoundMissed(soundMissed);
+
+		};
+
+		loadSound();
+
+		return () => {
+			if (soundSucces) {
+				soundSucces.unloadAsync();
+			}
+			if (soundMissed) {
+				soundMissed.unloadAsync();
+			}
+		};
+	}, []);
 
 	useEffect(() => {
 		if (paused === true) return;

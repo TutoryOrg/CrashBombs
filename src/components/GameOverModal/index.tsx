@@ -20,14 +20,16 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({ hits, gameOver, on
 						<ModalButtonOp onPress={onRestart}>
 							<ModalButtonText>Restart</ModalButtonText>
 						</ModalButtonOp>
-						<ModalButtonOp disabled={gameOver && hits >= 3} onPress={onResume}>
+						{/* <ModalButtonOp disabled={gameOver && hits >= 3} onPress={onResume}>
 							<ModalButtonText>Resume</ModalButtonText>
+						</ModalButtonOp> */}
+						<ModalButtonOp pink onPress={onMenu}>
+							<ModalButtonText>Menu</ModalButtonText>
 						</ModalButtonOp>
 					</View>
-
-					<ModalButton onPress={onMenu}>
+					{/* <ModalButton onPress={onMenu}>
 						<ModalButtonText>Menu</ModalButtonText>
-					</ModalButton>
+					</ModalButton> */}
 				</ModalContent>
 			</GameOverModalContainer>
 		</Modal>

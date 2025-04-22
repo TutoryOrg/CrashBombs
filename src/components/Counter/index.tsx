@@ -1,10 +1,10 @@
-import type { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Image } from "react-native";
+import { isDefined } from "@src/utils/utils";
 import type { IUser } from "@src/utils/constants";
 import { verticalScale } from "@src/utils/scaleFunctions";
-import { isDefined } from "@src/utils/utils";
 import { type Ref, Fragment } from "react";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { CounterContainer, CounterNumber, LoginText, RedText, BlueText, TopFiveText } from "./styled";
-import { Image } from "react-native";
 
 export const Counter = (props: { user: IUser | undefined; count: string; bottomSheetModalRef: Ref<BottomSheetModal> }) => {
     const { user, count, bottomSheetModalRef } = props;
