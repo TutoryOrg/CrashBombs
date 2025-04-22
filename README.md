@@ -10,7 +10,7 @@ React Native Game
 
 :white_check_mark: Basic Game Engine. 
 
-:pencil: Do the website :fire:
+:white_check_mark: Do the website :fire:
 
 :exclamation: Sing in and Sing up with Google.  
 
@@ -18,27 +18,17 @@ React Native Game
 
 :exclamation: Create warning text for Game Over - When your are logged in ? do not save the score.  
 
-:grey_question: Should be based on some criteria (to - do). When can I use .. ? How many times .. ? 
-
-:grey_question: Levels for the game. How difcult should the game be? Frecuency and Speed.  
-
-
 
  
 <p float="left">
-  <img src="https://github.com/user-attachments/assets/86f6a390-7d7b-48a8-b7f6-9da2b58836d2" width=270 height=480 />
-  <img src="https://github.com/user-attachments/assets/74c1c274-293e-4261-8424-22840826cdec" width=270 height=480 />
-  <img src="https://github.com/user-attachments/assets/a3dd9397-9b0f-4568-b6e7-c3b50f06ae04" width=270 height=480 />
-  <img src="https://github.com/user-attachments/assets/d6f81c0b-2ae9-4c05-83df-6e9cec236dff" width=270 height=480 />
-  <img src="https://github.com/user-attachments/assets/79481f9c-70db-4e52-9d24-1dcb5ad628e6" width=270 height=480 />
-
- 
-
-  <img src="https://github.com/user-attachments/assets/12926f32-00aa-4081-a07f-372c0a51afe2" width=270 height=480 /> 
-  <img src="https://github.com/user-attachments/assets/020cae1b-0202-4a80-9f8b-903cc22888d4" width=270 height=480 />
 
 
-   <img src="https://github.com/user-attachments/assets/8770a63e-87ed-4c94-aaf3-82567fe04a2a" width=270 height=480 />
+![Screenshot from 2025-04-22 19-55-32](https://github.com/user-attachments/assets/adea1975-0301-47c0-8774-bca5cd5997bd)
+![Screenshot from 2025-04-22 19-54-26](https://github.com/user-attachments/assets/ecfef707-daf3-4e55-9cb6-99307f9e5c71)
+![Screenshot from 2025-04-22 19-53-57](https://github.com/user-attachments/assets/5cfea904-d7d1-4935-b367-df0e02e626cd)
+![Screenshot from 2025-04-22 19-53-09](https://github.com/user-attachments/assets/e3c2c940-bb0e-415b-b1a3-06eef4315608)
+
+   
 
 
 </p>
