@@ -1,4 +1,4 @@
-import { TextObelix } from "../Text";
+import { TextKomi, TextObelix } from "../Text";
 import { fontSizes } from "@src/utils/constants";
 import styled, { type DefaultTheme } from "styled-components/native";
 import { moderateScale, scale, verticalScale } from "@src/utils/scaleFunctions";
@@ -14,17 +14,17 @@ export const RedText = styled(TextObelix)`
     color: ${(props: DefaultTheme) => props?.theme?.redColor};
 `;
 
-export const LoginText = styled(TextObelix)`
+export const LoginText = styled(TextKomi)`
 	width: 120%;
 	text-align: center;
-	font-size: ${moderateScale(fontSizes.normal)}px;
+	font-size: ${moderateScale(fontSizes.small)}px;
 `;
 
 export const TopFiveText = styled(TextObelix)`
     font-size: ${scale(fontSizes.xsmall)}px;
 `;
 
-export const CounterNumber = styled(TextObelix)`
+export const CounterNumber = styled(TextKomi)`
 	width: 110%;
 	height: 100%;
 	text-align: center;
@@ -34,8 +34,8 @@ export const CounterNumber = styled(TextObelix)`
 
 export const CounterContainer = styled.TouchableOpacity`
 	width: 86%;
-	height: 10%;
-	margin-top: 12%;
+	height: 12%;
+	margin-top: 8%;
 	margin-bottom: 5%;
 	align-items: center;
 	flex-direction: column;
