@@ -5,8 +5,8 @@ import { useProfile } from "@src/hooks/useProfile";
 import { useEndDate } from "@src/hooks/useEndDate";
 import { useTopUsers } from "@src/hooks/useTopUsers";
 import type { Session } from "@supabase/supabase-js";
+import { SafeContainer } from "./styled";
 import { KeyboardAvoidingView } from "react-native";
-import styled, { type DefaultTheme } from "styled-components/native";
 import { type SetStateAction, useEffect, useState } from "react";
 
 function startCountdown_2(targetDate: string, callback: (countdown: string) => void) {
@@ -32,11 +32,6 @@ function startCountdown_2(targetDate: string, callback: (countdown: string) => v
 
 	return () => clearInterval(interval); // Return cleanup function
 }
-
-const SafeContainer = styled.SafeAreaView`
-	flex: 1;
-	background-color: ${(props: DefaultTheme) => props.theme.bgColor};
-`;
 
 export const Menu = () => {
 	const [count, setCount] = useState<string>();
