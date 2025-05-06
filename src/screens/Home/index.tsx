@@ -12,12 +12,13 @@ import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@go
 
 export const Home = (props: {
 	user: IUser | undefined;
+	isSafe: boolean;
 	topUsers: ITopUser[];
 	countDown: string;
 	setSession: (session: Session) => void;
 	onHandleClickPlay: () => void;
 }) => {
-	const { onHandleClickPlay, user, topUsers, setSession, countDown } = props;
+	const { onHandleClickPlay, isSafe, user, topUsers, setSession, countDown } = props;
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
 	return (
@@ -25,7 +26,7 @@ export const Home = (props: {
 			<Header user={user} bottomSheetModalRef={bottomSheetModalRef} />
 			<HomeTitle>CRASH BOMBS</HomeTitle>
 			<GlobalScore topUsers={topUsers} />
-			<Counter user={user} count={countDown} bottomSheetModalRef={bottomSheetModalRef} />
+			<Counter user={user} isSafe={isSafe} count={countDown} bottomSheetModalRef={bottomSheetModalRef} />
 			<Buttons bottomSheetModalRef={bottomSheetModalRef} onHandleClickPlay={onHandleClickPlay} />
 
 			<BottomSheetModalProvider>

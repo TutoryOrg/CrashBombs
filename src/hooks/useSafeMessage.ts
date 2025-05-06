@@ -2,14 +2,14 @@ import { Alert } from "react-native";
 import { supabase } from "src/utils/supabase";
 import { useState, useCallback, useEffect } from "react";
 
-export function useEndDate() {
-	const [countDown, setCountDown] = useState<string>();
+export function useSafeMessage() {
+	const [isSafe, setIsSafe] = useState<boolean>(true);
 	const [loading, setLoading] = useState(false);
 
-	const fetchEndDate = useCallback(async () => {
+	const fetchSafeMessage = useCallback(async () => {
 		try {
 			setLoading(true);
-			const { data, error, status } = await supabase.from("endDate").select("end_date");
+			const { data, error, status } = await supabase.from("endDate").select("safe_message");
 
 			if (error && status !== 406) {
 				throw error;
@@ -18,8 +18,8 @@ export function useEndDate() {
             console.log({ data, error, status });
 
 			if (data) {
-				const { end_date } = data[0];
-				setCountDown(end_date);
+				const { safe_message } = data[0];
+				setIsSafe(safe_message);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -31,8 +31,8 @@ export function useEndDate() {
 	}, []);
 
 	useEffect(() => {
-		fetchEndDate();
+		fetchSafeMessage();
 	}, []);
 
-	return { countDown, loading, fetchEndDate };
+	return { isSafe, loading, fetchSafeMessage };
 }

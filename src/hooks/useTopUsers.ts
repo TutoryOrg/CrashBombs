@@ -16,6 +16,8 @@ export function useTopUsers() {
 				.order("bestscore", { ascending: false }) // Change 'id' to the column you want to order by
 				.limit(5);
 
+			console.log({ data, error, status });
+
 			if (error && status !== 406) {
 				throw error;
 			}

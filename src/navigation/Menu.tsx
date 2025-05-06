@@ -4,6 +4,7 @@ import { Game, Home } from "@src/screens";
 import { useProfile } from "@src/hooks/useProfile";
 import { useEndDate } from "@src/hooks/useEndDate";
 import { useTopUsers } from "@src/hooks/useTopUsers";
+import { useSafeMessage } from "@src/hooks/useSafeMessage";
 import type { Session } from "@supabase/supabase-js";
 import { SafeContainer } from "./styled";
 import { KeyboardAvoidingView } from "react-native";
@@ -39,6 +40,7 @@ export const Menu = () => {
 	const [session, setSession] = useState<Session | null>(null);
 
 	const { user, loading, fetchProfile } = useProfile();
+	const { isSafe, loading: loadingSafe } = useSafeMessage()
 	const { countDown, loading: loadingEndDate } = useEndDate();
 	const { topUsers, loading: loadingTopUsers } = useTopUsers();
 
@@ -67,6 +69,7 @@ export const Menu = () => {
 				{screen === Screens.HOME && (
 					<Home
 						user={user}
+						isSafe={isSafe}
 						topUsers={topUsers}
 						countDown={count || "..."}
 						setSession={setSession}
