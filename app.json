@@ -9,19 +9,12 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "packagerOpts": {
-      "sourceExts": [
-        "js",
-        "jsx",
-        "svgx"
-      ],
+      "sourceExts": ["js", "jsx", "svgx"],
       "transformer": "node_modules/react-native-svg-transformer/index.js"
     },
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/splash_screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -34,7 +27,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/splash_screen.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.saav.crashbombs"
@@ -42,7 +35,20 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [],
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#232323",
+          "image": "./assets/splash_screen.png",
+          "dark": {
+            "image": "./assets/splash_screen.png",
+            "backgroundColor": "#000000"
+          },
+          "imageWidth": 200
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "54db1fe0-0fc1-4a7e-8241-8f31295b48c2"
