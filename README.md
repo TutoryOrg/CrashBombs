@@ -12,7 +12,7 @@ React Native Game
 
 :white_check_mark: Do the website :fire:
 
-:exclamation: Sing in and Sing up with Google.  
+:white_check_mark: Sing in and Sing up with Google.  
 
 :exclamation: Sing in and Sing up with Apple ID.  
 
