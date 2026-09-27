@@ -259,7 +259,7 @@ prefer the aliased form (`@src/...`) in new code. Note `src/store/async/readData
 imports from `@types`, which is **not** a configured alias — that file does not
 resolve/type-check (see below).
 
-## Known dead/broken code
+<!-- ## Known dead/broken code
 
 Don't extend the following assuming they're live — confirmed by grepping for
 importers; nothing in the active app tree references them:
@@ -283,3 +283,4 @@ importers; nothing in the active app tree references them:
 - **`useService.ts`** (`useQueryService`/`useMutationService`) — generic React Query
   wrappers, not currently called by any hook or screen (all Supabase hooks use plain
   `useState`/`useEffect` instead).
+-->
